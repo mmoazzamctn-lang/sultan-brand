@@ -1,72 +1,16 @@
-local_backend: true
 backend:
-  name: test-repo
-
   name: git-gateway
   branch: main
 
-media_folder: "images"
+media_folder: "New Project/images"
 public_folder: "/images"
 
 collections:
-  - name: "trending_products"
-    label: "Trending Products (Home)"
-    folder: "data/trending"
+  - name: "pages"
+    label: "Pages"
+    folder: "New Project"
     create: true
-    slug: "{{slug}}"
     fields:
-      - {label: "Product Name", name: "name", widget: "string"}
-      - {label: "Price (Rs.)", name: "price", widget: "number"}
-      - {label: "Product Image", name: "img", widget: "image"}
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Body", name: "body", widget: "markdown"}
 
-  - name: "new_arrivals"
-    label: "New Arrivals Collection"
-    folder: "data/newarrivals"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Product Name", name: "name", widget: "string"}
-      - {label: "Price (Rs.)", name: "price", widget: "number"}
-      - {label: "Product Image", name: "img", widget: "image"}
-
-  - name: "unstitched"
-    label: "Unstitched Collection"
-    folder: "data/unstitched"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Product Name", name: "name", widget: "string"}
-      - {label: "Price (Rs.)", name: "price", widget: "number"}
-      - {label: "Product Image", name: "img", widget: "image"}
-
-  - name: "ready_to_wear"
-    label: "Ready To Wear Pret"
-    folder: "data/readytowear"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Product Name", name: "name", widget: "string"}
-      - {label: "Price (Rs.)", name: "price", widget: "number"}
-      - {label: "Product Image", name: "img", widget: "image"}
-
-  - name: "men_collection"
-    label: "Men Collection"
-    folder: "data/men"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Product Name", name: "name", widget: "string"}
-      - {label: "Price (Rs.)", name: "price", widget: "number"}
-      - {label: "Product Image", name: "img", widget: "image"}
-
-  - name: "sale_collection"
-    label: "Mega Sale Collection"
-    folder: "data/sale"
-    create: true
-    slug: "{{slug}}"
-    fields:
-      - {label: "Product Name", name: "name", widget: "string"}
-      - {label: "Old Price (Rs.)", name: "old", widget: "number"}
-      - {label: "Sale Price (Rs.)", name: "newP", widget: "number"}
-      - {label: "Discount Tag (e.g. 30% Off)", name: "tag", widget: "string"}
-      - {label: "Product Image", name: "img", widget: "image"}
