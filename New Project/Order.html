@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan Brand | Complete Your Order</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #faf7f4; color: #2a2a2a; padding: 40px 20px; }
+        .checkout-container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #f0eae4; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+        .logo-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; font-style: italic; text-align: center; margin-bottom: 25px; color: #111; }
+        h2 { font-size: 18px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #c5a059; padding-bottom: 8px; margin-top: 25px; }
+        h2:first-of-type { margin-top: 0; }
+        
+        .order-summary-box { background: #fdfbf9; border: 1px dashed #c5a059; padding: 15px; border-radius: 4px; margin-bottom: 25px; }
+        .summary-item { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
+        .summary-total { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 12px; border-top: 1px solid #eee; font-weight: 700; color: #e74c3c; font-size: 16px; }
+        
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: #555; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #c5a059; }
+        
+        /* 100% Click Proof Payment Grid Configuration */
+        .payment-methods-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 20px; }
+        
+        .pay-card { 
+            border: 1px solid #ddd; 
+            border-radius: 6px; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            cursor: pointer; 
+            background: #ffffff; 
+            transition: all 0.2s ease;
+        }
+        
+        /* Fixed: child elements will not intercept click event targets anymore */
+        .pay-card * { pointer-events: none !important; } 
+        
+        /* High Resolution Embedded Native Logo Badges Engine */
+        .brand-vector { height: 32px; font-size: 24px; font-weight: bold; display: flex; align-items: center; justify-content: center; text-align: center; }
+        .pay-card span { font-size: 11px; font-weight: 700; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        /* Active Selected State Color Configuration */
+        .pay-card.active { border-color: #25d366 !important; background-color: #f0f7f4 !important; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.15); }
+        .pay-card.active span { color: #111; }
+
+        .account-details-alert { background-color: #f9f9f9; border: 1px solid #ddd; padding: 15px; border-radius: 4px; margin-bottom: 18px; font-size: 13px; line-height: 1.6; min-height: 85px; }
+        
+        .btn-confirm { background: #111111; color: #ffffff; width: 100%; padding: 14px; border: none; border-radius: 4px; font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: background 0.3s; margin-top: 10px; }
+        .btn-confirm:hover { background: #c5a059; }
+    </style>
+</head>
+<body>
+
+    <div class="checkout-container">
+        <div class="logo-title">Sultan Brand</div>
+        
+        <h2>🛒 Order Summary</h2>
+        <div class="order-summary-box">
+            <div class="summary-item">
+                <span><strong>Product(s):</strong></span>
+                <span id="summary-name" style="text-align: right; max-width: 70%; word-wrap: break-word;">Loading...</span>
+            </div>
+            <div class="summary-item">
+                <span><strong>Store Route:</strong></span>
+                <span id="summary-method" style="text-transform: uppercase;">Loading...</span>
+            </div>
+            <div class="summary-total">
+                <span>Total Amount:</span>
+                <span id="summary-price">Rs. 0</span>
+            </div>
+        </div>
+
+        <h2>📦 Shipping Details</h2>
+        <form id="orderForm" onsubmit="submitToWhatsApp(event)">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="custName" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>WhatsApp / Phone Number *</label>
+                <input type="tel" id="custPhone" placeholder="e.g. 03001234567" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Complete Delivery Address *</label>
+                <textarea id="custAddress" rows="3" placeholder="House number, Street, Area, City" required></textarea>
+            </div>
+
+            <h2>💳 Select Payment Method *</h2>
+            <div class="payment-methods-grid">
+                <!-- 1. Cash On Delivery Card -->
+                <div class="pay-card active" onclick="selectPayment('cod')" id="card-cod">
+                    <div class="brand-vector" style="color: #e67e22;">📦</div>
+                    <span>COD</span>
+                </div>
+                
+                <!-- 2. Pure Render EasyPaisa Card -->
+                <div class="pay-card" onclick="selectPayment('easypaisa')" id="card-easypaisa">
+                    <div class="brand-vector" style="color: #25d366; font-family: 'Arial Black', sans-serif; font-size: 18px; letter-spacing: -1px;">
+                        easy<span style="color: #111111;">paisa</span>
+                    </div>
+                    <span>EASYPAISA</span>
+                </div>
+                
+                <!-- 3. Pure Render JazzCash Card -->
+                <div class="pay-card" onclick="selectPayment('jazzcash')" id="card-jazzcash">
+                    <div class="brand-vector" style="color: #ffb300; font-family: 'Arial Black', sans-serif; font-size: 18px; letter-spacing: -0.5px;">
+                        Jazz<span style="color: #d32f2f;">Cash</span>
+                    </div>
+                    <span>JAZZCASH</span>
+                </div>
+                
+                <!-- 4. Bank Transfer Card -->
+                <div class="pay-card" onclick="selectPayment('bank_transfer')" id="card-bank_transfer">
+                    <div class="brand-vector" style="color: #2c3e50;">🏛️</div>
+                    <span>BANK TRANSFER</span>
+                </div>
+            </div>
+
+            <!-- Dynamic Accounts Info Panel Box -->
+            <div id="accountDetailsDisplayBox" class="account-details-alert">
+                <span>Cash On Delivery selected. Pay when package arrives at your home.</span>
+            </div>
+
+            <button type="submit" class="btn-confirm">🚀 Confirm Order via WhatsApp</button>
+        </form>
+    </div>
+        <script>
+        const myWhatsAppNumber = "923003521238"; // Real active mobile configuration
+        let selectedMethodGlobal = "cod";
+
+        // Local profiles dataset mapping routes
+        const accountsDb = {
+            cod: "📦 <strong>Cash On Delivery:</strong> Raqam parcel received karte waqt rider ko ada karein.",
+            easypaisa: "🟢 <strong>EasyPaisa Mobile Account:</strong><br>• Account Number: 03001234567<br>• Account Title: M. Moazzam<br><span style='color:#e74c3c; font-size:11px;'>*Payment ke baad screenshot WhatsApp par share laazmi karein.</span>",
+            jazzcash: "🔴 <strong>JazzCash Mobile Wallet:</strong><br>• Account Number: 03001234567<br>• Account Title: M. Moazzam<br><span style='color:#e74c3c; font-size:11px;'>*Payment ke baad screenshot WhatsApp par share laazmi karein.</span>",
+            bank_transfer: "🏛️ <strong>Bank Transfer Details:</strong><br>• Bank Name: Bank Al Habib<br>• Account Number: 1234-5678-9012-34<br>• Account Title: M. Moazzam<br><span style='color:#e74c3c; font-size:11px;'>*Transfer ke baad slip ya transaction proof WhatsApp karein.</span>"
+        };
+
+        window.addEventListener('DOMContentLoaded', function() {
+            let productName = localStorage.getItem('final_product_name') || "No item selected";
+            let productPrice = localStorage.getItem('final_product_price') || "0";
+            let paymentMethod = localStorage.getItem('payment_method') || "cod";
+
+            document.getElementById('summary-name').innerText = productName;
+            document.getElementById('summary-method').innerText = paymentMethod.toUpperCase();
+            document.getElementById('summary-price').innerText = "Rs. " + parseInt(productPrice).toLocaleString();
+
+            if (paymentMethod === 'online') {
+                selectPayment('easypaisa');
+            } else {
+                selectPayment('cod');
+            }
+        });
+
+        // SAFE ENGINE SELECTOR WITH ALL BRACKETS PROPERLY CLOSED
+        function selectPayment(methodKey) {
+            selectedMethodGlobal = methodKey;
+            
+            // Remove active status borders from cards
+            let cards = document.getElementsByClassName('pay-card');
+            for (let i = 0; i < cards.length; i++) {
+                cards[i].classList.remove('active');
+            }
+            
+            // Set targeted border selection profile highlight
+            let targetCard = document.getElementById('card-' + methodKey);
+            if (targetCard) {
+                targetCard.classList.add('active');
+            }
+            
+            // Update active display instructions output values
+            let displayContainer = document.getElementById('accountDetailsDisplayBox');
+            if (displayContainer && accountsDb[methodKey]) {
+                displayContainer.innerHTML = accountsDb[methodKey];
+            }
+        }
+
+        // UPGRADED WITH THANK YOU ALERT AND AUTO RE-ROUTE HOMEPAGE
+        function submitToWhatsApp(event) {
+            event.preventDefault();
+
+            let item = localStorage.getItem('final_product_name') || "Product";
+            let price = localStorage.getItem('final_product_price') || "0";
+            
+            let name = document.getElementById('custName').value;
+            let phone = document.getElementById('custPhone').value;
+            let address = document.getElementById('custAddress').value;
+
+            let message = "*--- NEW ORDER RECEIVED [SULTAN BRAND] ---*\n\n" +
+                          "*📦 PRODUCT DETAILS:*\n" +
+                          "• Items: " + item + "\n" +
+                          "• Total Bill: Rs. " + parseInt(price).toLocaleString() + "\n" +
+                          "• Payment Channel: " + selectedMethodGlobal.toUpperCase() + "\n\n" +
+                          "*🤵 CUSTOMER DETAILS:*\n" +
+                          "• Name: " + name + "\n" +
+                          "• Phone: " + phone + "\n" +
+                          "• Address: " + address + "\n\n" +
+                          "Kindly check and process my order summary!";
+
+            // 1. Clear shopping context values data profile
+            localStorage.removeItem('sultan_bag');
+
+            // 2. Clear visual feedback thank you response
+            alert("✨ THANK YOU FOR SHOPPING WITH SULTAN BRAND! ✨\n\nAap ka order confirm ho gaya hai. Ab aap WhatsApp par redirect ho rahe hain taake order complete kiya ja sakay.");
+
+            // 3. FIXED: Open WhatsApp secure link channel with accurate slash redirection properties
+            window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(message)}`, '_blank');
+
+            // 4. Smooth automated transition back to main portal home page route
+            setTimeout(function() {
+                window.location.href = "index.html";
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

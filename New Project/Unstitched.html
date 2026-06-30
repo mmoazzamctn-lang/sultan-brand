@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sultan Brand | Unstitched Fabric</title>
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #faf7f4; color: #2a2a2a; }
+        header { background-color: #fff; padding: 22px 6%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 100; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 34px; font-style: italic; color: #111; text-decoration: none; font-weight: 700; }
+        nav ul { display: flex; list-style: none; align-items: center; } nav ul li { margin: 0 18px; }
+        nav ul li a { text-decoration: none; color: #767676; font-weight: 600; font-size: 12px; text-transform: uppercase; display: flex; align-items: center; }
+        nav ul li a i { margin-right: 6px; }
+        .cart-icon { font-size: 12px; cursor: pointer; background-color: #111111; color: #ffffff; padding: 10px 20px; font-weight: 600; text-transform: uppercase; border-radius: 2px; display: flex; align-items: center; }
+        .cart-icon i { margin-right: 6px; }
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 42px; text-align: center; margin-bottom: 50px; text-transform: uppercase; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 35px; }
+        .product-card { background-color: #ffffff; border: 1px solid #f0eae4; border-radius: 4px; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.4s ease; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #eee; border-radius: 2px; }
+        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4; }
+        .product-price { color: #c5a059; font-weight: 600; margin-bottom: 12px; font-size: 16px; }
+        .action-box { display: flex; flex-direction: column; gap: 5px; margin-top: auto; }
+        .btn-style { color: #fff; padding: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; text-transform: uppercase; border-radius: 3px; width: 100%; letter-spacing: 0.5px; }
+        .btn-cod { background: #e67e22; } .btn-online { background: #2c3e50; } .btn-wa { background: #25d366; } .btn-bag { background: #111111; }
+        .btn-style:hover { background: #c5a059; }
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: #fff !important; border-radius: 50px; text-align: center; font-size: 34px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); z-index: 9999; width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; text-decoration: none !important; }
+        footer { background-color: #111111; color: #767676; text-align: center; padding: 45px 20px; font-size: 13px; border-top: 3px solid #c5a059; margin-top: 80px; }
+    </style>
+</head>
+<body>
+       <!-- 100% FIXED SULTAN BRAND HEADER WITH GUARANTEED VISIBLE ICON LOGOS -->
+    <header style="background-color: #ffffff; padding: 22px 6%; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000;">  
+        
+        <!-- Stylish Premium Serif Logo Layout -->
+        <a href="clothes.html" style="font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; font-style: italic; letter-spacing: 1px; color: #111111; text-decoration: none;">Sultan Brand</a>
+        
+        <nav>
+            <ul style="display: flex; list-style: none; align-items: center; margin: 0; padding: 0;">
+                <!-- Every Menu Option Layered with Stable Matching Visual Logos -->
+                <li style="margin: 0 14px;"><a href="NewArrivals.html" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; letter-spacing: 0.5px;">✨ New Arrivals</a></li>
+                <li style="margin: 0 14px;"><a href="Unstitched.html" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; letter-spacing: 0.5px;">✂️ Unstitched</a></li>
+                <li style="margin: 0 14px;"><a href="ReadyToWear.html" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; letter-spacing: 0.5px;">👔 Ready To Wear</a></li>
+                <li style="margin: 0 14px;"><a href="Men.html" style="text-decoration: none; color: #555555; font-weight: 600; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; letter-spacing: 0.5px;">🤵 Men</a></li>
+                <li style="margin: 0 14px;"><a href="Sale.html" style="text-decoration: none; color: #e74c3c; font-weight: 700; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; letter-spacing: 0.5px;">🏷️ Sale</a></li>
+                
+                <!-- Fixed Shopping Basket Logo Symbol Integrated -->
+                <li style="margin: 0 14px;"><span class="cart-icon" onclick="openCheckout()" style="font-size: 12px; cursor: pointer; background-color: #111111; color: #ffffff; padding: 11px 22px; font-weight: 600; text-transform: uppercase; border-radius: 2px; display: flex; align-items: center; letter-spacing: 1px;">🧺 Bag (<span id="bag-count">0</span>)</span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="main-title">Luxury Unstitched Fabric</h1>
+        <div class="product-grid" id="unstitchGrid"></div>
+    </main>
+
+    <a href="https://wa.me" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+
+        <script>
+        let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
+        document.getElementById('bag-count').innerText = bag.length;
+        const myWhatsAppNumber = "923003521238";
+
+        // AAP KI TAMAM 20 UNSTITCHED PRODUCTS PRESERVED HAIN
+        let items = [
+            {name:"Embroidered Festive Chiffon Suit (3-PC)", price:7500}, {name:"Luxury Wedding Organza Suit Fabric", price:8900},
+            {name:"Classic Swiss Lawn Unstitched Fabric", price:4200}, {name:"Premium Soft Khaddar 3-Piece Suite", price:3850},
+            {name:"Pure Cotton Jacquard Unstitched Suit", price:4900}, {name:"Luxury Slub Lawn Unstitched Cutline", price:4100},
+            {name:"Embroidered Net Luxury Shawl Suit", price:9500}, {name:"Chikankari Classic Lawn 3-Piece", price:5600},
+            {name:"Digital Printed Linen Unstitched Suite", price:3400}, {name:"Premium Silk Blend Unstitched Fabric", price:6800},
+            {name:"Traditional Block Print Unstitched Voile", price:3750}, {name:"Fancy Chanderi Silk Wedding Piece", price:8200},
+            {name:"Winter Karandi Heavy Embroidered Fabric", price:5900}, {name:"Luxe Cambric Solid Unstitched Article", price:3990},
+            {name:"Printed Staple Summer Linen Unstitched", price:2950}, {name:"Designer Digital Printed Lawn Collection", price:4600},
+            {name:"Hand-Spun Pure Wool Marina Fabric", price:6200}, {name:"Fancy Net Organza Dupatta Heavy Suit", price:10500},
+            {name:"Daily Wear Casual Unstitched Lawn Piece", price:2650}, {name:"Exclusive Velvet Unstitched Winter Suit", price:13500}
+        ];
+
+        let box = "";
+        items.forEach(function(p) {
+            let safeName = p.name.replace(/'/g, "\\'"); // Handling names with single quotes safely
+            
+            box += `<div class="product-card">
+                <img src="Dress.jpg" class="product-image">
+                <div class="product-name">${p.name}</div>
+                <div class="product-price">Rs. ${p.price.toLocaleString()}</div>
+                <div class="action-box">
+                    <button class="btn-style btn-cod" onclick="buyDirect('${safeName}', ${p.price}, 'cod')">📦 COD Order</button>
+                    <button class="btn-style btn-online" onclick="buyDirect('${safeName}', ${p.price}, 'online')">💳 Pay Online</button>
+                    <button class="btn-style btn-wa" onclick="sendWhatsApp('${safeName}', ${p.price})">🟢 WhatsApp</button>
+                    <button class="btn-style btn-bag" onclick="addtoCart('${safeName}', ${p.price})">🛒 Add to Bag</button>
+                </div>
+            </div>`;
+        });
+        document.getElementById('unstitchGrid').innerHTML = box;
+
+        function buyDirect(name, price, method) {
+            localStorage.setItem('checkout_type', 'single'); 
+            localStorage.setItem('payment_method', method);
+            localStorage.setItem('final_product_name', name); 
+            localStorage.setItem('final_product_price', price);
+            window.location.href = "Order.html";
+        }
+
+        // FIXED WHATSAPP ENGINE ROUTE LINK WITH REPAIRED SLASH
+        function sendWhatsApp(name, price) {
+            let msg = "*--- SULTAN BRAND UNSTITCHED ORDER ---*\n\n*Product:* " + name + "\n*Price:* Rs. " + price.toLocaleString();
+            window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function addtoCart(name, price) {
+            bag.push({ name: name, price: price }); 
+            localStorage.setItem('sultan_bag', JSON.stringify(bag));
+            document.getElementById('bag-count').innerText = bag.length; 
+            alert(name + " bag mein add ho gaya!");
+        }
+
+        function openCheckout() {
+            if (bag.length === 0) { alert("Bag khali hai!"); return; }
+            let total = 0; let names = ""; bag.forEach(function(item) { names += item.name + " + "; total += item.price; });
+            localStorage.setItem('checkout_type', 'bag'); 
+            localStorage.setItem('payment_method', 'online');
+            localStorage.setItem('final_product_name', names.slice(0, -3)); 
+            localStorage.setItem('final_product_price', total);
+            window.location.href = "Order.html";
+        }
+    </script>
+</body>
+</html>
+

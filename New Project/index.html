@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan Brand | Home of Luxury Fashion</title>
+    <!-- Stable Google Fonts & FontAwesome CDN Links Loaded -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #faf7f4; color: #2a2a2a; padding-bottom: 60px; }
+        
+        header { 
+            background-color: #ffffff; 
+            padding: 24px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            position: sticky; top: 0; z-index: 1000; 
+        }
+        
+        .logo { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 42px; 
+            font-weight: 700; 
+            font-style: italic; 
+            letter-spacing: 2px; 
+            color: #111111; 
+            text-decoration: none;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        .logo:hover { color: #c5a059; }
+
+        nav ul { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; } 
+        nav ul li { margin: 0 18px; }
+        nav ul li a { text-decoration: none; color: #767676; font-weight: 600; font-size: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 4px; }
+        .cart-icon { font-size: 12px; cursor: pointer; background-color: #111111; color: #ffffff; padding: 10px 20px; font-weight: 600; text-transform: uppercase; border-radius: 2px; display: flex; align-items: center; }
+
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 42px; text-align: center; margin-bottom: 50px; text-transform: uppercase; }
+        
+        .promo-slider-wrapper {
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            position: relative;
+            background: #111111;
+        }
+        .promo-slides-container {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            animation: promoSlideAnimation 15s infinite ease-in-out;
+        }
+        .promo-slide {
+            width: 33.333%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #ffffff;
+            padding: 0 40px;
+        }
+        .slide-subtitle { text-transform: uppercase; letter-spacing: 4px; font-size: 13px; color: #c5a059; margin-bottom: 12px; font-weight: 600; }
+        .slide-title { font-family: 'Playfair Display', serif; font-size: 52px; text-transform: uppercase; font-weight: 700; letter-spacing: 1px; line-height: 1.2; }
+        
+        @keyframes promoSlideAnimation {
+            0%, 28% { transform: translateX(0%); }
+            33%, 61% { transform: translateX(-33.333%); }
+            66%, 95% { transform: translateX(-66.666%); }
+            100% { transform: translateX(0%); }
+        }
+
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 35px; }
+        .product-card { background-color: #ffffff; border: 1px solid #f0eae4; border-radius: 4px; padding: 15px; text-align: center; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.4s ease; }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #eee; border-radius: 2px; }
+        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4; }
+        .product-price { color: #c5a059; font-weight: 600; margin-bottom: 12px; font-size: 16px; }
+        
+        .action-box { display: flex; flex-direction: column; gap: 5px; margin-top: auto; }
+        .btn-style { color: #fff; padding: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; text-transform: uppercase; border-radius: 3px; width: 100%; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+        .btn-cod { background: #e67e22; } .btn-online { background: #2c3e50; } .btn-wa { background: #25d366; } .btn-bag { background: #111111; }
+        .btn-style:hover { background: #c5a059; }
+        
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: #fff !important; border-radius: 50px; text-align: center; font-size: 34px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); z-index: 9999; width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; text-decoration: none !important; }
+        footer { background-color: #111111; color: #767676; text-align: center; padding: 45px 20px; font-size: 13px; border-top: 3px solid #c5a059; margin-top: 80px; }
+    </style>
+</head>
+<body>
+
+    <header>  
+        <a href="index.html" class="logo">Sultan Brand</a>
+        <nav>
+            <ul>
+                <li><a href="NewArrivals.html">✨ New Arrivals</a></li>
+                <li><a href="Unstitched.html">✂️ Unstitched</a></li>
+                <li><a href="ReadyToWear.html">👔 Ready To Wear</a></li>
+                <li><a href="Men.html">🤵 Men</a></li>
+                <li><a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale</a></li>
+                <li><span class="cart-icon" onclick="openCheckout()">🧺 Bag (<span id="bag-count">0</span>)</span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="promo-slider-wrapper">
+        <div class="promo-slides-container">
+            <div class="promo-slide">
+                <span class="slide-subtitle">Sultan Brand Promotion</span>
+                <h2 class="slide-title">Mid Summer Mega Sale</h2>
+            </div>
+            <div class="promo-slide" style="background: #1a1a1a;">
+                <span class="slide-subtitle">Luxury Festive Launch</span>
+                <h2 class="slide-title">Flat 50% Off Selected Items</h2>
+            </div>
+            <div class="promo-slide" style="background: #161616;">
+                <span class="slide-subtitle">Premium Trends 2026</span>
+                <h2 class="slide-title">Free Delivery Across Pakistan</h2>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <h1 class="main-title">Trending This Week</h1>
+        <div class="product-grid" id="trendingGrid"></div>
+    </main>
+
+    <!-- FIXED WHATSAPP FLOATING LINK -->
+    <a href="https://wa.me" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+    <script>
+        let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
+        const myWhatsAppNumber = "923003521238";
+
+        // AAP KI TAMAM 10 PRODUCTS MEHFOOZ HAIN
+        let trendingItemsData = [
+            {name:"Royal Designer Kurta Shalwar Suit", price:5500, img:"Jacket.jpg"}, 
+            {name:"Premium Soft Egyptian Linen Kurta", price:3500, img:"Jacket.jpg"},
+            {name:"Luxury Cotton Embroidered Kurta", price:2900, img:"Jacket.jpg"}, 
+            {name:"Sultan Royal Premium Sherwani Suit", price:18500, img:"Jacket.jpg"},
+            {name:"Classic White Wash & Wear Suit", price:4200, img:"Jacket.jpg"}, 
+            {name:"Luxury Silk Blend Kurta Only", price:4800, img:"Jacket.jpg"},
+            {name:"Premium Designer Waistcoat Jacket", price:5900, img:"Jacket.jpg"}, 
+            {name:"Formal Jamawar Prince Suit Upper", price:12500, img:"Jacket.jpg"},
+            {name:"Casual Summer Cotton Linen Kurta", price:3200, img:"Jacket.jpg"}, 
+            {name:"Semi-Formal Embroidered Kurta Shalwar", price:6800, img:"Jacket.jpg"}
+        ];
+
+        window.addEventListener('DOMContentLoaded', function() {
+            let countSpan = document.getElementById('bag-count');
+            if(countSpan) countSpan.innerText = bag.length;
+
+            let htmlContainer = "";
+            trendingItemsData.forEach(function(p) {
+                let safeName = p.name.replace(/'/g, "\\'");
+                
+                htmlContainer += `
+                <div class="product-card">
+                    <img src="${p.img}" class="product-image">
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-price">Rs. ${p.price.toLocaleString()}</div>
+                    <div class="action-box">
+                        <button class="btn-style btn-cod" onclick="buyDirect('${safeName}', ${p.price}, 'cod')">📦 COD Order</button>
+                        <button class="btn-style btn-online" onclick="buyDirect('${safeName}', ${p.price}, 'online')">💳 Pay Online</button>
+                        <button class="btn-style btn-wa" onclick="sendWhatsApp('${safeName}', ${p.price})">🟢 WhatsApp</button>
+                        <button class="btn-style btn-bag" onclick="addtoCart('${safeName}', ${p.price})">🛒 Add to Bag</button>
+                    </div>
+                </div>`;
+            });
+            let gridElement = document.getElementById('trendingGrid');
+            if(gridElement) gridElement.innerHTML = htmlContainer;
+        });
+
+        function buyDirect(name, price, method) {
+            localStorage.setItem('checkout_type', 'single');
+            localStorage.setItem('payment_method', method);
+            localStorage.setItem('final_product_name', name);
+            localStorage.setItem('final_product_price', price);
+            window.location.href = "Order.html";
+        }
+
+        // FIXED WHATSAPP LINK WITH PROPER SLASHES
+        function sendWhatsApp(name, price) {
+            let msg = "*--- SULTAN BRAND TRENDING ARTICLE ORDER ---*\n\n*Product:* " + name + "\n*Price:* Rs. " + price.toLocaleString();
+            window.open("https://wa.me/" + myWhatsAppNumber + "?text=" + encodeURIComponent(msg), '_blank');
+        }
+
+        function addtoCart(name, price) {
+            bag.push({ name: name, price: price });
+            localStorage.setItem('sultan_bag', JSON.stringify(bag));
+            let countSpan = document.getElementById('bag-count');
+            if(countSpan) countSpan.innerText = bag.length;
+            alert(name + " bag mein add ho gaya!");
+        }
+
+        function openCheckout() {
+            if (bag.length === 0) { alert("Bag khali hai!"); return; }
+            let total = 0; let names = ""; bag.forEach(function(item) { names += item.name + " + "; total += item.price; });
+            localStorage.setItem('checkout_type', 'bag'); 
+            localStorage.setItem('payment_method', 'online');
+            localStorage.setItem('final_product_name', names.slice(0, -3)); 
+            localStorage.setItem('final_product_price', total);
+            window.location.href = "Order.html";
+        }
+    </script>
+</body>
+</html>

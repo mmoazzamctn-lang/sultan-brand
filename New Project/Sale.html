@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan Brand | Mega Sale Collection</title>
+    <!-- Stable Google Fonts & FontAwesome Icons Loaded -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #faf7f4; color: #2a2a2a; padding-bottom: 60px; }
+        
+        header { 
+            background-color: #ffffff; 
+            padding: 22px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            position: sticky; top: 0; z-index: 1000; 
+        }
+        .logo { font-family: 'Playfair Display', serif; font-size: 34px; font-weight: 700; font-style: italic; color: #111111; text-decoration: none; }
+        nav ul { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; } 
+        nav ul li { margin: 0 18px; }
+        nav ul li a { text-decoration: none; color: #767676; font-weight: 600; font-size: 12px; text-transform: uppercase; display: flex; align-items: center; }
+        .cart-icon { font-size: 12px; cursor: pointer; background-color: #111111; color: #ffffff; padding: 10px 20px; font-weight: 600; text-transform: uppercase; border-radius: 2px; display: flex; align-items: center; }
+
+        .container { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
+        .main-title { font-family: 'Playfair Display', serif; font-size: 42px; text-align: center; margin-bottom: 15px; text-transform: uppercase; }
+        .sub-title { text-align: center; color: #e74c3c; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 50px; }
+        
+        /* Product Grid Exact Styling Matching Your Screenshot */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 35px; }
+        
+        .product-card { 
+            background-color: #ffffff; 
+            border: 1px solid #f0eae4; 
+            border-radius: 4px; 
+            padding: 15px; 
+            text-align: center; 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between;
+            transition: all 0.4s ease;
+        }
+        .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+        
+        /* Flat Discount Alert Badge */
+        .sale-badge { position: absolute; top: 15px; left: 15px; color: #fff; padding: 6px 14px; font-size: 11px; font-weight: 700; text-transform: uppercase; border-radius: 2px; z-index: 10; background-color: #e74c3c; letter-spacing: 0.5px; }
+        
+        .product-image { width: 100%; height: 350px; object-fit: cover; border-radius: 2px; display: block; margin-bottom: 15px; background-color: #eee; }
+        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; color: #333; line-height: 1.4; height: 40px; overflow: hidden; }
+        
+        .price-box { margin-bottom: 12px; }
+        .old-price { color: #999; text-decoration: line-through; margin-right: 10px; font-size: 13px; }
+        .new-price { color: #c5a059; font-weight: 600; font-size: 16px; }
+        
+        /* Action buttons layout color synced from screenshot */
+        .action-box { display: flex; flex-direction: column; gap: 5px; margin-top: auto; }
+        .btn-style { color: #ffffff !important; padding: 10px; border: none; font-weight: 700; cursor: pointer; font-size: 11px; text-transform: uppercase; border-radius: 3px; width: 100%; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; }
+        
+        .btn-cod { background: #e67e22; } 
+        .btn-online { background: #2c3e50; } 
+        .btn-wa { background: #25d366; } 
+        .btn-bag { background: #111111; }
+        .btn-style:hover { background: #c5a059; }
+
+        .whatsapp-float { position: fixed; bottom: 30px; right: 30px; background-color: #25d366; color: #fff !important; border-radius: 50px; text-align: center; font-size: 34px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); z-index: 9999; width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; text-decoration: none !important; }
+        footer { background-color: #111111; color: #767676; text-align: center; padding: 45px 20px; margin-top: 80px; font-size: 13px; border-top: 3px solid #c5a059; }
+    </style>
+</head>
+<body>
+
+    <header>  
+        <a href="clothes.html" class="logo">Sultan Brand</a>
+        <nav>
+            <ul>
+                <li><a href="NewArrivals.html">✨ New Arrivals</a></li>
+                <li><a href="Unstitched.html">✂️ Unstitched</a></li>
+                <li><a href="ReadyToWear.html">👔 Ready To Wear</a></li>
+                <li><a href="Men.html">🤵 Men</a></li>
+                <li><a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale</a></li>
+                <li><span class="cart-icon" onclick="openCheckout()">🧺 Bag (<span id="bag-count">0</span>)</span></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1 class="main-title">Season Clearance Sale</h1>
+        <p class="sub-title">🔥 Flat 30% & 50% Off On Selected Articles 🔥</p>
+        
+        <div class="product-grid" id="saleGridContainer"></div>
+    </main>
+
+    <a href="https://wa.me" class="whatsapp-float" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+
+    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+
+           <script>
+        let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
+        const myWhatsAppNumber = "923003521238";
+
+        // AAP KI TAMAM 20 SALE PRODUCTS PRESERVED HAIN
+        let saleProductsData = [
+            {name:"Premium Printed Lawn 3-Piece Suite", old:4285, newP:2999, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Daily Wear Casual Printed Kurtis Bundle", old:2570, newP:1800, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Classic Wool Trench Jacket", old:6430, newP:4500, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Luxury Cambric Semi-Formal Suit", old:5140, newP:3600, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Summer Cotton Festive Tunic", old:5000, newP:2500, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Digital Print Staple Viscose Kurti", old:3980, newP:1990, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Designer Embroidered Net Dupatta Suit", old:10700, newP:7490, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Winter Fleece Hoodie Upper", old:4400, newP:2200, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Luxe Jacquard Stitched Pret Suit", old:8500, newP:5950, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Casual Linen Trouser Kurti Set", old:6000, newP:3000, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Premium Denim Casual Jacket", old:4990, newP:3490, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Printed Lawn Dupatta Single Piece", old:1980, newP:990, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Luxury Organza Stitched Festive Maxi", old:12850, newP:8995, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Men Designer Cotton Kurta (Sale)", old:3570, newP:2499, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Classic Men Soft Linen Kurta", old:4500, newP:2250, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Unstitched Chikankari Lawn Suit", old:7850, newP:5495, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Ready To Wear Printed Khaddar Kurti", old:3200, newP:1600, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Luxury Slub Lawn Stitched Suit", old:6990, newP:4890, tag:"30% Off", img:"Jacket.jpg"},
+            {name:"Men Soft Summer Trouser Pant", old:2400, newP:1200, tag:"50% Off", img:"Jacket.jpg"},
+            {name:"Silk Blend Luxury Dupatta Article", old:3500, newP:2450, tag:"30% Off", img:"Jacket.jpg"}
+        ];
+
+        window.addEventListener('DOMContentLoaded', function() {
+            let bagCounterElement = document.getElementById('bag-count');
+            if (bagCounterElement) {
+                bagCounterElement.innerText = bag.length;
+            }
+            
+            let generatedHtml = "";
+            saleProductsData.forEach(function(item) {
+                let cleanName = item.name.replace(/'/g, "\\'");
+                let oldPriceFormatted = item.old ? item.old.toLocaleString() : "0";
+                let newPriceFormatted = item.newP ? item.newP.toLocaleString() : "0";
+                let discountTag = item.tag ? item.tag : "Sale";
+
+                generatedHtml += `
+                <div class="product-card">
+                    <div class="sale-badge">Flat ${discountTag}</div>
+                    <img src="${item.img}" class="product-image">
+                    <div class="product-name">${item.name}</div>
+                    <div class="price-box">
+                        <span class="old-price">Rs. ${oldPriceFormatted}</span>
+                        <span class="new-price">Rs. ${newPriceFormatted}</span>
+                    </div>
+                    <div class="action-box">
+                        <button class="btn-style btn-cod" onclick="buyDirect('${cleanName}', ${item.newP}, 'cod')">📦 COD Order</button>
+                        <button class="btn-style btn-online" onclick="buyDirect('${cleanName}', ${item.newP}, 'online')">💳 Pay Online</button>
+                        <button class="btn-style btn-wa" onclick="sendWhatsApp('${cleanName}', ${item.newP})">🟢 WhatsApp</button>
+                        <button class="btn-style btn-bag" onclick="addtoCart('${cleanName}', ${item.newP})">🛒 Add to Bag</button>
+                    </div>
+                </div>`;
+            });
+            
+            let container = document.getElementById('saleGridContainer');
+            if(container){
+                container.innerHTML = generatedHtml;
+            }
+        });
+
+        function buyDirect(name, price, method) {
+            localStorage.setItem('checkout_type', 'single'); 
+            localStorage.setItem('payment_method', method);
+            localStorage.setItem('final_product_name', name); 
+            localStorage.setItem('final_product_price', price);
+            window.location.href = "Order.html";
+        }
+
+        // FIXED WHATSAPP ENGINE ROUTE LINK WITH REPAIRED SLASH
+        function sendWhatsApp(name, price) {
+            let currentPrice = price ? price.toLocaleString() : "0";
+            let msg = "*--- SULTAN BRAND SALE ORDER ---*\n\n*Product:* " + name + "\n*Discount Price:* Rs. " + currentPrice;
+            window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function addtoCart(name, price) {
+            bag.push({ name: name, price: price });
+            localStorage.setItem('sultan_bag', JSON.stringify(bag));
+            let counter = document.getElementById('bag-count');
+            if (counter) {
+                counter.innerText = bag.length;
+            }
+            alert(name + " bag mein add ho gaya!");
+        }
+
+        function openCheckout() {
+            if (bag.length === 0) { alert("Bag khali hai!"); return; }
+            let total = 0; 
+            let names = ""; 
+            bag.forEach(function(item) { names += item.name + " + "; total += item.price; });
+            localStorage.setItem('checkout_type', 'bag'); 
+            localStorage.setItem('payment_method', 'online');
+            localStorage.setItem('final_product_name', names.slice(0, -3)); 
+            localStorage.setItem('final_product_price', total);
+            window.location.href = "Order.html";
+        }
+    </script>
+</body>
+</html>
