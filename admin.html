@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sultan Brand - Admin Login</title>
-    <!-- Font Awesome Eye Icon ke liye loaded -->
+    <!-- Font Awesome Link Code for Password View Eye Icon -->
     <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .login-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
         h2 { margin-bottom: 20px; color: #333; font-family: 'Cinzel', serif; letter-spacing: 1px; }
         .input-group { position: relative; width: 100%; margin: 10px 0; }
-        input { width: 90%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
-        .eye-icon { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; }
-        button { width: 97%; padding: 12px; background-color: #222; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        input { width: 90%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; outline: none; }
+        input:focus { border-color: #222; }
+        .eye-icon { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; font-size: 16px; }
+        button { width: 97%; padding: 12px; background-color: #222; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
         button:hover { background-color: #444; }
         .error-msg { color: red; font-size: 14px; margin-top: 10px; display: none; }
     </style>
@@ -22,19 +23,25 @@
 
 <div class="login-card">
     <h2>Sultan Brand Admin</h2>
-    <div class="input-group">
-        <input type="text" id="username" placeholder="Username" required>
-    </div>
-    <div class="input-group">
-        <input type="password" id="password" placeholder="Password" required>
-        <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePasswordEngine()"></i>
-    </div>
-    <button onclick="loginEngine()">Secure Login</button>
+    
+    <!-- 🔑 Standard Form Element to Enable Native Enter Key Submission -->
+    <form id="adminLoginForm" onsubmit="loginEngine(event)">
+        <div class="input-group">
+            <input type="text" id="username" placeholder="Username" required autocomplete="off">
+        </div>
+        <div class="input-group">
+            <input type="password" id="password" placeholder="Password" required>
+            <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePasswordEngine()"></i>
+        </div>
+        <!-- type="submit" ensures keyboard Enter key submits the form -->
+        <button type="submit">Secure Login</button>
+    </form>
+    
     <p class="error-msg" id="error">Invalid Credentials! Access Denied.</p>
 </div>
 
 <script>
-    // 👁️ Password View / Hide Toggle System
+    // 👁️ 1. Password View / Hide Toggle Engine Function
     function togglePasswordEngine() {
         const passwordInput = document.getElementById('password');
         const eyeIcon = document.getElementById('togglePassword');
@@ -50,7 +57,11 @@
         }
     }
 
-    function loginEngine() {
+    // 🔒 2. Admin Validation Core Engine
+    function loginEngine(event) {
+        // Form reload event ko roknay ke liye laazmi hai
+        event.preventDefault(); 
+        
         const u = document.getElementById('username').value;
         const p = document.getElementById('password').value;
         
