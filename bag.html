@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sultan Brand | Luxury Shopping Bag</title>
+    <!-- Stable Fonts & FontAwesome Libraries -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        /* Fixed Viewport Heights to Prevent Page Stretching */
+        html, body { height: 100%; background-color: #faf7f4; color: #2a2a2a; overflow: hidden; }
+        body { display: flex; flex-direction: column; }
+        
+        header { 
+            background-color: #ffffff; 
+            padding: 20px 6%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05); 
+            z-index: 1000; flex-shrink: 0;
+        }
+        
+        .logo { 
+            font-family: 'Playfair Display', serif; 
+            font-size: 32px; 
+            font-weight: 700; 
+            font-style: italic; 
+            letter-spacing: 2px; 
+            color: #111111; 
+            text-decoration: none;
+        }
+
+        nav ul { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; } 
+        nav ul li { margin: 0 15px; position: relative; padding: 15px 0; }
+        nav ul li a { text-decoration: none; color: #555555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .bag-count-badge {
+            position: absolute; top: 5px; right: -15px;
+            background: #c5a059; color: #ffffff;
+            font-size: 9px; font-weight: 700;
+            width: 16px; height: 16px;
+            border-radius: 50%; display: flex;
+            align-items: center; justify-content: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .clean-dropdown {
+            position: absolute; top: 100%; left: 0; background-color: #ffffff; min-width: 220px;
+            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08); display: none; z-index: 2000; padding: 10px 0;
+            border-top: 2px solid #c5a059;
+        }
+        nav ul li:hover .clean-dropdown { display: block; }
+        .clean-dropdown li { padding: 0; margin: 0; width: 100%; }
+        .clean-dropdown li a { padding: 10px 20px; color: #666666; font-size: 11px; display: block; text-transform: uppercase; border-bottom: 1px solid #f9f9f9; text-decoration: none; }
+        .clean-dropdown li a:hover { background-color: #faf7f4; color: #c5a059; }
+
+        /* Main Grid Area Wrapper Container with Hidden Scrolling Boundary */
+        .bag-container { 
+            max-width: 1100px; width: 100%; margin: 0 auto; padding: 30px 20px; 
+            display: grid; grid-template-columns: 2fr 1fr; gap: 30px; 
+            flex: 1; overflow: hidden; 
+        }
+        
+        /* Internal Scrollable Product Box Window Section Frame */
+        .bag-items-box { 
+            background: #ffffff; border: 1px solid #f0eae4; border-radius: 4px; padding: 25px; 
+            display: flex; flex-direction: column; overflow: hidden; 
+        }
+        .bag-title { font-family: 'Playfair Display', serif; font-size: 26px; text-transform: uppercase; margin-bottom: 25px; border-bottom: 1px solid #f0eae4; padding-bottom: 15px; flex-shrink: 0; }
+        #bagItemsList { flex: 1; overflow-y: auto; padding-right: 10px; }
+        
+        /* Custom Scrollbar Styles for Luxury Aesthetics */
+        #bagItemsList::-webkit-scrollbar { width: 6px; }
+        #bagItemsList::-webkit-scrollbar-track { background: #faf7f4; }
+        #bagItemsList::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 3px; }
+
+        .empty-msg { text-align: center; padding: 40px 0; font-size: 14px; color: #767676; }
+        .continue-btn { display: inline-block; margin-top: 15px; background: #111111; color: #fff; padding: 10px 25px; text-decoration: none; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        .continue-btn:hover { background: #c5a059; }
+
+        .bag-item { display: flex; align-items: center; gap: 20px; padding: 25px 0; border-bottom: 1px solid #f0eae4; position: relative; }
+        .bag-item:last-child { border-bottom: none; }
+        
+        /* Fixed image parameters to layout elements safely */
+        .item-img { width: 100px; height: 135px; object-fit: cover; border: 1px solid #f0eae4; background: #fbfbfb; display: block; flex-shrink: 0; }
+        .item-details { flex: 1; }
+        .item-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: #111111; margin-bottom: 5px; }
+        .item-price { font-size: 15px; color: #c5a059; font-weight: 600; margin-bottom: 12px; }
+        
+        .item-meta-selectors { display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; margin-top: 10px; }
+        .meta-select { padding: 6px 10px; border: 1px solid #e0e0e0; font-size: 12px; background: #fff; border-radius: 2px; outline: none; }
+        .meta-select:focus { border-color: #c5a059; }
+        
+        .manual-qty-input { width: 65px; padding: 5px 8px; border: 1px solid #e0e0e0; font-size: 12px; text-align: center; border-radius: 2px; outline: none; }
+        .manual-qty-input:focus { border-color: #c5a059; }
+
+        .chart-box-wrapper { margin-top: 6px; background: #faf7f4; border-left: 3px solid #c5a059; padding: 6px 10px; font-size: 11px; line-height: 1.5; color: #555; font-weight: 500; }
+
+        .remove-item-btn { position: absolute; right: 10px; bottom: 25px; background: #fff5f5; border: 1px solid #ffcccc; color: #cc3333; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: 600; text-transform: uppercase; transition: all 0.2s; display: flex; align-items: center; gap: 5px; }
+        .remove-item-btn:hover { background: #cc3333; color: #ffffff; border-color: #cc3333; }
+
+        .order-summary-card { background: #ffffff; border: 1px solid #f0eae4; border-radius: 4px; padding: 25px; height: fit-content; }
+        .summary-title { font-family: 'Playfair Display', serif; font-size: 20px; text-transform: uppercase; margin-bottom: 20px; border-bottom: 1px solid #f0eae4; padding-bottom: 10px; }
+        .summary-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; }
+        .summary-total-row { display: flex; justify-content: space-between; font-size: 16px; font-weight: 700; margin-top: 15px; padding-top: 15px; border-top: 1px solid #f0eae4; }
+        
+        .checkout-btn { display: block; width: 100%; background: #111111; color: #ffffff; padding: 15px; border: none; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; text-align: center; text-decoration: none; margin-top: 20px; }
+        .checkout-btn:hover { background: #c5a059; }
+
+        /* 🟢 WHATSAPP FLOATING BUTTON (TEXT AND ALIGNMENT 100% FIXED) */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #25d366;
+            color: #fff !important;
+            padding: 12px 22px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
+            z-index: 9999;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            text-decoration: none !important;
+            white-space: nowrap;
+            height: auto;
+            width: auto;
+        }
+        .whatsapp-float i { font-size: 18px; }
+        .whatsapp-float:hover { transform: scale(1.05); background-color: #1ebd58; }
+
+        footer { background-color: #111111; color: #767676; text-align: center; padding: 15px 20px; font-size: 12px; flex-shrink: 0; width: 100%; }
+        .menu-toggle { display: none; }
+
+        /* 📱 RESPONSIVE MOBILE ACCORDION SIDE MENU OVERWRITE */
+        @media screen and (max-width: 768px) {
+            html, body { overflow: auto; height: auto; }
+            .bag-container { grid-template-columns: 1fr !important; overflow: visible; padding: 20px 15px; }
+            .bag-items-box { overflow: visible; height: auto; }
+            #bagItemsList { overflow: visible; }
+            
+            header { 
+                padding: 15px 5%; 
+                flex-direction: row !important; 
+                justify-content: space-between; 
+                position: relative; 
+            }
+            .logo { font-size: 28px; }
+            .menu-toggle { 
+                display: block !important; 
+                font-size: 24px; 
+                cursor: pointer; 
+                color: #111111; 
+                z-index: 3000; 
+            }
+
+            nav {
+                position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background-color: #ffffff;
+                box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.4s ease; z-index: 2500;
+                padding: 80px 20px 30px 20px; overflow-y: auto;
+            }
+            nav.active { right: 0; }
+            nav ul { flex-direction: column !important; align-items: flex-start !important; gap: 0; }
+            nav ul li { width: 100%; margin: 0 !important; padding: 0 !important; border-bottom: 1px solid #f0eae4; }
+            nav ul li a { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-size: 13px; width: 100%; }
+
+            .clean-dropdown {
+                position: static !important; transform: none !important; box-shadow: none !important;
+                border-top: none !important; padding: 0 0 10px 15px !important; background-color: #faf7f4;
+                width: 100% !important; display: none;
+            }
+            .clean-dropdown.show { display: block !important; }
+            .clean-dropdown li a { padding: 10px 10px !important; font-size: 12px !important; }
+
+            .bag-item { flex-direction: row; gap: 15px; align-items: flex-start; }
+            .remove-item-btn { position: relative; right: auto; bottom: auto; margin-top: 15px; display: inline-flex; width: fit-content; }
+            
+            footer { position: relative; margin-top: 40px; }
+            .whatsapp-float { bottom: 20px; right: 20px; padding: 10px 16px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>  
+        
+        <a href="index.html" class="logo">Sultan Brand</a>
+        <div class="menu-toggle" onclick="toggleMobileMenu()">☰</div>
+
+        <nav>
+            <ul>
+                <!-- 1. NEW ARRIVALS DROPDOWN -->
+                <li>
+                    <a href="NewArrivals.html">✨ New Arrivals</a>
+                    <ul class="clean-dropdown">
+                        <li><a href="NewArrivals.html?cat=festive">Luxury Festive '26</a></li>
+                        <li><a href="NewArrivals.html?cat=summer">Summer Lawn Volume</a></li>
+                        <li><a href="NewArrivals.html?cat=cambric">Premium Cambric</a></li>
+                    </ul>
+                </li>
+
+                <!-- 2. UNSTITCHED DROPDOWN -->
+                <li>
+                    <a href="Unstitched.html">✂️ Unstitched</a>
+                    <ul class="clean-dropdown">
+                        <li><a href="Unstitched.html?type=1piece">1 Piece Kurta Fabric</a></li>
+                        <li><a href="Unstitched.html?type=2piece">2 Piece Suit</a></li>
+                        <li><a href="Unstitched.html?type=3piece">3 Piece Luxury Lawn</a></li>
+                        <li><a href="Unstitched.html?type=egyptian">Egyptian Cotton</a></li>
+                    </ul>
+                </li>
+
+                <!-- 3. READY TO WEAR DROPDOWN -->
+                <li>
+                    <a href="ReadyToWear.html">👔 Ready To Wear</a>
+                    <ul class="clean-dropdown">
+                        <li><a href="ReadyToWear.html?style=casual">Casual Kurtas</a></li>
+                        <li><a href="ReadyToWear.html?style=stitched">Stitched Suits</a></li>
+                        <li><a href="ReadyToWear.html?style=tailored">Tailored / Custom Fit</a></li>
+                        <li><a href="ReadyToWear.html?style=waistcoat">Designer Waistcoats</a></li>
+                    </ul>
+                </li>
+
+                <!-- 4. MEN DROPDOWN -->
+                <li>
+                   <a href="Men.html">🤵 Men <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
+                    <ul class="clean-dropdown">
+                        <li style="padding: 5px 20px; font-size: 10px; font-weight: 700; color: #c5a059; letter-spacing: 1px; text-transform: uppercase; background: #faf7f4;">— Stitched Wear —</li>
+                        <li><a href="Men.html?style=sherwani">🧥 Royal Sherwani</a></li>
+                        <li><a href="Men.html?style=kurtas">👔 Premium Kurtas</a></li>
+                        <li><a href="Men.html?style=shalwar">🌟 Kurta Shalwar Suits</a></li>
+                        <li><a href="Men.html?style=cotton-stitched">🧵 Cotton Suits (Stitched)</a></li>
+                        <li><a href="Men.html?style=latha-stitched">👑 Luxury Latha (Stitched)</a></li>
+                        <li style="padding: 5px 20px; font-size: 10px; font-weight: 700; color: #c5a059; letter-spacing: 1px; text-transform: uppercase; background: #faf7f4; margin-top: 5px;">— Unstitched Fabric —</li>
+                        <li><a href="Men.html?style=unstitched_cotton">✂️ Premium Cotton Unstitched</a></li>
+                        <li><a href="Men.html?style=unstitched_latha">✂️ Luxury Latha Unstitched</a></li>
+                        <li><a href="Men.html?style=unstitched_wash">✂️ Wash & Wear Premium Unstitched</a></li>
+                    </ul>
+                </li>
+
+                <!-- 5. SALE DROPDOWN -->
+                <li>
+                    <a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale <i class="fa-solid fa-chevron-down" style="font-size: 8px; color:#e74c3c;"></i></a>
+                    <ul class="clean-dropdown">
+                        <li><a href="Sale.html?discount=flat50" style="color:#e74c3c;">FLAT 50% OFF</a></li>
+                        <li><a href="Sale.html?discount=flat40">FLAT 40% OFF</a></li>
+                        <li><a href="Sale.html?discount=flat30">FLAT 30% OFF</a></li>
+                        <li><a href="Sale.html?discount=flat20">FLAT 20% OFF</a></li>
+                        
+                        <!-- 🆕 Line-by-Line Unstitched Sale dropdown matrix links -->
+                        <li><a href="Sale.html?discount=unstitched_flat50" style="color:#e74c3c;">✂️ UNSTITCHED 50% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat40">✂️ UNSTITCHED 40% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat30">✂️ UNSTITCHED 30% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat20">✂️ UNSTITCHED 20% OFF</a></li>
+                        
+                        <li><a href="Sale.html?discount=clearance">CLEARANCE SALE</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="bag.html" style="position: relative; font-weight: 700;">
+                        <i class="fa-solid fa-bag-shopping" style="color: #111111; font-size: 14px; margin-right: 5px;"></i> Shopping Bag 
+                        <span class="bag-count-badge" id="navBagCount">0</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="bag-container">
+        <div class="bag-items-box">
+            <h2 class="bag-title">Your Shopping Bag</h2>
+            <div id="bagItemsList"></div>
+        </div>
+
+        <div class="order-summary-card">
+            <h3 class="summary-title">Summary</h3>
+            <div class="summary-row">
+                <span>Bag Subtotal</span>
+                <span id="subtotalPrice">Rs. 0</span>
+            </div>
+            <div class="summary-row">
+                <span>Shipping Fee</span>
+                <span style="color: #25d366; font-weight: 600;">FREE</span>
+            </div>
+            <div class="summary-total-row">
+                <span>Total Bill</span>
+                <span id="totalPrice" style="color: #c5a059;">Rs. 0</span>
+            </div>
+            <button class="checkout-btn" onclick="proceedToCheckout()">Proceed To Checkout</button>
+        </div>
+    </div>
+<!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
+<a href="whatsapp://send?phone=923003521238" class="whatsapp-float">
+    <!-- SVG Icon jo har device par laazmi chaly ga -->
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
+    </svg>
+    <span>Chat on WhatsApp</span>
+</a>
+
+    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+    <script>
+        // LocalStorage se data array structural format mein load karna
+        let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
+        let selectedCheckoutMethod = ""; // Tracks user choice (cod or online)
+
+        // Size Charts Data (Standard Men & Women Layout)
+        const sizeCharts = {
+            'S_men': "<b>Men Kurta:</b> Chest: 19\", Length: 38\", Shoulder: 14\"<br><b>Trouser:</b> Waist: 26-28\", Length: 37\"",
+            'M_men': "<b>Men Kurta:</b> Chest: 20\", Length: 39\", Shoulder: 14.5\"<br><b>Trouser:</b> Waist: 29-32\", Length: 38\"",
+            'L_men': "<b>Men Kurta:</b> Chest: 22\", Length: 40\", Shoulder: 15\"<br><b>Trouser:</b> Waist: 33-36\", Length: 39\"",
+            'XL_men': "<b>Men Kurta:</b> Chest: 24\", Length: 42\", Shoulder: 16.5\"<br><b>Trouser:</b> Waist: 37-40\", Length: 40\"",
+            'S_women': "<b>Women Kurta:</b> Chest: 18\", Length: 36\", Shoulder: 13.5\"<br><b>Trouser:</b> Waist: 24-26\", Length: 36\"",
+            'M_women': "<b>Women Kurta:</b> Chest: 20\", Length: 38\", Shoulder: 14\"<br><b>Trouser:</b> Waist: 26-28\", Length: 37\"",
+            'L_women': "<b>Women Kurta:</b> Chest: 22\", Length: 39\", Shoulder: 14.5\"<br><b>Trouser:</b> Waist: 28-30\", Length: 38\"",
+            'XL_women': "<b>Women Kurta:</b> Chest: 24\", Length: 40\", Shoulder: 15\"<br><b>Trouser:</b> Waist: 30-34\", Length: 39\""
+        };
+
+        // ✅ MOBILE HAMBURGER MENU DRAWER SLIDE CONTROLLER
+        function toggleMobileMenu() {
+            const navMenu = document.querySelector('nav');
+            if(navMenu) navMenu.classList.toggle('active');
+        }
+
+        window.addEventListener('DOMContentLoaded', function() {
+            // Inject Split Buttons right under the summary title
+            const summaryTitle = document.querySelector('.summary-title');
+            if (summaryTitle) {
+                const buttonGroupHTML = `
+                    <div style="display: flex; gap: 10px; margin-bottom: 20px;" id="checkoutMethodGroup">
+                        <button type="button" onclick="selectPaymentRoute(this, 'cod')" style="flex: 1; padding: 12px 5px; background: #ffffff; border: 1px solid #111111; color: #111111; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                            📦 COD
+                        </button>
+                        <button type="button" onclick="selectPaymentRoute(this, 'online')" style="flex: 1; padding: 12px 5px; background: #ffffff; border: 1px solid #111111; color: #111111; font-size: 11px; font-weight: 700; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 4px;">
+                            💳 Online
+                        </button>
+                    </div>
+                `;
+                summaryTitle.insertAdjacentHTML('afterend', buttonGroupHTML);
+            }
+            renderBagItems();
+        });
+
+        function selectPaymentRoute(buttonElement, method) {
+            const buttons = document.querySelectorAll('#checkoutMethodGroup button');
+            buttons.forEach(btn => {
+                btn.style.background = "#ffffff";
+                btn.style.color = "#111111";
+                btn.style.borderColor = "#111111";
+            });
+            buttonElement.style.background = "#c5a059";
+            buttonElement.style.color = "#ffffff";
+            buttonElement.style.borderColor = "#c5a059";
+            selectedCheckoutMethod = method;
+        }
+                // ✅ FIXED DESCRIPTION RENDERING LOOP ENGINE
+        function renderBagItems() {
+            const listContainer = document.getElementById('bagItemsList');
+            if(document.getElementById('navBagCount')) {
+                document.getElementById('navBagCount').innerText = bag.length;
+            }
+            
+            if (bag.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-msg">
+                        <i class="fa-solid fa-bag-shopping" style="font-size: 32px; color: #ddd; margin-bottom: 10px;"></i>
+                        <p>Your shopping bag is completely empty.</p>
+                        <a href="index.html" class="continue-btn">Continue Shopping</a>
+                    </div>
+                `;
+                updateBillCalculation();
+                return;
+            }
+            let htmlContent = "";
+            bag.forEach((item, index) => {
+                const itemName = item.product_name || item.name || "Sultan Luxury Article";
+                const itemPrice = parseInt(item.product_price || item.price || 0);
+                const itemImg = item.product_img || item.img || "";
+                const itemSize = item.product_size || "M"; 
+                const itemQty = parseInt(item.product_qty || item.qty || 1);
+                const itemMeasure = item.product_measurement || "None";
+                
+                // ✅ DASHBOARD DESCRIPTION EXTRACTOR (FALLBACK FIXED)
+                const itemDesc = item.description || item.product_desc || "Premium luxury stitched fabric details.";
+
+                let genderKey = '_women';
+                if (itemImg.includes('Dress4.jpg') || itemImg.includes('Dress5.jpg') || itemImg.includes('Dress6.jpg') || itemName.toLowerCase().includes('men')) {
+                    genderKey = '_men';
+                }
+
+                let sizingDisplayHTML = "";
+                if (itemSize === "Custom") {
+                    sizingDisplayHTML = `<div class="chart-box-wrapper" style="background:#fffcf5; border-left:3px solid #e74c3c; color:#cc3333;">📐 <b>Custom Dimensions:</b> ${itemMeasure}</div>`;
+                } else {
+                    const measurementText = sizeCharts[itemSize + genderKey] || sizeCharts['M_women'];
+                    sizingDisplayHTML = `<div class="chart-box-wrapper">📐 ${measurementText}</div>`;
+                }
+
+                htmlContent += `
+                    <div class="bag-item">
+                        <img src="${itemImg}" class="item-img" alt="${itemName}" onerror="this.src='https://unsplash.com'">
+                        <div class="item-details">
+                            <h4 class="item-name">${itemName}</h4>
+                            <p class="item-price">Rs. ${(itemPrice * itemQty).toLocaleString()}</p>
+                            
+                            <!-- ✅ PROFESSIONAL FABRIC DESCRIPTION INJECTED HERE -->
+                            <p style="font-size: 12px; color: #666; font-style: italic; margin: 4px 0 10px 0; background: #faf7f4; padding: 4px 8px; border-radius: 2px;">📋 ${itemDesc}</p>
+
+                            <div class="item-meta-selectors">
+                                <div style="display: flex; flex-direction: column; gap: 4px; min-width: 180px;">
+                                    <select class="meta-select" onchange="updateItemSize(${index}, this.value)">
+                                        <option value="S" ${itemSize === 'S' ? 'selected' : ''}>Size: S</option>
+                                        <option value="M" ${itemSize === 'M' ? 'selected' : ''}>Size: M</option>
+                                        <option value="L" ${itemSize === 'L' ? 'selected' : ''}>Size: L</option>
+                                        <option value="XL" ${itemSize === 'XL' ? 'selected' : ''}>Size: XL</option>
+                                        <option value="Custom" ${itemSize === 'Custom' ? 'selected' : ''}>Size: Custom Fit</option>
+                                    </select>
+                                    ${sizingDisplayHTML}
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <label style="font-size: 11px; font-weight: 700; text-transform: uppercase; color: #444;">Qty:</label>
+                                    <input type="number" class="manual-qty-input" min="1" max="99" value="${itemQty}" onchange="updateItemManualQty(${index}, this.value)" onkeyup="updateItemManualQty(${index}, this.value)">
+                                </div>
+                            </div>
+                        </div>
+                        <button class="remove-item-btn" onclick="removeItemFromBag(${index})">🗑 Delete</button>
+                    </div>`;
+            });
+
+            listContainer.innerHTML = htmlContent;
+            updateBillCalculation();
+            
+            document.querySelectorAll('nav ul > li > a').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 768) {
+                        const nextDropdown = this.nextElementSibling;
+                        if (nextDropdown && nextDropdown.classList.contains('clean-dropdown')) {
+                            e.preventDefault();
+                            nextDropdown.classList.toggle('show');
+                        }
+                    }
+                });
+            });
+        }
+        function updateItemSize(index, newSize) {
+            bag[index].product_size = newSize;
+            if (newSize === "Custom" && (!bag[index].product_measurement || bag[index].product_measurement === "None")) {
+                let measurementsInput = prompt("Sultan Tailoring Custom Fit Profile:\n\nKindly enter body dimensions (e.g. Chest: 21, Length: 40, Sleeves: 24):");
+                bag[index].product_measurement = (measurementsInput && measurementsInput.trim() !== "") ? measurementsInput.trim() : "Standard Fitting Custom Needed";
+            }
+            localStorage.setItem('sultan_bag', JSON.stringify(bag));
+            renderBagItems(); 
+        }
+
+        function updateItemManualQty(index, value) {
+            let parsedQty = parseInt(value);
+            if (isNaN(parsedQty) || parsedQty < 1) parsedQty = 1;
+            bag[index].product_qty = parsedQty;
+            localStorage.setItem('sultan_bag', JSON.stringify(bag));
+            
+            let total = 0;
+            bag.forEach(item => {
+                const qty = parseInt(item.product_qty || 1);
+                const price = parseInt(item.product_price || item.price || 0);
+                total += price * qty;
+            });
+            document.getElementById('subtotalPrice').innerText = "Rs. " + total.toLocaleString();
+            document.getElementById('totalPrice').innerText = "Rs. " + total.toLocaleString();
+            localStorage.setItem('final_bag_calculated_bill', total);
+            
+            const itemPriceField = document.querySelectorAll('.item-price')[index];
+            if(itemPriceField) {
+                const basePrice = parseInt(bag[index].product_price || bag[index].price || 0);
+                itemPriceField.innerText = "Rs. " + (basePrice * parsedQty).toLocaleString();
+            }
+        }
+
+        function removeItemFromBag(index) {
+            bag.splice(index, 1);
+            localStorage.setItem('sultan_bag', JSON.stringify(bag));
+            renderBagItems();
+        }
+
+        function updateBillCalculation() {
+            let total = 0;
+            bag.forEach(item => {
+                const qty = parseInt(item.product_qty || item.qty || 1);
+                const price = parseInt(item.product_price || item.price || 0);
+                total += price * qty;
+            });
+            if(document.getElementById('subtotalPrice')) {
+                document.getElementById('subtotalPrice').innerText = "Rs. " + total.toLocaleString();
+            }
+            if(document.getElementById('totalPrice')) {
+                document.getElementById('totalPrice').innerText = "Rs. " + total.toLocaleString();
+            }
+            localStorage.setItem('final_bag_calculated_bill', total);
+        }
+
+        // ✅ FIXED UNIFIED CHECKOUT BUNDLE WITH DESCRIPTION AND CUSTOM MEASUREMENTS
+        function proceedToCheckout() {
+            if (bag.length === 0) { alert("Please add items to your bag first!"); return; }
+            if (!selectedCheckoutMethod) { alert("Please click either [COD] or [ONLINE] button first to choose your payment method!"); return; }
+
+            let namesList = bag.map(item => {
+                const name = item.product_name || item.name || "Luxury Item";
+                const size = item.product_size || "M";
+                const qty = item.product_qty || 1;
+                const measure = item.product_measurement || "None";
+                
+                if (size === "Custom" && measure !== "None" && measure !== "") {
+                    return `${name} (Size: ${size} [Fits: ${measure}] x${qty})`;
+                }
+                return `${name} (Size: ${size} x${qty})`;
+            }).join(' + ');
+            
+            let totalBillComputed = localStorage.getItem('final_bag_calculated_bill') || 0;
+
+            localStorage.setItem('checkout_type', 'bag');
+            localStorage.setItem('final_product_name', namesList);
+            localStorage.setItem('final_product_price', totalBillComputed);
+            localStorage.setItem('payment_method', selectedCheckoutMethod); 
+
+            window.location.href = "order.html";
+        }
+    </script>
+</body>
+</html>
