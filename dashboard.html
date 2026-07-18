@@ -27,6 +27,12 @@
 
 </head>
 <body>
+<!-- 🚪 Top-Right Box with "Logout" Written Clearly -->
+<div style="position: fixed; top: 20px; right: 20px; z-index: 99999;">
+    <button onclick="logoutEngine()" style="background-color: #d9534f; color: white; border: 1px solid #b52b27; padding: 8px 15px; font-size: 13px; font-family: 'Montserrat', Arial, sans-serif; font-weight: bold; border-radius: 4px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.2s;">
+        Logout
+    </button>
+</div>
 
 <!-- 1. ONLINE PRODUCT ADD + EDIT FORM -->
 <div class="dashboard-container">
@@ -78,6 +84,7 @@
         </div>
 
         <button type="submit" class="btn-publish">🚀 Publish Product Online</button>
+        
     </form>
 </div>
 <!-- 2. ONLINE BANNER SLIDER ADD + EDIT FORM -->
@@ -464,6 +471,11 @@
         fetchAdminProducts();
         fetchAdminBanners(); 
     });
+    // 🚪 Admin System Destruction and Logout Session Clear
+function logoutEngine() {
+    localStorage.removeItem("sultan_session");
+    window.location.href = "admin.html";
+}
 </script>
 </body>
 </html>
