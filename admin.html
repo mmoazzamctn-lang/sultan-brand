@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sultan Brand - Admin Login</title>
+    <!-- Font Awesome Eye Icon ke liye loaded -->
+    <link rel="stylesheet" href="https://cloudflare.com">
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .login-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
-        h2 { margin-bottom: 20px; color: #333; }
-        input { width: 90%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
-        button { width: 97%; padding: 12px; background-color: #222; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.2s; }
+        h2 { margin-bottom: 20px; color: #333; font-family: 'Cinzel', serif; letter-spacing: 1px; }
+        .input-group { position: relative; width: 100%; margin: 10px 0; }
+        input { width: 90%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; }
+        .eye-icon { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; }
+        button { width: 97%; padding: 12px; background-color: #222; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         button:hover { background-color: #444; }
         .error-msg { color: red; font-size: 14px; margin-top: 10px; display: none; }
     </style>
@@ -18,19 +22,39 @@
 
 <div class="login-card">
     <h2>Sultan Brand Admin</h2>
-    <input type="text" id="username" placeholder="Username" required>
-    <input type="password" id="password" placeholder="Password" required>
+    <div class="input-group">
+        <input type="text" id="username" placeholder="Username" required>
+    </div>
+    <div class="input-group">
+        <input type="password" id="password" placeholder="Password" required>
+        <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePasswordEngine()"></i>
+    </div>
     <button onclick="loginEngine()">Secure Login</button>
     <p class="error-msg" id="error">Invalid Credentials! Access Denied.</p>
 </div>
 
 <script>
+    // 👁️ Password View / Hide Toggle System
+    function togglePasswordEngine() {
+        const passwordInput = document.getElementById('password');
+        const eyeIcon = document.getElementById('togglePassword');
+        
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            eyeIcon.classList.remove('fa-eye');
+            eyeIcon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.type = 'password';
+            eyeIcon.classList.remove('fa-eye-slash');
+            eyeIcon.classList.add('fa-eye');
+        }
+    }
+
     function loginEngine() {
         const u = document.getElementById('username').value;
         const p = document.getElementById('password').value;
         
-        // 🔒 Professional Encrypted Session Security Check
-        if(u === "Admin" && p === "Moazzam@3111") {
+        if(u === "SultanAdmin" && p === "Sultan@Safe2026") {
             localStorage.setItem("sultan_session", "authenticated_secure_2026");
             window.location.href = "dashboard.html";
         } else {
