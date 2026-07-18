@@ -405,7 +405,7 @@
         // ✅ 1. REAL-TIME DYNAMIC BANNER INJECTION ENGINE WITH IMAGE URL
         async function loadLiveHomeBanners() {
             try {
-                const response = await fetch('https://sultan-backend.vercel.app/api/banners/all');
+                const response = await fetch('https://vercel.app/api/banners/all');
                 const banners = await response.json();
 
                 const sliderContainer = document.querySelector('.promo-slides-container');
@@ -447,7 +447,7 @@
                // ✅ 2. AUTOMATIC REAL-TIME LIVE MONGODB FETCH ENGINE (FIXED TRENDING FOR ALL PRODUCTS)
         async function loadLiveHomeTrendingProducts() {
             try {
-                const response = await fetch('https://sultan-backend.vercel.app/api/products/all');
+                const response = await fetch('https://vercel.app/api/products/all');
                 const products = await response.json();
 
                 const container = document.getElementById('trendingGrid');
