@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
     <script>
+    // 🛡️ Unauthorized Bypass Protection Guard
     if(localStorage.getItem("sultan_session") !== "authenticated_secure_2026") {
-    window.location.href = "admin.html";
-
+        window.location.href = "admin.html";
     }
 </script>
 
@@ -219,11 +219,11 @@
             description: document.getElementById('description').value
         };
 
-        let apiUrl = 'https://vercel.app/api/products/add';
+        let apiUrl = 'https://sultan-backend.vercel.app/api/products/add';
         let httpMethod = 'POST';
 
         if (currentEditProductId) {
-            apiUrl = `https://vercel.app/api/products/update/${currentEditProductId}`;
+            apiUrl = `https://sultan-backend.vercel.app/api/products/update/${currentEditProductId}`;
             httpMethod = 'PUT';
         }
 
@@ -264,11 +264,11 @@
             imgUrl: document.getElementById('bannerImgUrl').value
         };
 
-        let bannerApiUrl = 'https://vercel.app/api/banners/add';
+        let bannerApiUrl = 'https://sultan-backend.vercel.app/api/banners/add';
         let bannerHttpMethod = 'POST';
 
         if (currentEditBannerId) {
-            bannerApiUrl = `https://vercel.app/api/banners/update/${currentEditBannerId}`;
+            bannerApiUrl = `https://sultan-backend.vercel.app/api/banners/update/${currentEditBannerId}`;
             bannerHttpMethod = 'PUT';
         }
 
@@ -374,7 +374,7 @@
     async function deleteProductOnline(id) {
         if(confirm('Kya aap waqai is suit ko website se hatana chahte hain?')) {
             try {
-                const response = await fetch(`https://vercel.app/api/products/delete/${id}`, { method: 'DELETE' });
+                const response = await fetch(`https://sultan-backend.vercel.app/api/products/delete/${id}`, { method: 'DELETE' });
                 const result = await response.json();
                 if(result.success || response.status === 200) {
                     alert('🗑️ Product deleted from online store!');
@@ -391,7 +391,7 @@
     // ✅ 8. FETCH & DISPLAY ALL ONLINE BANNERS FOR EDIT/DELETE
     async function fetchAdminBanners() {
         try {
-            const response = await fetch('https://vercel.app/api/banners/all');
+            const response = await fetch('https://sultan-backend.vercel.app/api/banners/all');
             const banners = await response.json();
             const bannerListContainer = document.getElementById('admin-banner-list');
             if(!bannerListContainer) return;
@@ -445,7 +445,7 @@
     async function deleteBannerOnline(id) {
         if(confirm('Kya aap waqai is banner slider ko home page se hatana chahte hain?')) {
             try {
-                const response = await fetch(`https://vercel.app/api/banners/delete/${id}`, { method: 'DELETE' });
+                const response = await fetch(`https://sultan-backend.vercel.app/api/banners/delete/${id}`, { method: 'DELETE' });
                 const result = await response.json();
                 if(result.success || response.status === 200) {
                     alert('🗑️ Slider banner deleted from online database!');
