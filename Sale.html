@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sultan Brand | Sale & Discounts</title>
     <!-- Stable Google Fonts & FontAwesome CDN Links Loaded -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="https://googleapis.com" rel="preconnect">
+    <link href="https://gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
 
     <style>
@@ -101,7 +103,6 @@
             letter-spacing: 1px; 
             color: #e74c3c;
         }
-
         /* 🆕 INLINE IN-PAGE SALE SUB-CATEGORY FILTERS ROW STYLING */
         .sale-filter-tabs-row {
             display: flex;
@@ -154,8 +155,9 @@
             width: 100%;
         }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
-        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #eee; border-radius: 2px; }
-        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4; }
+        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #eee; border-radius: 2px; cursor: pointer; }
+        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4; cursor: pointer; }
+        .product-name:hover { color: #c5a059; text-decoration: underline; }
         
         /* 📐 SCREENSHOT 1 DROPDOWN & LABELS ALIGNMENT */
         .size-label-container {
@@ -329,7 +331,7 @@
         <a href="index.html" class="logo">Sultan Brand</a>
         <div class="menu-toggle" onclick="toggleMobileMenu()">☰</div>
 
-        <nav>
+        <nav id="siteNavMenu">
             <ul>
                 <!-- 1. NEW ARRIVALS DROPDOWN -->
                 <li>
@@ -362,7 +364,6 @@
                         <li><a href="ReadyToWear.html?style=waistcoat">Designer Waistcoats</a></li>
                     </ul>
                 </li>
-
                 <!-- 4. MEN DROPDOWN -->
                 <li>
                    <a href="Men.html">🤵 Men <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
@@ -380,7 +381,7 @@
                     </ul>
                 </li>
 
-                <!-- 5. SALE DROPDOWN (💯 MATCHED SINGLE DROPDOWN MATRIX WITH ALL PERCENTAGES LINE-BY-LINE) -->
+                <!-- 5. SALE DROPDOWN -->
                 <li>
                     <a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale <i class="fa-solid fa-chevron-down" style="font-size: 8px; color:#e74c3c;"></i></a>
                     <ul class="clean-dropdown">
@@ -388,13 +389,10 @@
                         <li><a href="Sale.html?discount=flat40">FLAT 40% OFF</a></li>
                         <li><a href="Sale.html?discount=flat30">FLAT 30% OFF</a></li>
                         <li><a href="Sale.html?discount=flat20">FLAT 20% OFF</a></li>
-                        
-                        <!-- 🆕 Line-by-Line Unstitched Sale dropdown matrix links -->
                         <li><a href="Sale.html?discount=unstitched_flat50" style="color:#e74c3c;">✂️ UNSTITCHED 50% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat40">✂️ UNSTITCHED 40% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat30">✂️ UNSTITCHED 30% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat20">✂️ UNSTITCHED 20% OFF</a></li>
-                        
                         <li><a href="Sale.html?discount=clearance">CLEARANCE SALE</a></li>
                     </ul>
                 </li>
@@ -407,7 +405,6 @@
     <main class="container">
         <h1 class="main-title">Season Clearance Sale</h1>
         
-        <!-- 🆕 FULLY EXPANDED IN-PAGE DISCOUNTS NAVIGATION MANAGEMENT ROW -->
         <div class="sale-filter-tabs-row">
             <a href="Sale.html" class="filter-tab-btn" id="tab_all">Show All Sale</a>
             <a href="Sale.html?discount=flat50" class="filter-tab-btn" id="tab_flat50">Stitched 50% OFF</a>
@@ -421,11 +418,8 @@
             <a href="Sale.html?discount=clearance" class="filter-tab-btn" id="tab_clearance">Clearance Sale</a>
         </div>
 
-        <div class="product-grid" id="saleGrid">
-            <!-- MongoDB Database live items query loops generation container -->
-        </div>
+        <div class="product-grid" id="saleGrid"></div>
     </main>
-
     <!-- 📐 REUSABLE PREMIUM UNSTITCHED & STITCHED HYBRID MODAL BOX -->
     <div class="size-modal" id="sizeGuideModal">
         <div class="size-modal-content">
@@ -436,32 +430,32 @@
             <div class="size-table-container">
                 <table class="size-table">
                     <thead>
-                        <tr id="sizeTableHeaderRow">
-                            <!-- Injected dynamically inside PART 5 script -->
-                        </tr>
+                        <tr id="sizeTableHeaderRow"></tr>
                     </thead>
-                    <tbody id="sizeTableBody">
-                    </tbody>
+                    <tbody id="sizeTableBody"></tbody>
                 </table>
             </div>
             <button class="modal-thanks-btn" onclick="closeSizeModal()">Got It, Thanks</button>
         </div>
     </div>
-<!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
-<a href="whatsapp://send?phone=923003521238" class="whatsapp-float">
-    <!-- SVG Icon jo har device par laazmi chaly ga -->
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
-    </svg>
-    <span>Chat on WhatsApp</span>
-</a>
 
-    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+    <!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
+    <a href="https://wa.me" target="_blank" class="whatsapp-float">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
+        </svg>
+        <span>Chat on WhatsApp</span>
+    </a>
+
+    <!-- 🏷️ SPECIFIED MANDATORY STANDARD SIGNATURE FOOTER ELEMENT -->
+    <footer>
+        <p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p>
+    </footer>
+
     <script>
         let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
         const myWhatsAppNumber = "923003521238";
 
-        // URL context parameter auto-refresher trigger engine
         let currentUrlDiscount = new URLSearchParams(window.location.search).get('discount');
         setInterval(function() {
             let latestParam = new URLSearchParams(window.location.search).get('discount');
@@ -481,9 +475,8 @@
 
             const urlParams = new URLSearchParams(window.location.search);
             const discountType = urlParams.get('discount');
-            const mainTitleElement = document.querySelector('.main-title') || document.querySelector('h1');
+            const mainTitleElement = document.querySelector('.main-title');
 
-            // 🎯 IN-PAGE FILTERS ROW ACTIVE TABS STATE INITIALIZATION
             document.querySelectorAll('.filter-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
             if (!discountType) {
                 const tabAll = document.getElementById('tab_all');
@@ -493,7 +486,6 @@
                 if (activeTab) activeTab.classList.add('active-tab');
             }
 
-            // 🎯 ACCURATE HEADINGS MAPPING MAPPER ENGINE FOR EXPANDED SCALES
             let headingText = "🏷️ Season Clearance Sale"; 
             if (discountType === 'flat50') headingText = "Stitched Wear - Flat 50% OFF";
             if (discountType === 'flat40') headingText = "Stitched Wear - Flat 40% OFF";
@@ -568,7 +560,6 @@
 
                     const dbSubText = (p.subCategory || '').toLowerCase().trim().replace(/[\s\-_]+/g, '');
                     
-                    // 🎯 DYNAMIC AUTOMATED DISCOUNTS MATHEMATICAL CALCULATION LOGIC LAYERS
                     if (!p.salePrice || p.salePrice === 0) {
                         if (dbSubText === 'flat50' || dbSubText === 'unstitchedflat50') {
                             finalPrice = Math.round(originalPrice * 0.50);
@@ -585,12 +576,13 @@
 
                     const safeName = p.title ? p.title.replace(/'/g, "\\'") : (p.name ? p.name.replace(/'/g, "\\'") : "Sultan Sale Item"); 
                     
+                    // 🖼️ MULTI-IMAGES FORMAT COMMA SEPARATION FALLBACK PARSER (FIXED)
                     let productImgUrl = 'https://unsplash.com';
                     if (p.images) {
-                        productImgUrl = Array.isArray(p.images) ? p.images : p.images;
+                        const splitPics = typeof p.images === 'string' ? p.images.split(',') : p.images;
+                        productImgUrl = splitPics.trim();
                     }
 
-                    // 🎯 DYNAMIC EXTENDED PERCENTAGE ACCURATE STR STAMPS BADGES SYSTEM
                     let activeBadgeText = "SALE";
                     if (dbSubText === 'flat50' || dbSubText === 'unstitchedflat50') activeBadgeText = "50% OFF";
                     else if (dbSubText === 'flat40' || dbSubText === 'unstitchedflat40') activeBadgeText = "40% OFF";
@@ -599,7 +591,7 @@
                     else if (dbSubText.includes('clearance')) activeBadgeText = "CLEARANCE";
 
                     const lowerTitle = (p.title || p.name || '').toLowerCase();
-                    const isUnstitchedCloth = dbSubText.includes('unstitched') || dbSubText.includes('fabric') || lowerTitle.includes('unstitched') || lowerTitle.includes('fabric') || lowerTitle.includes('lawn') || lowerTitle.includes('cambric') || lowerTitle.includes('latha') && !lowerTitle.includes('stitched') || lowerTitle.includes('cotton') && !lowerTitle.includes('stitched') || lowerTitle.includes('wash & wear') || lowerTitle.includes('wash and wear');
+                    const isUnstitchedCloth = dbSubText.includes('unstitched') || dbSubText.includes('fabric') || lowerTitle.includes('unstitched') || lowerTitle.includes('fabric') || lowerTitle.includes('lawn') || lowerTitle.includes('cambric') || (lowerTitle.includes('latha') && !lowerTitle.includes('stitched')) || (lowerTitle.includes('cotton') && !lowerTitle.includes('stitched')) || lowerTitle.includes('wash & wear') || lowerTitle.includes('wash and wear');
 
                     let dynamicSizeSelectorHTML = "";
                     if (isUnstitchedCloth) {
@@ -634,8 +626,10 @@
 
                     card.innerHTML = `
                         <span style="position: absolute; top: 25px; left: 25px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 2px; letter-spacing: 0.5px; z-index: 10;">${activeBadgeText}</span>
-                        <img src="${productImgUrl}" class="product-image" onerror="this.src='https://unsplash.com'">
-                        <div class="product-name" style="font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4;">${p.title || p.name}</div>
+                        
+                        <!-- 🔗 INTERCONNECTED DIRECT LINKAGE PARALLEL ROUTING ENGINE MAPPED -->
+                        <img src="${productImgUrl}" class="product-image" onclick="window.location.href='product-detail.html?id=${p._id}'" onerror="this.src='https://unsplash.com'">
+                        <div class="product-name" onclick="window.location.href='product-detail.html?id=${p._id}'" style="font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4;">${p.title || p.name}</div>
                         
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 12px; width: 100%;">
                             <span class="product-price" style="color: #e74c3c; font-weight: 700; font-size: 16px; margin: 0;">Rs. ${finalPrice.toLocaleString()}</span>
@@ -655,8 +649,8 @@
                         <div class="action-box">
                             <button class="btn-style btn-cod" onclick="buyDirectAction('${safeName}', ${finalPrice}, 'cod', 'sizeSelect_${index}')">📦 COD Order</button>
                             <button class="btn-style btn-online" onclick="buyDirectAction('${safeName}', ${finalPrice}, 'online', 'sizeSelect_${index}')">💳 Pay Online</button>
-                            <button class="btn-style btn-wa" onclick="sendWhatsAppAction('${safeName}', ${finalPrice}, 'sizeSelect_${index}')">🟢 WhatsApp Order</button>
-                            <button class="btn-style btn-bag" onclick="addtoCartAction('${safeName}', ${finalPrice}, '${productImgUrl}', 'sizeSelect_${index}')">🛒 Add to Bag</button>
+                            <button class="btn-style btn-wa" onclick="sendWhatsAppAction('${safeName}', ${finalPrice}, 'sizeSelect_${index}', '${p._id}')">🟢 WhatsApp Order</button>
+                            <button class="btn-style btn-bag" onclick="addtoCartAction('${safeName}', ${finalPrice}, '${productImgUrl}', 'sizeSelect_${index}', '${p._id}')">🛒 Add to Bag</button>
                         </div>
                     `;
                     container.appendChild(card);
@@ -666,7 +660,8 @@
                 console.error('Sale wear dropdown server syncing error:', error);
             }
         }
-        // 📐 ACCURATE CHART TABLE VALUES MAPPING FROM SCREENSHOT 3 & 4
+
+        // 📐 ACCURATE CHART TABLE VALUES MAPPING FROM DASHBOARD VARIABLES
         function openSizeModal(encodedData) {
             const data = JSON.parse(decodeURIComponent(encodedData));
             const modal = document.getElementById('sizeGuideModal');
@@ -676,12 +671,10 @@
             const subtitle = document.getElementById('modalMeasurementsSub');
 
             if (!modal || !tableBody || !headerRow) return;
-
             tableBody.innerHTML = '';
             let tableHtml = '';
 
             if (data.isUnstitched) {
-                // Screenshot 4 Unstitched Table Mapping Layout
                 titleElement.innerText = "UNSTITCHED FABRIC CUTTING GUIDE";
                 subtitle.innerText = "*Sultan Premium unstitched loose bundles specs.*";
                 headerRow.innerHTML = `<th>FABRIC COMPONENT</th><th>CUTTING DIMENSION</th>`;
@@ -701,7 +694,6 @@
                     </tr>
                 `;
             } else {
-                // Screenshot 3 Stitched Table Mapping Layout
                 titleElement.innerText = "STITCHED GARMENTS SIZE GUIDE";
                 subtitle.innerText = "*Pakistani Flat Stitched Fitting Inches Dimensions.*";
                 headerRow.innerHTML = `<th>SIZE</th><th>CHEST WIDTH</th><th>SHIRT LENGTH</th><th>SHOULDER LINE</th>`;
@@ -719,7 +711,6 @@
                         `;
                     });
                 } else {
-                    // Standard Screenshot 3 Default Matrix Fallbacks
                     tableHtml = `
                         <tr><td>Small (S)</td><td>19.5"</td><td>38.0"</td><td>17.0"</td></tr>
                         <tr><td>Medium (M)</td><td>21.0"</td><td>40.0"</td><td>18.0"</td></tr>
@@ -743,7 +734,6 @@
             if (e.target === modal) modal.classList.remove('active');
         });
 
-        // 📐 REAL-TIME SECURE ORDER ACTION HANDLERS CAPTURING SELECTOR SIZE VALUE
         function buyDirectAction(name, price, method, dropdownId) {
             const dropdown = document.getElementById(dropdownId);
             const selectedSize = dropdown ? dropdown.value : "M";
@@ -756,20 +746,21 @@
             window.location.href = "order.html"; 
         }
 
-        function sendWhatsAppAction(name, price, dropdownId) {
+        function sendWhatsAppAction(name, price, dropdownId, prodId) {
             const dropdown = document.getElementById(dropdownId);
             const selectedSize = dropdown ? dropdown.value : "M";
+            const currentItemUrl = window.location.origin + "/product-detail.html?id=" + prodId;
 
-            let msg = "*--- SULTAN BRAND SALE SECTION ORDER ---*\n\n*Product:* " + name + "\n*Selected Size/Cutting:* " + selectedSize + "\n*Price:* Rs. " + price.toLocaleString();
+            let msg = "*--- SULTAN BRAND SALE SECTION ORDER ---*\n\n*Product:* " + name + "\n*Selected Size/Cutting:* " + selectedSize + "\n*Price:* Rs. " + price.toLocaleString() + "\n*Link:* " + currentItemUrl;
             let finalUrl = "https://wa.me/" + myWhatsAppNumber + "?text=" + encodeURIComponent(msg);
             window.open(finalUrl, '_blank', 'noopener,noreferrer');
         }
 
-        function addtoCartAction(name, price, img, dropdownId) {
+        function addtoCartAction(name, price, img, dropdownId, prodId) {
             const dropdown = document.getElementById(dropdownId);
             const selectedSize = dropdown ? dropdown.value : "M";
 
-            bag.push({ name: name, product_name: name, price: price, product_price: price, product_img: img, product_size: selectedSize, product_qty: 1 });
+            bag.push({ id: prodId, name: name, product_name: name, price: price, product_price: price, product_img: img, product_size: selectedSize, product_qty: 1 });
             localStorage.setItem('sultan_bag', JSON.stringify(bag));
             let countSpan = document.getElementById('bag-count');
             if(countSpan) countSpan.innerText = bag.length;
