@@ -508,9 +508,7 @@
             // If empty, inject luxury default fallback presentation reviews data matrix
             if (allClientReviewsArray.length === 0) {
                 allClientReviewsArray = [
-                    { id: "rev_1", name: "Ahmed Khan", rating: 5, comment: "Kapray ki quality bohot shaandar hai, loose bundle cutting bara arz hai. Fabric color exact luxury level hai!", reviewImg: "https://unsplash.com", reply: "Thank you Ahmed bhai for choosing Sultan Brand luxury clothing!", date: "2026-07-20" },
-                    { id: "rev_2", name: "Kamran Malik", rating: 5, comment: "Premium Latha stitched suit fitting outstanding hai. Tailoring design accurate Pakistani luxury fit.", reviewImg: "", reply: "", date: "2026-07-24" }
-                ];
+                    
                 localStorage.setItem("sultan_client_reviews", JSON.stringify(allClientReviewsArray));
             }
 
