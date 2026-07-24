@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sultan Brand | Premium Unstitched Fabrics</title>
     <!-- Stable Google Fonts & FontAwesome CDN Links Loaded -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="https://googleapis.com" rel="preconnect">
+    <link href="https://gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
 
     <style>
@@ -100,7 +102,6 @@
             display: block;
             letter-spacing: 1px;
         }
-
         /* 🆕 MATCHED IN-PAGE COHESIVE CO-TAB NAVIGATION SYSTEM BAR */
         .sale-filter-tabs-row {
             display: flex;
@@ -153,8 +154,9 @@
             width: 100%;
         }
         .product-card:hover { transform: translateY(-8px); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
-        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #eee; border-radius: 2px; }
-        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4; }
+        .product-image { width: 100%; height: 350px; object-fit: cover; background-color: #eee; border-radius: 2px; cursor: pointer; }
+        .product-name { font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4; cursor: pointer; }
+        .product-name:hover { color: #c5a059; text-decoration: underline; }
         
         .size-select-dropdown {
             width: 100%;
@@ -169,7 +171,6 @@
             outline: none;
             cursor: pointer;
         }
-
         .product-price { color: #c5a059; font-weight: 600; margin-bottom: 12px; font-size: 16px; }
         .old-price { text-decoration: line-through; color: #999; font-size: 13px; font-weight: 400; margin-right: 6px; }
         
@@ -192,8 +193,7 @@
             background-color: #ffffff; width: 92%; max-width: 650px;
             padding: 35px; border-radius: 0px; position: relative;
             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            text-align: center;
-            border-top: 5px solid #c5a059;
+            text-align: center; border-top: 5px solid #c5a059;
         }
         .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #888; transition: color 0.2s; }
         .close-modal:hover { color: #111; }
@@ -261,7 +261,6 @@
                         <li><a href="Unstitched.html?type=egyptian">Egyptian Cotton</a></li>
                     </ul>
                 </li>
-
                 <!-- 3. READY TO WEAR DROPDOWN -->
                 <li>
                     <a href="ReadyToWear.html">👔 Ready To Wear <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
@@ -290,7 +289,7 @@
                     </ul>
                 </li>
 
-                <!-- 5. SALE DROPDOWN (💯 MATCHED SINGLE DROPDOWN MATRIX WITH ALL PERCENTAGES LINE-BY-LINE) -->
+                <!-- 5. SALE DROPDOWN -->
                 <li>
                     <a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale <i class="fa-solid fa-chevron-down" style="font-size: 8px; color:#e74c3c;"></i></a>
                     <ul class="clean-dropdown">
@@ -298,13 +297,10 @@
                         <li><a href="Sale.html?discount=flat40">FLAT 40% OFF</a></li>
                         <li><a href="Sale.html?discount=flat30">FLAT 30% OFF</a></li>
                         <li><a href="Sale.html?discount=flat20">FLAT 20% OFF</a></li>
-                        
-                        <!-- 🆕 Line-by-Line Unstitched Sale dropdown matrix links -->
                         <li><a href="Sale.html?discount=unstitched_flat50" style="color:#e74c3c;">✂️ UNSTITCHED 50% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat40">✂️ UNSTITCHED 40% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat30">✂️ UNSTITCHED 30% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat20">✂️ UNSTITCHED 20% OFF</a></li>
-                        
                         <li><a href="Sale.html?discount=clearance">CLEARANCE SALE</a></li>
                     </ul>
                 </li>
@@ -317,7 +313,6 @@
     <main class="container">
         <h1 class="main-title">Premium Unstitched Fabrics</h1>
         
-        <!-- 🆕 MATCHED IN-PAGE COHESIVE CO-TAB SYSTEM BAR REFLECTING DROP DOWN CONFIGS -->
         <div class="sale-filter-tabs-row">
             <a href="Unstitched.html" class="filter-tab-btn" id="tab_all">Show All Fabrics</a>
             <a href="Unstitched.html?type=1piece" class="filter-tab-btn" id="tab_1piece">1 Piece Kurta</a>
@@ -326,11 +321,8 @@
             <a href="Unstitched.html?type=egyptian" class="filter-tab-btn" id="tab_egyptian">Egyptian Cotton</a>
         </div>
 
-        <div class="product-grid" id="unstitchedGrid">
-            <!-- Dynamic data output block via JavaScript node loader stream -->
-        </div>
+        <div class="product-grid" id="unstitchedGrid"></div>
     </main>
-
     <!-- 📐 REUSABLE PREMIUM UNSTITCHED & STITCHED HYBRID MODAL BOX -->
     <div class="size-modal" id="sizeGuideModal">
         <div class="size-modal-content">
@@ -341,54 +333,48 @@
             <div class="size-table-container">
                 <table class="size-table">
                     <thead>
-                        <tr id="sizeTableHeaderRow">
-                            <!-- Header injection inside PART 5 -->
-                        </tr>
+                        <tr id="sizeTableHeaderRow"></tr>
                     </thead>
-                    <tbody id="sizeTableBody">
-                    </tbody>
+                    <tbody id="sizeTableBody"></tbody>
                 </table>
             </div>
             <button class="modal-thanks-btn" onclick="closeSizeModal()">Got It, Thanks</button>
         </div>
     </div>
-<!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
-<a href="whatsapp://send?phone=923003521238" class="whatsapp-float">
-    <!-- SVG Icon jo har device par laazmi chaly ga -->
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
+
+    <!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
+    <a href="https://wa.me" target="_blank" class="whatsapp-float">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
     </svg>
     <span>Chat on WhatsApp</span>
 </a>
 
-    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+    <!-- 🏷️ SPECIFIED MANDATORY STANDARD SIGNATURE FOOTER ELEMENT -->
+    <footer>
+        <p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p>
+    </footer>
+
     <script>
         let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
         const myWhatsAppNumber = "923003521238";
 
-        function toggleMobileMenu() {
-            const navMenu = document.querySelector('nav');
-            if(navMenu) navMenu.classList.toggle('active');
-        }
-
-                window.addEventListener('DOMContentLoaded', function() {
+        window.addEventListener('DOMContentLoaded', function() {
             let countSpan = document.getElementById('bag-count');
             if(countSpan) countSpan.innerText = bag.length;
 
             const urlParams = new URLSearchParams(window.location.search);
             const fabricType = urlParams.get('type') || 'all';
-            const mainTitleElement = document.querySelector('.main-title') || document.querySelector('h1');
+            const mainTitleElement = document.querySelector('.main-title');
 
-            // 🎯 IN-PAGE FILTERS ROW ACTIVE TABS STATE INITIALIZATION
             document.querySelectorAll('.filter-tab-btn').forEach(btn => btn.classList.remove('active-tab'));
             const activeTab = document.getElementById('tab_' + fabricType);
             if (activeTab) activeTab.classList.add('active-tab');
 
-            // 🎯 FIXED DYNAMIC HEADING MAPPER ENGINE: Instantly swaps titles based on clicked sub-category tab
-            let headingText = "✂️ Unstitched "; 
+            let headingText = "✂️ Unstitched Fabrics"; 
             if (fabricType === '1piece') headingText = "1 Piece Kurta Fabrics";
             if (fabricType === '2piece') headingText = "2 Piece Suits Collection";
-            if (fabricType === '3piece') headingText = "3 Piece Suits";
+            if (fabricType === '3piece') headingText = "3 Piece Luxury Lawn";
             if (fabricType === 'egyptian') headingText = "Egyptian Cotton";
 
             if (mainTitleElement) {
@@ -421,7 +407,6 @@
                 if(!container) return;
                 container.innerHTML = ''; 
 
-                // Filter 1: Extract core collections belonging to fresh Unstitched category channel
                 let fabricItems = products.filter(p => p.category === 'Unstitched');
 
                 if (urlType) {
@@ -439,7 +424,7 @@
                 }
 
                 if(fabricItems.length === 0) {
-                    container.innerHTML = '<p style="text-align:center; width:100%; font-size:18px; color: #888; padding: 40px 0; font-family:sans-serif;">No unstitched items published in this category yet.</p>';
+                    container.innerHTML = '<p style="text-align:center; width:100%; font-size:18px; color: #888; padding: 40px 0;">No unstitched items published in this category yet.</p>';
                     return;
                 }
 
@@ -448,7 +433,13 @@
                     let finalPrice = p.salePrice && p.salePrice > 0 ? p.salePrice : p.price;
 
                     const safeName = p.title ? p.title.replace(/'/g, "\\'") : (p.name ? p.name.replace(/'/g, "\\'") : "Sultan Unstitched Fabric"); 
-                    let productImgUrl = p.images || 'https://unsplash.com';
+                    
+                    // 🖼️ MULTI-IMAGES FORMAT COMMA SEPARATION FALLBACK (FIXED)
+                    let productImgUrl = 'https://unsplash.com';
+                    if (p.images) {
+                        const splitPics = typeof p.images === 'string' ? p.images.split(',') : p.images;
+                        productImgUrl = splitPics[0].trim();
+                    }
 
                     const sizePayload = encodeURIComponent(JSON.stringify({
                         title: p.title || p.name || 'Sultan Fabric',
@@ -462,15 +453,16 @@
 
                     card.innerHTML = `
                         ${p.isSale ? `<span style="position: absolute; top: 25px; left: 25px; background: #e74c3c; color: #fff; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 2px; letter-spacing: 0.5px; z-index: 10;">SALE</span>` : ''}
-                        <img src="${productImgUrl}" class="product-image" onerror="this.src='https://unsplash.com'">
-                        <div class="product-name" style="font-size: 14px; margin: 12px 0 6px; font-weight: 500; height: 40px; overflow: hidden; color: #333; line-height: 1.4;">${p.title || p.name}</div>
+                        
+                        <!-- 🔗 PARAMETERIZED CLICK CHANNELS MAPPED BELOW -->
+                        <img src="${productImgUrl}" class="product-image" onclick="window.location.href='product-detail.html?id=${p._id}'" onerror="this.src='https://unsplash.com'">
+                        <div class="product-name" onclick="window.location.href='product-detail.html?id=${p._id}'">${p.title || p.name}</div>
                         
                         <div style="display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 12px; width: 100%;">
                             <span class="product-price" style="color: #c5a059; font-weight: 700; font-size: 16px; margin: 0;">Rs. ${finalPrice.toLocaleString()}</span>
                             ${p.isSale && originalPrice && originalPrice > finalPrice ? `<span class="old-price" style="color: #999; font-size: 13px; text-decoration: line-through; font-weight: 500; margin: 0;">Rs. ${originalPrice.toLocaleString()}</span>` : ''}
                         </div>
                         
-                        <!-- 📐 DROP DOWN SPECIFICALLY CUSTOMISED FOR UNSTITCHED FABRIC CUTTING OPTIONS -->
                         <div style="margin: 5px 0 10px 0; text-align: left; width: 100%;">
                             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
                                 <label style="font-size: 10px; font-weight:700; text-transform:uppercase; color:#555; letter-spacing:0.3px;">SELECT CUTTING:</label>
@@ -488,8 +480,8 @@
                         <div class="action-box">
                             <button class="btn-style btn-cod" onclick="buyDirectAction('${safeName}', ${finalPrice}, 'cod', 'sizeSelect_${index}')">📦 COD Order</button>
                             <button class="btn-style btn-online" onclick="buyDirectAction('${safeName}', ${finalPrice}, 'online', 'sizeSelect_${index}')">💳 Pay Online</button>
-                            <button class="btn-style btn-wa" onclick="sendWhatsAppAction('${safeName}', ${finalPrice}, 'sizeSelect_${index}')">🟢 WhatsApp Order</button>
-                            <button class="btn-style btn-bag" onclick="addtoCartAction('${safeName}', ${finalPrice}, '${productImgUrl}', 'sizeSelect_${index}')">🛒 Add to Bag</button>
+                            <button class="btn-style btn-wa" onclick="sendWhatsAppAction('${safeName}', ${finalPrice}, 'sizeSelect_${index}', '${p._id}')">🟢 WhatsApp Order</button>
+                            <button class="btn-style btn-bag" onclick="addtoCartAction('${safeName}', ${finalPrice}, '${productImgUrl}', 'sizeSelect_${index}', '${p._id}')">🛒 Add to Bag</button>
                         </div>
                     `;
                     container.appendChild(card);
@@ -499,7 +491,8 @@
                 console.error('Unstitched section server fetching stream failure:', error);
             }
         }
-        // 📐 ACCURATE CHART TABLE VALUES MAPPING FROM SCREENSHOT 4
+
+        // 📐 ACCURATE CHART TABLE VALUES MAPPING FROM DASHBOARD VARIABLES
         function openSizeModal(encodedData) {
             const data = JSON.parse(decodeURIComponent(encodedData));
             const modal = document.getElementById('sizeGuideModal');
@@ -509,16 +502,13 @@
             const subtitle = document.getElementById('modalMeasurementsSub');
 
             if (!modal || !tableBody || !headerRow) return;
-
             tableBody.innerHTML = '';
-            let tableHtml = '';
-
-            // Force layout specifications to standard Screenshot 4 loose materials matrix
+            
             titleElement.innerText = "UNSTITCHED FABRIC CUTTING GUIDE";
             subtitle.innerText = "*Sultan Premium unstitched loose bundles specs.*";
             headerRow.innerHTML = `<th>FABRIC COMPONENT</th><th>CUTTING DIMENSION</th>`;
             
-            tableHtml = `
+            let tableHtml = `
                 <tr>
                     <td style="color: #b08d49; font-weight:700;">Standard Suit Cutting (Full Suit)</td>
                     <td style="font-weight:600;">4.5 Meters Full Size Bundle (Bara Arz: 54"-56")</td>
@@ -536,7 +526,6 @@
             tableBody.innerHTML = tableHtml;
             modal.classList.add('active');
         }
-
         function closeSizeModal() {
             const modal = document.getElementById('sizeGuideModal');
             if (modal) modal.classList.remove('active');
@@ -560,20 +549,21 @@
             window.location.href = "order.html"; 
         }
 
-        function sendWhatsAppAction(name, price, dropdownId) {
+        function sendWhatsAppAction(name, price, dropdownId, prodId) {
             const dropdown = document.getElementById(dropdownId);
             const selectedSize = dropdown ? dropdown.value : "Standard Cutting (4.5 Meters)";
+            const currentItemUrl = window.location.origin + "/product-detail.html?id=" + prodId;
 
-            let msg = "*--- SULTAN BRAND UNSTITCHED FABRIC ORDER ---*\n\n*Product:* " + name + "\n*Selected Cutting:* " + selectedSize + "\n*Price:* Rs. " + price.toLocaleString();
+            let msg = "*--- SULTAN BRAND UNSTITCHED FABRIC ORDER ---*\n\n*Product:* " + name + "\n*Selected Cutting:* " + selectedSize + "\n*Price:* Rs. " + price.toLocaleString() + "\n*Link:* " + currentItemUrl;
             let finalUrl = "https://wa.me/" + myWhatsAppNumber + "?text=" + encodeURIComponent(msg);
             window.open(finalUrl, '_blank', 'noopener,noreferrer');
         }
 
-        function addtoCartAction(name, price, img, dropdownId) {
+        function addtoCartAction(name, price, img, dropdownId, prodId) {
             const dropdown = document.getElementById(dropdownId);
             const selectedSize = dropdown ? dropdown.value : "Standard Cutting (4.5 Meters)";
 
-            bag.push({ name: name, product_name: name, price: price, product_price: price, product_img: img, product_size: selectedSize, product_qty: 1 });
+            bag.push({ id: prodId, name: name, product_name: name, price: price, product_price: price, product_img: img, product_size: selectedSize, product_qty: 1 });
             localStorage.setItem('sultan_bag', JSON.stringify(bag));
             
             let countSpan = document.getElementById('bag-count');
