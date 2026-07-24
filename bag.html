@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sultan Brand | Luxury Shopping Bag</title>
     <!-- Stable Fonts & FontAwesome Libraries -->
-    <link href="https://googleapis.com" rel="stylesheet">
+    <link href="https://googleapis.com" rel="preconnect">
+    <link href="https://gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
 
     <style>
@@ -33,11 +35,14 @@
             letter-spacing: 2px; 
             color: #111111; 
             text-decoration: none;
+            transition: all 0.3s ease;
         }
+        .logo:hover { color: #c5a059; }
 
         nav ul { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; } 
         nav ul li { margin: 0 15px; position: relative; padding: 15px 0; }
-        nav ul li a { text-decoration: none; color: #555555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        nav ul li a { text-decoration: none; color: #555555; font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; transition: color 0.2s; }
+        nav ul li a:hover { color: #c5a059; }
         
         .bag-count-badge {
             position: absolute; top: 5px; right: -15px;
@@ -51,13 +56,13 @@
 
         .clean-dropdown {
             position: absolute; top: 100%; left: 0; background-color: #ffffff; min-width: 220px;
-            box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08); display: none; z-index: 2000; padding: 10px 0;
+            box-shadow: 0px 8px 24 rgba(0, 0, 0, 0.08); display: none; z-index: 2000; padding: 10px 0;
             border-top: 2px solid #c5a059;
         }
         nav ul li:hover .clean-dropdown { display: block; }
         .clean-dropdown li { padding: 0; margin: 0; width: 100%; }
-        .clean-dropdown li a { padding: 10px 20px; color: #666666; font-size: 11px; display: block; text-transform: uppercase; border-bottom: 1px solid #f9f9f9; text-decoration: none; }
-        .clean-dropdown li a:hover { background-color: #faf7f4; color: #c5a059; }
+        .clean-dropdown li a { padding: 10px 20px; color: #666666; font-size: 11px; display: block; text-transform: uppercase; border-bottom: 1px solid #f9f9f9; text-decoration: none; transition: all 0.2s; }
+        .clean-dropdown li a:hover { background-color: #faf7f4; color: #c5a059; padding-left: 25px; }
 
         /* Main Grid Area Wrapper Container with Hidden Scrolling Boundary */
         .bag-container { 
@@ -65,7 +70,6 @@
             display: grid; grid-template-columns: 2fr 1fr; gap: 30px; 
             flex: 1; overflow: hidden; 
         }
-        
         /* Internal Scrollable Product Box Window Section Frame */
         .bag-items-box { 
             background: #ffffff; border: 1px solid #f0eae4; border-radius: 4px; padding: 25px; 
@@ -86,7 +90,6 @@
         .bag-item { display: flex; align-items: center; gap: 20px; padding: 25px 0; border-bottom: 1px solid #f0eae4; position: relative; }
         .bag-item:last-child { border-bottom: none; }
         
-        /* Fixed image parameters to layout elements safely */
         .item-img { width: 100px; height: 135px; object-fit: cover; border: 1px solid #f0eae4; background: #fbfbfb; display: block; flex-shrink: 0; }
         .item-details { flex: 1; }
         .item-name { font-family: 'Playfair Display', serif; font-size: 17px; font-weight: 700; color: #111111; margin-bottom: 5px; }
@@ -114,31 +117,12 @@
 
         /* 🟢 WHATSAPP FLOATING BUTTON (TEXT AND ALIGNMENT 100% FIXED) */
         .whatsapp-float {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background-color: #25d366;
-            color: #fff !important;
-            padding: 12px 22px;
-            font-size: 13px;
-            font-weight: 700;
-            border-radius: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0px 5px 20px rgba(0,0,0,0.15);
-            z-index: 9999;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-            text-decoration: none !important;
-            white-space: nowrap;
-            height: auto;
-            width: auto;
+            position: fixed; bottom: 25px; right: 25px; background-color: #25d366; color: #fff !important; padding: 12px 22px; font-size: 13px; font-weight: 700; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0px 5px 20px rgba(0,0,0,0.15); z-index: 9999; transition: transform 0.3s ease, background-color 0.3s ease; text-decoration: none !important; white-space: nowrap; height: auto; width: auto;
         }
         .whatsapp-float i { font-size: 18px; }
         .whatsapp-float:hover { transform: scale(1.05); background-color: #1ebd58; }
 
-        footer { background-color: #111111; color: #767676; text-align: center; padding: 15px 20px; font-size: 12px; flex-shrink: 0; width: 100%; }
+        footer { background-color: #111111; color: #767676; text-align: center; padding: 15px 20px; font-size: 12px; flex-shrink: 0; width: 100%; border-top: 3px solid #c5a059; }
         .menu-toggle { display: none; }
 
         /* 📱 RESPONSIVE MOBILE ACCORDION SIDE MENU OVERWRITE */
@@ -148,20 +132,9 @@
             .bag-items-box { overflow: visible; height: auto; }
             #bagItemsList { overflow: visible; }
             
-            header { 
-                padding: 15px 5%; 
-                flex-direction: row !important; 
-                justify-content: space-between; 
-                position: relative; 
-            }
+            header { padding: 15px 5%; flex-direction: row !important; justify-content: space-between; position: relative; }
             .logo { font-size: 28px; }
-            .menu-toggle { 
-                display: block !important; 
-                font-size: 24px; 
-                cursor: pointer; 
-                color: #111111; 
-                z-index: 3000; 
-            }
+            .menu-toggle { display: block !important; font-size: 24px; cursor: pointer; color: #111111; z-index: 3000; }
 
             nav {
                 position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background-color: #ffffff;
@@ -192,7 +165,6 @@
 <body>
 
     <header>  
-        
         <a href="index.html" class="logo">Sultan Brand</a>
         <div class="menu-toggle" onclick="toggleMobileMenu()">☰</div>
 
@@ -255,13 +227,10 @@
                         <li><a href="Sale.html?discount=flat40">FLAT 40% OFF</a></li>
                         <li><a href="Sale.html?discount=flat30">FLAT 30% OFF</a></li>
                         <li><a href="Sale.html?discount=flat20">FLAT 20% OFF</a></li>
-                        
-                        <!-- 🆕 Line-by-Line Unstitched Sale dropdown matrix links -->
                         <li><a href="Sale.html?discount=unstitched_flat50" style="color:#e74c3c;">✂️ UNSTITCHED 50% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat40">✂️ UNSTITCHED 40% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat30">✂️ UNSTITCHED 30% OFF</a></li>
                         <li><a href="Sale.html?discount=unstitched_flat20">✂️ UNSTITCHED 20% OFF</a></li>
-                        
                         <li><a href="Sale.html?discount=clearance">CLEARANCE SALE</a></li>
                     </ul>
                 </li>
@@ -299,16 +268,19 @@
             <button class="checkout-btn" onclick="proceedToCheckout()">Proceed To Checkout</button>
         </div>
     </div>
-<!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
-<a href="whatsapp://send?phone=923003521238" class="whatsapp-float">
-    <!-- SVG Icon jo har device par laazmi chaly ga -->
-    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
-        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
-    </svg>
-    <span>Chat on WhatsApp</span>
-</a>
 
-    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+    <!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
+    <a href="https://wa.me" target="_blank" class="whatsapp-float">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
+        </svg>
+        <span>Chat on WhatsApp</span>
+    </a>
+
+    <!-- 🏷️ SPECIFIED MANDATORY STANDARD SIGNATURE FOOTER ELEMENT -->
+    <footer>
+        <p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p>
+    </footer>
     <script>
         // LocalStorage se data array structural format mein load karna
         let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
@@ -333,7 +305,6 @@
         }
 
         window.addEventListener('DOMContentLoaded', function() {
-            // Inject Split Buttons right under the summary title
             const summaryTitle = document.querySelector('.summary-title');
             if (summaryTitle) {
                 const buttonGroupHTML = `
@@ -363,7 +334,8 @@
             buttonElement.style.borderColor = "#c5a059";
             selectedCheckoutMethod = method;
         }
-                // ✅ FIXED DESCRIPTION RENDERING LOOP ENGINE
+
+        // ✅ FIXED DESCRIPTION RENDERING LOOP ENGINE WITH MULTI-IMAGE COMMA SPLITTING
         function renderBagItems() {
             const listContainer = document.getElementById('bagItemsList');
             if(document.getElementById('navBagCount')) {
@@ -385,13 +357,18 @@
             bag.forEach((item, index) => {
                 const itemName = item.product_name || item.name || "Sultan Luxury Article";
                 const itemPrice = parseInt(item.product_price || item.price || 0);
-                const itemImg = item.product_img || item.img || "";
                 const itemSize = item.product_size || "M"; 
                 const itemQty = parseInt(item.product_qty || item.qty || 1);
                 const itemMeasure = item.product_measurement || "None";
-                
-                // ✅ DASHBOARD DESCRIPTION EXTRACTOR (FALLBACK FIXED)
-                const itemDesc = item.description || item.product_desc || "Premium luxury stitched fabric details.";
+                const itemDesc = item.description || item.product_desc || "Premium luxury fabric details.";
+
+                // 🖼️ MULTI-IMAGES FORMAT COMMA SEPARATION FALLBACK PARSER (FIXED)
+                let itemImg = 'https://unsplash.com';
+                if (item.product_img || item.img) {
+                    const srcPics = item.product_img || item.img || "";
+                    const splitPics = typeof srcPics === 'string' ? srcPics.split(',') : srcPics;
+                    itemImg = splitPics[0].trim();
+                }
 
                 let genderKey = '_women';
                 if (itemImg.includes('Dress4.jpg') || itemImg.includes('Dress5.jpg') || itemImg.includes('Dress6.jpg') || itemName.toLowerCase().includes('men')) {
@@ -399,13 +376,17 @@
                 }
 
                 let sizingDisplayHTML = "";
-                if (itemSize === "Custom") {
+                const lowerName = itemName.toLowerCase();
+                const isUnstitchedCloth = lowerName.includes('unstitched') || lowerName.includes('fabric') || lowerName.includes('lawn') || lowerName.includes('cambric') || lowerName.includes('cotton') || lowerName.includes('latha') || lowerName.includes('cutting') || itemSize.includes('Meters') || itemSize.includes('Cutting');
+
+                if (isUnstitchedCloth) {
+                    sizingDisplayHTML = `<div class="chart-box-wrapper" style="background:#fffcf5; border-left:3px solid #c5a059; color:#b08d49;">✂️ <b>Fabric Cutting:</b> ${itemSize}</div>`;
+                } else if (itemSize === "Custom" || itemSize.includes('Tailored')) {
                     sizingDisplayHTML = `<div class="chart-box-wrapper" style="background:#fffcf5; border-left:3px solid #e74c3c; color:#cc3333;">📐 <b>Custom Dimensions:</b> ${itemMeasure}</div>`;
                 } else {
                     const measurementText = sizeCharts[itemSize + genderKey] || sizeCharts['M_women'];
                     sizingDisplayHTML = `<div class="chart-box-wrapper">📐 ${measurementText}</div>`;
                 }
-
                 htmlContent += `
                     <div class="bag-item">
                         <img src="${itemImg}" class="item-img" alt="${itemName}" onerror="this.src='https://unsplash.com'">
@@ -418,13 +399,21 @@
 
                             <div class="item-meta-selectors">
                                 <div style="display: flex; flex-direction: column; gap: 4px; min-width: 180px;">
-                                    <select class="meta-select" onchange="updateItemSize(${index}, this.value)">
-                                        <option value="S" ${itemSize === 'S' ? 'selected' : ''}>Size: S</option>
-                                        <option value="M" ${itemSize === 'M' ? 'selected' : ''}>Size: M</option>
-                                        <option value="L" ${itemSize === 'L' ? 'selected' : ''}>Size: L</option>
-                                        <option value="XL" ${itemSize === 'XL' ? 'selected' : ''}>Size: XL</option>
-                                        <option value="Custom" ${itemSize === 'Custom' ? 'selected' : ''}>Size: Custom Fit</option>
-                                    </select>
+                                    ${isUnstitchedCloth ? `
+                                        <select class="meta-select" onchange="updateItemSize(${index}, this.value)">
+                                            <option value="Standard Cutting (4.5 Meters)" ${itemSize.includes('4.5') ? 'selected' : ''}>Standard Cutting (4.5 Meters)</option>
+                                            <option value="Extra Cutting (5.0 Meters)" ${itemSize.includes('5.0') ? 'selected' : ''}>Extra Cutting (5.0 Meters)</option>
+                                            <option value="Kurta Cutting Only (2.5 Meters)" ${itemSize.includes('2.5') ? 'selected' : ''}>Kurta Cutting Only (2.5 Meters)</option>
+                                        </select>
+                                    ` : `
+                                        <select class="meta-select" onchange="updateItemSize(${index}, this.value)">
+                                            <option value="S" ${itemSize === 'S' || itemSize.includes('(S)') ? 'selected' : ''}>Size: S</option>
+                                            <option value="M" ${itemSize === 'M' || itemSize.includes('(M)') ? 'selected' : ''}>Size: M</option>
+                                            <option value="L" ${itemSize === 'L' || itemSize.includes('(L)') ? 'selected' : ''}>Size: L</option>
+                                            <option value="XL" ${itemSize === 'XL' || itemSize.includes('(XL)') ? 'selected' : ''}>Size: XL</option>
+                                            <option value="Custom" ${itemSize === 'Custom' || itemSize.includes('Tailored') ? 'selected' : ''}>Size: Custom Fit</option>
+                                        </select>
+                                    `}
                                     ${sizingDisplayHTML}
                                 </div>
                                 <div style="display: flex; align-items: center; gap: 8px;">
@@ -452,9 +441,10 @@
                 });
             });
         }
+
         function updateItemSize(index, newSize) {
             bag[index].product_size = newSize;
-            if (newSize === "Custom" && (!bag[index].product_measurement || bag[index].product_measurement === "None")) {
+            if ((newSize === "Custom" || newSize.includes('Tailored')) && (!bag[index].product_measurement || bag[index].product_measurement === "None")) {
                 let measurementsInput = prompt("Sultan Tailoring Custom Fit Profile:\n\nKindly enter body dimensions (e.g. Chest: 21, Length: 40, Sleeves: 24):");
                 bag[index].product_measurement = (measurementsInput && measurementsInput.trim() !== "") ? measurementsInput.trim() : "Standard Fitting Custom Needed";
             }
@@ -470,7 +460,7 @@
             
             let total = 0;
             bag.forEach(item => {
-                const qty = parseInt(item.product_qty || 1);
+                const qty = parseInt(item.product_qty || item.qty || 1);
                 const price = parseInt(item.product_price || item.price || 0);
                 total += price * qty;
             });
@@ -518,8 +508,8 @@
                 const qty = item.product_qty || 1;
                 const measure = item.product_measurement || "None";
                 
-                if (size === "Custom" && measure !== "None" && measure !== "") {
-                    return `${name} (Size: ${size} [Fits: ${measure}] x${qty})`;
+                if ((size === "Custom" || size.includes('Tailored')) && measure !== "None" && measure !== "") {
+                    return `${name} (Size: Custom Fit [Fits: ${measure}] x${qty})`;
                 }
                 return `${name} (Size: ${size} x${qty})`;
             }).join(' + ');
