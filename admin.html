@@ -3,75 +3,194 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sultan Brand - Admin Login</title>
-    <!-- Font Awesome Link Code for Password View Eye Icon -->
+    <title>Sultan Brand | Admin Access Terminal</title>
+    <!-- Stable Google Fonts & FontAwesome CDN Links Loaded for Eye Icon -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
+
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .login-card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 350px; text-align: center; }
-        h2 { margin-bottom: 20px; color: #333; font-family: 'Cinzel', serif; letter-spacing: 1px; }
-        .input-group { position: relative; width: 100%; margin: 10px 0; }
-        input { width: 90%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; font-size: 15px; outline: none; }
-        input:focus { border-color: #222; }
-        .eye-icon { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #666; font-size: 16px; }
-        button { width: 97%; padding: 12px; background-color: #222; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s; }
-        button:hover { background-color: #444; }
-        .error-msg { color: red; font-size: 14px; margin-top: 10px; display: none; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        body { background-color: #faf7f4; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; position: relative; }
+        
+        .login-card { background: #ffffff; padding: 40px 30px; width: 100%; max-width: 420px; border-radius: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); text-align: center; border-top: 5px solid #c5a059; position: relative; margin-bottom: 60px; }
+        .login-logo { font-size: 28px; font-weight: 700; color: #111; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+        .login-subtitle { font-size: 12px; color: #666; margin-bottom: 30px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .form-group { margin-bottom: 20px; text-align: left; position: relative; }
+        label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #333; margin-bottom: 8px; letter-spacing: 0.3px; }
+        
+        .input-control { width: 100%; padding: 14px 15px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-weight: 600; background: #fff; outline: none; transition: border-color 0.2s; color: #222; }
+        .input-control:focus { border-color: #c5a059; }
+        
+        /* 👁️ INPUT BOX PASS EYE RIGS POSITIONING */
+        .password-container { position: relative; width: 100%; }
+        .password-container .input-control { padding-right: 45px; } 
+        .password-toggle-eye { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: #888; cursor: pointer; font-size: 16px; transition: color 0.2s; user-select: none; -webkit-user-select: none; }
+        .password-toggle-eye:hover { color: #c5a059; }
+        
+        .btn-login { width: 100%; padding: 15px; background: #111111; color: #fff; border: none; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; margin-top: 10px; }
+        .btn-login:hover { background: #c5a059; }
+
+        /* 🔗 FORGOT PASSWORD LINK STYLING */
+        .forgot-link-container { text-align: right; margin-top: 12px; margin-bottom: 10px; }
+        .forgot-link { color: #c5a059; text-decoration: none; font-size: 12px; font-weight: 600; transition: color 0.2s; }
+        .forgot-link:hover { color: #111; text-decoration: underline; }
+
+        /* 📦 MODAL POPUP BACKGROUND OVERLAY */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; transition: all 0.3s; }
+        .modal-content { background: #ffffff; padding: 35px 25px; width: 100%; max-width: 380px; border-radius: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center; border-top: 4px solid #111; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .modal-title { font-size: 18px; font-weight: 700; color: #111; margin-bottom: 8px; text-transform: uppercase; }
+        .modal-desc { font-size: 12px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+        
+        .btn-modal-verify { width: 100%; padding: 13px; background: #111; color: #fff; border: none; border-radius: 4px; font-size: 12px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .btn-modal-verify:hover { background: #c5a059; }
+        .btn-modal-close { background: transparent; color: #888; border: none; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: underline; }
+        .btn-modal-close:hover { color: #be1e2d; }
+        
+        .result-box { margin-top: 15px; font-size: 13px; font-weight: 700; padding: 10px; border-radius: 4px; display: none; }
+        .result-success { background: #e6f4ea; color: #137333; display: block; border: 1px solid #ceead6; }
+        .result-error { background: #fce8e6; color: #c5221f; display: block; border: 1px solid #fad2cf; }
+
+        /* 🏷️ GLOBAL MANDATORY FOOTER STYLING */
+        footer { position: absolute; bottom: 15px; width: 100%; text-align: center; padding: 10px 0; }
+        footer p { font-size: 12px; color: #777; font-weight: 600; letter-spacing: 0.5px; }
     </style>
 </head>
 <body>
 
-<div class="login-card">
-    <h2>Sultan Brand Admin</h2>
-    
-    <!-- 🔑 Standard Form Element to Enable Native Enter Key Submission -->
-    <form id="adminLoginForm" onsubmit="loginEngine(event)">
-        <div class="input-group">
-            <input type="text" id="username" placeholder="Username" required autocomplete="off">
-        </div>
-        <div class="input-group">
-            <input type="password" id="password" placeholder="Password" required>
-            <i class="fas fa-eye eye-icon" id="togglePassword" onclick="togglePasswordEngine()"></i>
-        </div>
-        <!-- type="submit" ensures keyboard Enter key submits the form -->
-        <button type="submit">Secure Login</button>
-    </form>
-    
-    <p class="error-msg" id="error">Invalid Credentials! Access Denied.</p>
-</div>
+    <div class="login-card">
+        <h2 class="login-logo">Sultan Access</h2>
+        <span class="login-subtitle">Secure Admin Gateway Panel</span>
+        
+        <form id="adminLoginForm" onsubmit="executeAdminLoginVerification(event)">
+            <div class="form-group">
+                <label>Admin Username</label>
+                <input type="text" id="adminUser" class="input-control" placeholder="Enter Username" required autocomplete="username">
+            </div>
+            
+            <div class="form-group">
+                <label>Access Password</label>
+                <div class="password-container">
+                    <input type="password" id="adminPass" class="input-control" placeholder="Enter Password" required autocomplete="current-password">
+                    <i class="fa-solid fa-eye password-toggle-eye" id="toggleEyeIcon" onclick="toggleLoginPasswordVisibility()"></i>
+                </div>
+            </div>
 
-<script>
-    // 👁️ 1. Password View / Hide Toggle Engine Function
-    function togglePasswordEngine() {
-        const passwordInput = document.getElementById('password');
-        const eyeIcon = document.getElementById('togglePassword');
-        
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            eyeIcon.classList.remove('fa-eye');
-            eyeIcon.classList.add('fa-eye-slash');
-        } else {
-            passwordInput.type = 'password';
-            eyeIcon.classList.remove('fa-eye-slash');
-            eyeIcon.classList.add('fa-eye');
-        }
-    }
+            <div class="forgot-link-container">
+                <a href="#" class="forgot-link" onclick="openForgotPasswordModal(event)">Forgot Password?</a>
+            </div>
+            
+            <button type="submit" class="btn-login">Verify Credentials 🔑</button>
+        </form>
+    </div>
+    <!-- 📦 Forgot Password Pop-up Modal Box -->
+    <div id="forgotPasswordModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 class="modal-title">Password Recovery</h3>
+            <p class="modal-desc">Apni identity verify karne ke liye niche <b>Master Security Key</b> dakhil karein.</p>
+            
+            <form id="recoverySubForm" onsubmit="event.preventDefault(); verifyMasterSecurityKey();">
+                <div class="form-group">
+                    <label>Master Security Key</label>
+                    <input type="text" id="securityKeyInput" class="input-control" placeholder="Enter Master Key (e.g. 1234)" required>
+                </div>
+                
+                <button type="submit" class="btn-modal-verify">Verify & Show Password</button>
+            </form>
+            
+            <button type="button" class="btn-modal-close" onclick="closeForgotPasswordModal()">Cancel / Close</button>
+            
+            <div id="recoveryResultBox" class="result-box"></div>
+        </div>
+    </div>
 
-    // 🔒 2. Admin Validation Core Engine
-    function loginEngine(event) {
-        // Form reload event ko roknay ke liye laazmi hai
-        event.preventDefault(); 
-        
-        const u = document.getElementById('username').value;
-        const p = document.getElementById('password').value;
-        
-        if(u === "Admin" && p === "Moazzam@3111") {
-            localStorage.setItem("sultan_session", "authenticated_secure_2026");
+    <!-- 🏷️ MANDATORY SPECIFIED FOOTER ELEMENT -->
+    <footer>
+        <p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p>
+    </footer>
+
+    <script>
+        // Check if admin is already logged in securely
+        if(localStorage.getItem("sultan_session") === "authenticated_secure_2026") {
             window.location.href = "dashboard.html";
-        } else {
-            document.getElementById('error').style.display = "block";
         }
-    }
-</script>
+
+        // 👁️ SHOW/HIDE PASSWORD TOGGLE VISIBILITY CONTROLLER
+        function toggleLoginPasswordVisibility() {
+            const passwordField = document.getElementById('adminPass');
+            const eyeIcon = document.getElementById('toggleEyeIcon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            }
+        }
+
+        // LOGIN SYSTEM CREDENTIALS CHECKER
+        function executeAdminLoginVerification(event) {
+            event.preventDefault();
+            
+            const enteredUser = document.getElementById('adminUser').value.trim();
+            const enteredPass = document.getElementById('adminPass').value;
+            
+            // 🎯 LIVE STORAGE CHECKS: Fetch dynamically updated credentials or fallback to initial defaults
+            const currentStoredPassword = localStorage.getItem("sultan_admin_password") || "Moazzam3111";
+            const currentStoredUsername = localStorage.getItem("sultan_admin_username") || "Moazzam";
+
+            if (enteredUser === currentStoredUsername && enteredPass === currentStoredPassword) {
+                localStorage.setItem("sultan_session", "authenticated_secure_2026");
+                alert("🎉 Access Granted! Welcome to Sultan Brand Management Terminal.");
+                window.location.href = "dashboard.html";
+            } else {
+                alert("❌ Access Denied: Incorrect Admin Username or Password.");
+            }
+        }
+
+        /* ==================== 🔒 FORGOT PASSWORD CONTROLLERS ==================== */
+        const MASTER_SECURITY_KEY = "1234"; 
+
+        function openForgotPasswordModal(event) {
+            event.preventDefault();
+            document.getElementById('forgotPasswordModal').style.display = 'flex';
+            document.getElementById('securityKeyInput').value = '';
+            const resultBox = document.getElementById('recoveryResultBox');
+            resultBox.style.display = 'none';
+            resultBox.className = 'result-box';
+        }
+
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').style.display = 'none';
+        }
+
+        function verifyMasterSecurityKey() {
+            const enteredKey = document.getElementById('securityKeyInput').value.trim();
+            const resultBox = document.getElementById('recoveryResultBox');
+            
+            const currentStoredPassword = localStorage.getItem("sultan_admin_password") || "Moazzam3111";
+            const currentStoredUsername = localStorage.getItem("sultan_admin_username") || "Moazzam";
+
+            if (enteredKey === MASTER_SECURITY_KEY) {
+                resultBox.className = 'result-box result-success';
+                resultBox.innerHTML = `🔑 <b>Success!</b><br>Username: ${currentStoredUsername}<br>Password: ${currentStoredPassword}`;
+                resultBox.style.display = 'block';
+                
+                document.getElementById('adminUser').value = currentStoredUsername;
+                document.getElementById('adminPass').value = currentStoredPassword;
+            } else {
+                resultBox.className = 'result-box result-error';
+                resultBox.innerHTML = '❌ Ghalat Security Key! Dobara koshish karein.';
+                resultBox.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
