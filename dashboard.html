@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <script>
-    // 🛡️ Unauthorized Bypass Protection Guard
-    if(localStorage.getItem("sultan_session") !== "authenticated_secure_2026") {
-        window.location.href = "admin.html";
-    }
-</script>
+        // 🛡️ TRANSIENT GATEKEEPER GUARD: Checks transient sessionStorage instantly
+        // Tab cut ya close hote hi session automatic wipe ho jayega aur bypass locked ho jayega
+        if (sessionStorage.getItem("sultan_session") !== "authenticated_secure_2026") {
+            window.location.href = "admin.html";
+        }
+    </script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,7 +16,7 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; padding-bottom: 80px; position: relative; min-height: 100vh; }
         .dashboard-container { max-width: 600px; background: #ffffff; padding: 30px; margin: 20px auto; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
         h2 { text-align: center; color: #111; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px; }
-        .form-group { margin-bottom: 18px; }
+        .form-group { margin-bottom: 18px; text-align: left; }
         label { display: block; font-weight: 600; margin-bottom: 8px; color: #333; }
         input[type="text"], input[type="number"], input[type="password"], select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 14px; }
         textarea { height: 100px; resize: vertical; }
@@ -43,7 +44,8 @@
     </style>
 </head>
 <body>
-<!-- 🚪 Top-Right Box with "Logout" Written Clearly -->
+
+<!-- 🚪 TOP-RIGHT LOGOUT FIXED NODE -->
 <div style="position: fixed; top: 20px; right: 20px; z-index: 99999;">
     <button onclick="logoutEngine()" style="background-color: #d9534f; color: white; border: 1px solid #b52b27; padding: 8px 15px; font-size: 13px; font-family: 'Montserrat', Arial, sans-serif; font-weight: bold; border-radius: 4px; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: 0.2s;">
         Logout
@@ -140,25 +142,7 @@
     </form>
 </div>
 
-<!-- 3. ONLINE BANNER SLIDERS MANAGEMENT LIST -->
-<div class="dashboard-container" style="max-width: 800px;">
-    <h2>Manage Main Page Banners</h2>
-    <div id="admin-banner-list" style="margin-top: 20px;">Loading banners...</div>
-</div>
-
-<!-- 4. ONLINE PRODUCT DELETE + EDIT LIST -->
-<div class="dashboard-container" style="max-width: 800px;">
-    <h2>Manage Online Products</h2>
-    <div id="admin-product-list" style="margin-top: 20px;">Loading products...</div>
-</div>
-
-<!-- 💬 5. NEW LIVE CLIENT REVIEWS MODERATION PANEL -->
-<div class="dashboard-container" style="max-width: 800px;">
-    <h2>Client Feedback & Reviews Management</h2>
-    <div id="admin-reviews-list" style="margin-top: 20px; max-height: 450px; overflow-y: auto;">Loading client reviews...</div>
-</div>
-
-<!-- 🔒 6. NEW ADMIN SECURITY ACCESS SETTINGS (PASSWORD MANAGEMENT) -->
+<!-- 🔒 3. ✅ MOVED UPDATE ACCOUNT PASSWORD RIGHT BELOW THE BANNER ADD FORM CONTAINER FOR ALIGNMENT BALANCES -->
 <div class="dashboard-container">
     <h2>Update Account Password</h2>
     <form id="changePasswordForm" onsubmit="changeAdminPasswordEngine(event)">
@@ -172,6 +156,24 @@
         </div>
         <button type="submit" class="btn-publish" style="background:#c5a059;">💾 Save Gateway Settings</button>
     </form>
+</div>
+
+<!-- 4. ONLINE BANNER SLIDERS MANAGEMENT LIST -->
+<div class="dashboard-container" style="max-width: 800px;">
+    <h2>Manage Main Page Banners</h2>
+    <div id="admin-banner-list" style="margin-top: 20px;">Loading banners...</div>
+</div>
+
+<!-- 5. ONLINE PRODUCT DELETE + EDIT LIST -->
+<div class="dashboard-container" style="max-width: 800px;">
+    <h2>Manage Online Products</h2>
+    <div id="admin-product-list" style="margin-top: 20px;">Loading products...</div>
+</div>
+
+<!-- 💬 6. ONLINE CUSTOMER FEEDBACKS & REVIEWS LIST MODERATOR -->
+<div class="dashboard-container" style="max-width: 800px;">
+    <h2>Client Feedback & Reviews Management</h2>
+    <div id="admin-reviews-list" style="margin-top: 20px; max-height: 450px; overflow-y: auto;">Loading client reviews...</div>
 </div>
 <script>
     let currentEditProductId = null; // Memory tracker for active product editing mode
@@ -251,15 +253,10 @@
                 <option value="Clearance">CLEARANCE SALE</option>
             `;
         }
-        else {
-            if(wrapper) wrapper.style.display = 'none';
-            if(subSelect) subSelect.innerHTML = '';
-            return;
-        }
-
+        
         if(subSelect) subSelect.innerHTML = optionsHtml;
     }
-    // ✅ 3. PRODUCT ADD + EDIT UPDATE UNIFIED MULTI-MODE ENGINE (💯 FIXED LIVE LINKS)
+    // ✅ 3. PRODUCT ADD + EDIT UPDATE UNIFIED MULTI-MODE ENGINE
     document.getElementById('productForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -268,7 +265,6 @@
         const mainCat = document.getElementById('category').value;
         const subCat = document.getElementById('subCategory') ? document.getElementById('subCategory').value : '';
         
-        // Gallery Links Comma Merging Engine
         let imageArray = [];
         const img1 = document.getElementById('imageUrl').value.trim();
         const img2 = document.getElementById('imageUrl2').value.trim();
@@ -295,7 +291,6 @@
             description: document.getElementById('description').value
         };
 
-        // 🛠️ ABSOLUTE LIVE BACKEND NETWORKS PARAMETERS (FIXED PATHS CORES)
         let apiUrl = 'https://sultan-backend.vercel.app/api/products/add';
         let httpMethod = 'POST';
 
@@ -331,7 +326,7 @@
         }
     });
 
-    // ✅ 4. PROFESSIONAL BANNER IMAGE SUBMIT + UPDATE UNIFIED ENGINE (💯 FIXED LIVE LINKS)
+    // ✅ 4. PROFESSIONAL BANNER IMAGE SUBMIT + UPDATE UNIFIED ENGINE
     document.getElementById('bannerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -341,7 +336,6 @@
             imgUrl: document.getElementById('bannerImgUrl').value
         };
 
-        // 🛠️ ABSOLUTE LIVE BACKEND NETWORKS PARAMETERS (FIXED PATHS CORES)
         let bannerApiUrl = 'https://sultan-backend.vercel.app/api/banners/add';
         let bannerHttpMethod = 'POST';
 
@@ -374,7 +368,7 @@
             alert('❌ Error: Banners API endpoint unreachable or Node server offline.');
         }
     });
-    // ✅ 5. LIVE PRODUCTS FETCH PIPELINE ENGINE (💯 RECTIFIED LIVE API ROUTE)
+    // ✅ 5. LIVE PRODUCTS FETCH PIPELINE ENGINE
     async function fetchAdminProducts() {
         try {
             const response = await fetch('https://sultan-backend.vercel.app/api/products/all', {
@@ -430,10 +424,8 @@
         }
     }
 
-    // ✅ 6. INPUT DATA FIELD AUTO-FILLER FOR PRODUCT EDIT MODES
     function startEditProductPipeline(id, title, category, subCategory, price, salePrice, imgUrlStr, description) {
         currentEditProductId = id; 
-        
         document.getElementById('title').value = title;
         document.getElementById('category').value = category;
         
@@ -463,15 +455,13 @@
 
         document.getElementById('formDynamicHeading').innerText = "✏️ Edit Product Variation Mode";
         document.querySelector('#productForm .btn-publish').innerText = "💾 Save Updates Online";
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // ✅ 7. DELETE PRODUCT ACTION MANAGEMENT (💯 ABSOLUTE TARGET LIVE API ROUTE)
     async function deleteProductOnline(id) {
         if(confirm('Kya aap waqai is suit ko website se hatana chahte hain?')) {
             try {
-                const response = await fetch(`https://sultan-backend.vercel.app/api/products/delete/${id}`, { method: 'DELETE' });
+                const response = await fetch(`https://sultan-backend.vercel.app/api/products/delete/$`, { method: 'DELETE' });
                 const result = await response.json();
                 if(result.success || response.status === 200) {
                     alert('🗑️ Product deleted from online store!');
@@ -484,7 +474,6 @@
             }
         }
     }
-    // ✅ 8. FETCH & DISPLAY ALL ONLINE BANNERS FOR EDIT/DELETE (💯 ABSOLUTE TARGET LIVE API ROUTE)
     async function fetchAdminBanners() {
         try {
             const response = await fetch('https://sultan-backend.vercel.app/api/banners/all');
@@ -524,24 +513,20 @@
         }
     }
 
-    // ✅ 9. INPUT DATA FIELD AUTO-FILLER FOR BANNER EDIT MODES
     function startEditBannerPipeline(id, subtitle, title, imgUrl) {
         currentEditBannerId = id;
         document.getElementById('bannerSubtitle').value = subtitle;
         document.getElementById('bannerTitle').value = title;
         document.getElementById('bannerImgUrl').value = imgUrl;
-
         document.getElementById('bannerDynamicHeading').innerText = "✏️ Edit Banner Slider Mode";
         document.querySelector('#bannerForm .btn-publish').innerText = "💾 Save Updates Online";
-
         window.scrollTo({ top: document.getElementById('bannerForm').offsetTop - 20, behavior: 'smooth' });
     }
 
-    // ✅ 10. DELETE BANNER ACTION MANAGEMENT PIPELINE (💯 ABSOLUTE TARGET LIVE API ROUTE)
     async function deleteBannerOnline(id) {
         if(confirm('Kya aap waqai is banner slider ko home page se hatana chahte hain?')) {
             try {
-                const response = await fetch(`https://sultan-backend.vercel.app/api/banners/delete/${id}`, { method: 'DELETE' });
+                const response = await fetch(`https://sultan-backend.vercel.app/api/banners/delete/$`, { method: 'DELETE' });
                 const result = await response.json();
                 if(result.success || response.status === 200) {
                     alert('🗑️ Slider banner deleted from online database!');
@@ -555,44 +540,36 @@
         }
     }
 
-    /* =========================================================================
-       💬 11. LIVE CLIENT REVIEWS ENGINE (WITH DYNAMIC ATTACHED PRODUCT IMAGES)
-       ========================================================================= */
+    // 💬 ✅ FIXED REVIEWS ENGINE: REMOVED FIXED ARRAY DATA CACHE TO ELIMINATE REFRESH GLITCHES permanently
     async function fetchClientReviewsEngine() {
         const reviewContainer = document.getElementById('admin-reviews-list');
         if(!reviewContainer) return;
 
         try {
-            // Added reviewImg schema property for handling product photos left by clients
-            let reviews = JSON.parse(localStorage.getItem("sultan_client_reviews")) || [
-                { id: "rev_1", name: "Ahmed Khan", rating: 5, comment: "Kapray ki quality bohot shaandar hai. Tailoring perfect thi!", reviewImg: "https://unsplash.com", reply: "Thank you Ahmed bhai for appreciating Sultan Brand!", date: "2026-07-20" },
-                { id: "rev_2", name: "Zainab Bibi", rating: 4, comment: "Color matching image jaisi behtareen hai, suit pass agya.", reviewImg: "", reply: "", date: "2026-07-22" }
-            ];
-            
-            localStorage.setItem("sultan_client_reviews", JSON.stringify(reviews));
+            // Reads strictly from live dynamic storage nodes database
+            let reviews = JSON.parse(localStorage.getItem("sultan_client_reviews")) || [];
             reviewContainer.innerHTML = '';
 
             if(reviews.length === 0) {
-                reviewContainer.innerHTML = '<p style="text-align:center; color:#666; font-size:14px;">No reviews left by clients yet.</p>';
+                reviewContainer.innerHTML = '<p style="text-align:center; color:#666; font-size:14px; padding: 20px 0;">No new client reviews found in database.</p>';
                 return;
             }
 
             reviews.forEach(r => {
                 const card = document.createElement('div');
                 card.className = 'review-row';
-                let stars = '⭐'.repeat(r.rating);
+                let stars = '⭐'.repeat(r.rating || 5);
                 let replyDisplayHtml = r.reply ? `<div class="review-reply-box"><b>Sultan Reply:</b> ${r.reply}</div>` : '';
                 
-                // 📸 Condition if reviewer provided physical product image string path url preview display box
                 let dynamicAttachedPhotoHTML = r.reviewImg && r.reviewImg.trim() !== "" ? 
                     `<div style="margin: 10px 0;"><label style="display:block; font-size:10px; font-weight:700; color:#555; text-transform:uppercase; margin-bottom:4px;">Attached Product Snap:</label><img src="${r.reviewImg.trim()}" style="width:90px; height:120px; object-fit:cover; border-radius:4px; border:1px solid #ddd; display:block;" onerror="this.style.display='none'"></div>` : '';
 
                 card.innerHTML = `
                     <div class="review-header">
-                        <span class="review-client">${r.name} <small style="font-weight:normal; color:#888; font-size:11px;">(${r.date})</small></span>
+                        <span class="review-client">${r.name || 'Anonymous Client'} <small style="font-weight:normal; color:#888; font-size:11px;">(${r.date || 'Live'})</small></span>
                         <span class="review-rating">${stars}</span>
                     </div>
-                    <div class="review-msg">${r.comment}</div>
+                    <div class="review-msg">${r.comment || ''}</div>
                     ${dynamicAttachedPhotoHTML}
                     ${replyDisplayHtml}
                     
@@ -643,9 +620,6 @@
         }
     }
 
-    /* ========================================================
-       🔒 12. ADMIN PASSWORD ACCESS ALTERATION SYSTEM ENGINE
-       ======================================================== */
     function changeAdminPasswordEngine(event) {
         event.preventDefault();
         const typedCurrent = document.getElementById('currPass').value;
@@ -666,25 +640,22 @@
         document.getElementById('changePasswordForm').reset();
     }
 
-    // ✅ 13. UNIFIED LOAD ENGINE FOR BOOTING CHANNELS CONCURRENTLY
     window.addEventListener('DOMContentLoaded', () => {
         fetchAdminProducts();
         fetchAdminBanners(); 
         fetchClientReviewsEngine();
     });
 
-    // 🚪 Admin System Destruction and Logout Session Clear
+    // 🚪 ✅ SECURE TERMINATION ENGINE: Wipes sessionStorage trace logic cleanly upon triggers execution
     function logoutEngine() {
-        localStorage.removeItem("sultan_session");
+        sessionStorage.removeItem("sultan_session");
         window.location.href = "admin.html";
     }
 </script>
 
-<!-- 🏷️ MANDATORY SPECIFIED FOOTER ELEMENT -->
 <footer>
     <p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p>
 </footer>
 
 </body>
 </html>
-
