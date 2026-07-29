@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sultan Brand | Admin Access Terminal</title>
     <!-- Stable Google Fonts & FontAwesome CDN Links Loaded for Eye Icon -->
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com" rel="preconnect">
+    <link href="https://gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cloudflare.com">
 
     <style>
@@ -33,12 +33,12 @@
         .btn-login { width: 100%; padding: 15px; background: #111111; color: #fff; border: none; border-radius: 4px; font-size: 13px; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: background 0.2s; margin-top: 10px; }
         .btn-login:hover { background: #c5a059; }
 
-        /* 🔗 FORGOT PASSWORD LINK STYLING */
-        .forgot-link-container { text-align: right; margin-top: 12px; margin-bottom: 10px; }
+        /* 🔗 FLEX HORIZONTAL SPAN ROW: LOCKS SHOW PASSWORD ON LEFT & FORGOT LINK ON RIGHT PERFECTLY */
+        .forgot-link-container { display: flex !important; justify-content: space-between !important; align-items: center !important; margin-top: 15px !important; margin-bottom: 10px !important; width: 100% !important; }
         .forgot-link { color: #c5a059; text-decoration: none; font-size: 12px; font-weight: 600; transition: color 0.2s; }
         .forgot-link:hover { color: #111; text-decoration: underline; }
 
-        /* 📦 MODAL POPUP BACKGROUND OVERLAY */
+        /* 📦 MODAL POPUP BACKGROUND OVERLAY (HIDDEN SECURELY BY DEFAULT) */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; padding: 20px; transition: all 0.3s; }
         .modal-content { background: #ffffff; padding: 35px 25px; width: 100%; max-width: 380px; border-radius: 8px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); text-align: center; border-top: 4px solid #111; animation: fadeIn 0.3s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
@@ -51,7 +51,7 @@
         .btn-modal-close { background: transparent; color: #888; border: none; font-size: 12px; font-weight: 600; cursor: pointer; text-decoration: underline; }
         .btn-modal-close:hover { color: #be1e2d; }
         
-        .result-box { margin-top: 15px; font-size: 13px; font-weight: 700; padding: 10px; border-radius: 4px; display: none; }
+        .result-box { margin-top: 15px; font-size: 13px; font-weight: 700; padding: 10px; border-radius: 4px; display: none; text-align: left; }
         .result-success { background: #e6f4ea; color: #137333; display: block; border: 1px solid #ceead6; }
         .result-error { background: #fce8e6; color: #c5221f; display: block; border: 1px solid #fad2cf; }
 
@@ -80,13 +80,19 @@
                 </div>
             </div>
 
+            <!-- 🔗 ✅ ALIGNED ROW SYMMETRY: INJECTED SHOW PASSWORD CHECKBOX ON LEFT, FORGOT LINK ON RIGHT -->
             <div class="forgot-link-container">
+                <div style="display: flex; align-items: center; gap: 6px; user-select: none;">
+                    <input type="checkbox" id="directStyleLeftCheckboxButtonNode" onclick="syncCheckboxToInputMaskEngine()" style="cursor: pointer; width: 14px; height: 14px; accent-color: #c5a059;">
+                    <label for="directStyleLeftCheckboxButtonNode" style="font-size: 11px; font-weight: 600; color: #666666; cursor: pointer; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 0;">👁️ Show Password</label>
+                </div>
                 <a href="#" class="forgot-link" onclick="openForgotPasswordModal(event)">Forgot Password?</a>
             </div>
             
             <button type="submit" class="btn-login">Verify Credentials 🔑</button>
         </form>
     </div>
+
     <!-- 📦 Forgot Password Pop-up Modal Box -->
     <div id="forgotPasswordModal" class="modal-overlay">
         <div class="modal-content">
@@ -96,48 +102,70 @@
             <form id="recoverySubForm" onsubmit="event.preventDefault(); verifyMasterSecurityKey();">
                 <div class="form-group">
                     <label>Master Security Key</label>
-                    <input type="text" id="securityKeyInput" class="input-control" placeholder="Enter Master Key (e.g. 1234)" required>
+                    <input type="text" id="securityKeyInput" class="input-control" placeholder="Enter Master Key (e.g. 3111)" required>
                 </div>
-                
                 <button type="submit" class="btn-modal-verify">Verify & Show Password</button>
             </form>
-            
             <button type="button" class="btn-modal-close" onclick="closeForgotPasswordModal()">Cancel / Close</button>
-            
             <div id="recoveryResultBox" class="result-box"></div>
         </div>
     </div>
 
-    <!-- 🏷️ MANDATORY SPECIFIED FOOTER ELEMENT -->
     <footer>
         <p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p>
     </footer>
-
     <script>
-        // Check if admin is already logged in securely
-        if(localStorage.getItem("sultan_session") === "authenticated_secure_2026") {
+        // 🏛️ 1. SECURE TRANSIENT GATEWAY CHECKFLOW (PREVENTS REFRESH LOOPS)
+        // Active session tokens are verified securely straight from temporary sessionStorage nodes
+        if(sessionStorage.getItem("sultan_session") === "authenticated_secure_2026") {
             window.location.href = "dashboard.html";
         }
 
-        // 👁️ SHOW/HIDE PASSWORD TOGGLE VISIBILITY CONTROLLER
+        // ⌨️ 2. DIRECT BINDING KEYBOARD LISTENERS FOR ROBUST ENTER CLICK COMPLIANCE
+        document.addEventListener('DOMContentLoaded', function() {
+            const adminUserField = document.getElementById('adminUser');
+            const adminPassField = document.getElementById('adminPass');
+
+            const interceptEnterKeyPressSubmit = function(event) {
+                if (event.key === "Enter" || event.keyCode === 13) {
+                    event.preventDefault(); 
+                    executeAdminLoginVerification(event); // Direct trigger verification engine
+                }
+            };
+
+            if (adminUserField) adminUserField.addEventListener('keydown', interceptEnterKeyPressSubmit);
+            if (adminPassField) adminPassField.addEventListener('keydown', interceptEnterKeyPressSubmit);
+        });
+
+        // 👁️ 3. DUAL CHANNEL EYE ICON PASSWORD MASK TOGGLER
         function toggleLoginPasswordVisibility() {
             const passwordField = document.getElementById('adminPass');
             const eyeIcon = document.getElementById('toggleEyeIcon');
+            const checkbox = document.getElementById('directStyleLeftCheckboxButtonNode');
             
-            if (passwordField.type === 'password') {
+            if (passwordField && passwordField.type === 'password') {
                 passwordField.type = 'text';
-                eyeIcon.classList.remove('fa-eye');
-                eyeIcon.classList.add('fa-eye-slash');
-            } else {
+                if(checkbox) checkbox.checked = true;
+                if(eyeIcon) { eyeIcon.classList.remove('fa-eye'); eyeIcon.classList.add('fa-eye-slash'); }
+            } else if(passwordField) {
                 passwordField.type = 'password';
-                eyeIcon.classList.remove('fa-eye-slash');
-                eyeIcon.classList.add('fa-eye');
+                if(checkbox) checkbox.checked = false;
+                if(eyeIcon) { eyeIcon.classList.remove('fa-eye-slash'); eyeIcon.classList.add('fa-eye'); }
             }
         }
 
-        // LOGIN SYSTEM CREDENTIALS CHECKER
+        // 🔗 4. HORIZONTAL LEFT LOWER CHECKBOX MASKS MECHANISM LINK
+        function syncCheckboxToInputMaskEngine() {
+            const passwordField = document.getElementById('adminPass');
+            const checkbox = document.getElementById('directStyleLeftCheckboxButtonNode');
+            if (passwordField && checkbox) {
+                passwordField.type = checkbox.checked ? "text" : "password";
+            }
+        }
+
+        // 🔐 5. LOGIN SYSTEM CREDENTIALS CHECKER
         function executeAdminLoginVerification(event) {
-            event.preventDefault();
+            if(event) event.preventDefault();
             
             const enteredUser = document.getElementById('adminUser').value.trim();
             const enteredPass = document.getElementById('adminPass').value;
@@ -147,7 +175,8 @@
             const currentStoredUsername = localStorage.getItem("sultan_admin_username") || "Moazzam";
 
             if (enteredUser === currentStoredUsername && enteredPass === currentStoredPassword) {
-                localStorage.setItem("sultan_session", "authenticated_secure_2026");
+                // 🔒 TRANSIENT STORAGE SWAP: Session tokens are stored strictly inside runtime layer sessionStorage
+                sessionStorage.setItem("sultan_session", "authenticated_secure_2026");
                 alert("🎉 Access Granted! Welcome to Sultan Brand Management Terminal.");
                 window.location.href = "dashboard.html";
             } else {
@@ -155,16 +184,31 @@
             }
         }
 
+        // 🚪 6. ANTI-CACHE DESTRUCTOR: FORCES ALL FORMS INPUT BLOCKS TO BE EMPTY BLANK ON LOGOUT
+        function executeAdministrativeConsoleLogout() {
+            sessionStorage.removeItem("sultan_session");
+            
+            // Overwrites cache logs values straight with clean null strings parameters immediately
+            if(document.getElementById('adminUser')) document.getElementById('adminUser').value = "";
+            if(document.getElementById('adminPass')) document.getElementById('adminPass').value = "";
+            if(document.getElementById('directStyleLeftCheckboxButtonNode')) document.getElementById('directStyleLeftCheckboxButtonNode').checked = false;
+            
+            alert("🚪 Session Terminated! Administrative credentials fields have been completely emptied.");
+            window.location.reload(); 
+        }
+
         /* ==================== 🔒 FORGOT PASSWORD CONTROLLERS ==================== */
-        const MASTER_SECURITY_KEY = "1234"; 
+        const MASTER_SECURITY_KEY = "Moazzam3111"; 
 
         function openForgotPasswordModal(event) {
             event.preventDefault();
             document.getElementById('forgotPasswordModal').style.display = 'flex';
             document.getElementById('securityKeyInput').value = '';
             const resultBox = document.getElementById('recoveryResultBox');
-            resultBox.style.display = 'none';
-            resultBox.className = 'result-box';
+            if(resultBox) {
+                resultBox.style.display = 'none';
+                resultBox.className = 'result-box';
+            }
         }
 
         function closeForgotPasswordModal() {
@@ -179,16 +223,20 @@
             const currentStoredUsername = localStorage.getItem("sultan_admin_username") || "Moazzam";
 
             if (enteredKey === MASTER_SECURITY_KEY) {
-                resultBox.className = 'result-box result-success';
-                resultBox.innerHTML = `🔑 <b>Success!</b><br>Username: ${currentStoredUsername}<br>Password: ${currentStoredPassword}`;
-                resultBox.style.display = 'block';
+                if(resultBox) {
+                    resultBox.className = 'result-box result-success';
+                    resultBox.innerHTML = `🔑 <b>Success!</b><br>Username: ${currentStoredUsername}<br>Password: ${currentStoredPassword}`;
+                    resultBox.style.display = 'block';
+                }
                 
                 document.getElementById('adminUser').value = currentStoredUsername;
                 document.getElementById('adminPass').value = currentStoredPassword;
             } else {
-                resultBox.className = 'result-box result-error';
-                resultBox.innerHTML = '❌ Ghalat Security Key! Dobara koshish karein.';
-                resultBox.style.display = 'block';
+                if(resultBox) {
+                    resultBox.className = 'result-box result-error';
+                    resultBox.innerHTML = '❌ Ghalat Security Key! Dobara koshish karein.';
+                    resultBox.style.display = 'block';
+                }
             }
         }
     </script>
