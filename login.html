@@ -520,6 +520,7 @@
             clearAllAuthInputFields();
             renderAuthOrDashboardScreen();
         }
+               // ✅ ADMIN NAME AND PASSWORD FIXED LOCALLY AS REQUESTED
         async function processSultanCustomerLogin() {
             var username = document.getElementById('loginUsernameField').value.trim().toLowerCase();
             var password = document.getElementById('loginPasswordField').value.trim();
@@ -529,12 +530,14 @@
                 return;
             }
 
-            // ✅ READS ACTIVE KEY FROM SERVER OR DISPATCHES THE MASTER TOKEN KEY
-            var targetSecureAdminPassword = localStorage.getItem('sultan_online_admin_password_token') || "Moazzam3111";
+            // 🎯 LIVE STORAGE TUNING: Admin Name Moazzam & Password Moazzam3111 overrode strictly
+            var currentStoredPassword = localStorage.getItem("sultan_admin_password") || "Moazzam3111";
+            var currentStoredUsername = localStorage.getItem("sultan_admin_username") || "Moazzam";
 
-            if (username === "Moazzam" && password === targetSecureAdminPassword) {
-                alert("🏛️ Access Authorized! Redirecting to separated customer-admin control dashboard file...");
-                window.location.href = "customer-admin.html"; // Safe hard cross-origin boundaries redirection
+            if (username === currentStoredUsername.toLowerCase() && password === currentStoredPassword) {
+                sessionStorage.setItem("sultan_session", "authenticated_secure_2026");
+                alert("🎉 Access Authorized! Welcome to Sultan Brand Management Terminal.");
+                window.location.href = "customer-admin.html"; 
                 return;
             }
 
@@ -542,7 +545,7 @@
             var localMatchedUser = masterRegistry.find(function(c) { return c.usernameId === username && c.password === password; });
 
             if (localMatchedUser) {
-                localStorage.setItem('sultan_active_customer_profile', JSON.stringify(localMatchedUser));
+                sessionStorage.setItem('sultan_active_customer_profile', JSON.stringify(localMatchedUser));
                 alert("🔓 Login Successful! Welcome back, " + localMatchedUser.customerName);
                 clearAllAuthInputFields();
                 renderAuthOrDashboardScreen();
