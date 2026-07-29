@@ -8,6 +8,7 @@
     <link href="https://googleapis.com" rel="preconnect">
     <link href="https://gstatic.com" rel="preconnect" crossorigin>
     <link href="https://googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Needed for Search, Login and Social Icons Elements -->
     <link rel="stylesheet" href="https://cloudflare.com">
 
     <style>
@@ -18,23 +19,79 @@
             background-color: #ffffff; padding: 20px 6%; display: flex; justify-content: space-between; align-items: center; 
             box-shadow: 0 4px 20px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; 
         }
-        .logo { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; font-style: italic; letter-spacing: 2px; color: #111111; text-decoration: none; }
+        .logo { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; font-style: italic; letter-spacing: 2px; color: #111111; text-decoration: none; flex-shrink: 0; }
         .logo:hover { color: #c5a059; }
 
+        nav { position: relative; margin-left: auto; margin-right: 25px; }
         nav ul { display: flex; list-style: none; align-items: center; margin: 0; padding: 0; } 
         nav ul li { margin: 0 15px; position: relative; padding: 15px 0; }
-        nav ul li a { text-decoration: none; color: #555555; font-weight: 600; font-size: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 4px; letter-spacing: 0.5px; }
+        nav ul li a { text-decoration: none; color: #555555; font-weight: 600; font-size: 12px; text-transform: uppercase; display: flex; align-items: center; gap: 4px; letter-spacing: 0.5px; transition: color 0.2s ease; }
         nav ul li a:hover { color: #c5a059; }
-        .cart-icon { font-size: 11px; cursor: pointer; background-color: #111111; color: #ffffff; padding: 10px 18px; font-weight: 600; text-transform: uppercase; border-radius: 2px; display: flex; align-items: center; text-decoration: none; }
+        
+        /* --- STABLE HEADER ACTIONS WITH EXACT OUTLINE STROKE ICONS --- */
+        .header-right-actions-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-shrink: 0;
+        }
+        .search-input-box-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        #site-navbar-search-field {
+            width: 0;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            border-bottom: 1.5px solid #111111;
+            outline: none;
+            padding: 3px 0;
+            font-size: 13px;
+            font-weight: 500;
+            background: transparent;
+        }
+        .search-input-box-container:hover #site-navbar-search-field,
+        #site-navbar-search-field:focus {
+            width: 170px;
+            opacity: 1;
+            padding-right: 25px;
+        }
+        .nav-action-trigger-btn, .user-login-account-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: #111111;
+            cursor: pointer;
+            transition: transform 0.2s, color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            width: 35px;
+            height: 35px;
+        }
+        .nav-action-trigger-btn i, .user-login-account-btn i {
+            font-weight: 300 !important;
+        }
+        .nav-action-trigger-btn:hover, .user-login-account-btn:hover {
+            color: #c5a059;
+            transform: scale(1.08);
+        }
 
+        .cart-icon { font-size: 11px; cursor: pointer; background-color: #111111; color: #ffffff; padding: 10px 18px; font-weight: 600; text-transform: uppercase; border-radius: 2px; display: flex; align-items: center; text-decoration: none; height: 38px; }
+        .cart-icon:hover { background-color: #c5a059; }
+
+        /* --- CLEAN TEXT-ONLY DROPDOWN LINKS SYSTEM --- */
         .clean-dropdown {
             position: absolute; top: 100%; left: 0; background-color: #ffffff; min-width: 230px; box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.08); 
             display: none; z-index: 2000; padding: 10px 0; border-top: 2px solid #c5a059; border-radius: 0 0 4px 4px;
         }
         nav ul li:hover .clean-dropdown { display: block; }
-        .clean-dropdown li a { padding: 10px 20px; color: #666666; font-size: 11px; font-weight: 500; display: block; text-transform: uppercase; border-bottom: 1px solid #f9f9f9; text-decoration: none; }
+        .clean-dropdown li a { padding: 10px 20px; color: #666666; font-size: 11px; font-weight: 500; display: block; text-transform: uppercase; border-bottom: 1px solid #f9f9f9; text-decoration: none; transition: all 0.2s ease; }
         .clean-dropdown li a:hover { background-color: #faf7f4; color: #c5a059; padding-left: 25px; }
-
+        .clean-dropdown li:last-child a { border-bottom: none; }
         .container { flex: 1; width: 100%; max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .detail-wrapper { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px; background: #ffffff; padding: 40px; border-radius: 4px; border: 1px solid #f0eae4; }
         .image-showcase-box { display: flex; flex-direction: column; gap: 15px; width: 100%; }
@@ -47,7 +104,7 @@
         .product-brand-tag { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #c5a059; letter-spacing: 1px; margin-bottom: 8px; }
         .product-main-title { font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; color: #111111; margin-bottom: 12px; text-transform: uppercase; }
         .rating-summary-row { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 13px; font-weight: 600; color: #555; }
-        .rating-stars-span { color: #f0ad4e; }
+        .rating-stars-span { color: #dfb142; font-size: 14px; }
 
         .price-display-wrapper { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding: 15px; background: #faf7f4; border-radius: 4px; border-left: 4px solid #c5a059; }
         .current-price-tag { font-size: 24px; font-weight: 700; color: #c5a059; }
@@ -59,57 +116,103 @@
 
         .selector-group-block { margin-bottom: 20px; width: 100%; }
         .selector-heading-label { display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #444; margin-bottom: 8px; }
-        .size-select-dropdown { width: 100%; padding: 12px; font-size: 13px; font-weight: 600; color: #111; border: 1px solid #ddd; border-radius: 3px; background-color: #fff; outline: none; cursor: pointer; }
+        .size-select-dropdown { width: 100%; padding: 12px; font-size: 13px; font-weight: 600; color: #111; border: 1px solid #ddd; border-radius: 3px; background-color: #fff; outline: none; cursor: pointer; height: 44px; }
 
         .action-box-grid { display: flex; flex-direction: column; gap: 8px; margin-top: 15px; margin-bottom: 30px; }
-        .btn-style { color: #ffffff; padding: 14px; border: none; font-weight: 700; cursor: pointer; font-size: 12px; text-transform: uppercase; border-radius: 3px; width: 100%; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
+        .btn-style { color: #ffffff; padding: 14px; border: none; font-weight: 700; cursor: pointer; font-size: 12px; text-transform: uppercase; border-radius: 3px; width: 100%; letter-spacing: 0.5px; display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; transition: background-color 0.2s ease; }
         .btn-cod { background: #e67e22; }
         .btn-online { background: #2c3e50; }
         .btn-wa { background: #25d366; }
         .btn-bag { background: #111111; }
-        .btn-style:hover { opacity: 0.9; }
+        .btn-style:hover { background: #c5a059; }
 
         .reviews-section-wrapper { margin-top: 50px; border-top: 1px solid #f0eae4; padding-top: 40px; }
-        .reviews-block-title { font-family: 'Playfair Display', serif; font-size: 24px; text-transform: uppercase; margin-bottom: 25px; color: #111111; }
+        .reviews-block-title { font-family: 'Playfair Display', serif; font-size: 24px; text-transform: uppercase; margin-bottom: 25px; color: #111111; text-align: left; }
         .reviews-split-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .review-card-item { background: #ffffff; padding: 15px; border-radius: 4px; margin-bottom: 12px; border: 1px solid #f0eae4; }
+        .review-card-item { background: #ffffff; padding: 25px; border-radius: 4px; margin-bottom: 15px; border: 1px solid #f0f0f0; text-align: left; box-shadow: 0 4px 15px rgba(0,0,0,0.01); }
+        .star-rating { color: #dfb142; font-size: 13px; margin-bottom: 12px; }
+        .review-text { font-size: 14px; line-height: 1.6; color: #333333; margin-bottom: 20px; font-style: italic; }
+        .customer-name { font-size: 15px; font-weight: 600; margin-bottom: 4px; color: #111111; text-transform: uppercase; }
+        .verified-buyer { font-size: 12px; color: #198754; display: flex; align-items: center; gap: 5px; font-weight: 600; }
+        .hp-rev-reply { font-size: 12px; color: #666; background: #eef7ee; padding: 10px; border-radius: 4px; border-left: 3px solid #137333; margin-top: 15px; font-style: normal; }
+        /* LUXURY CUSTOM BALANCED 3-COLUMN FOOTER SYSTEM */
+        .sahar-luxury-footer { background-color: #ffffff; color: #111111; padding: 60px 5% 20px 5%; border-top: 1px solid #eaeaea; width: 100%; margin-top: auto; }
+        .footer-grid-wrapper { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px; margin-bottom: 40px; text-align: left; justify-content: center; max-width: 1200px; margin: 0 auto 40px auto; }
+        .footer-column h4 { font-size: 15px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 25px; font-weight: 700; color: #111; }
+        .footer-links-list { list-style: none; padding: 0; margin: 0; }
+        .footer-links-list li { margin-bottom: 12px; }
+        .footer-links-list li a { color: #555555; text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s; }
+        .footer-links-list li a:hover { color: #c5a059; }
         
-        .whatsapp-float { position: fixed; bottom: 25px; right: 25px; background-color: #25d366; color: #fff !important; padding: 12px 20px; font-size: 13px; font-weight: 700; border-radius: 50px; display: flex; align-items: center; gap: 8px; box-shadow: 0px 5px 20px rgba(0,0,0,0.15); z-index: 9999; text-decoration: none !important; }
-        footer { background-color: #111111; color: #767676; text-align: center; padding: 45px 20px; font-size: 13px; border-top: 3px solid #c5a059; width: 100%; margin-top: auto; }
+        /* Brand App Blue/Gradient/Red Social Icon Overlays matching index file precisely */
+        .social-centered-wrapper { display: flex; justify-content: center; align-items: center; gap: 30px; padding: 25px 0; border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea; margin-bottom: 25px; }
+        .social-centered-wrapper a { display: flex; align-items: center; justify-content: center; text-decoration: none; transition: transform 0.2s ease; }
+        .social-centered-wrapper a:hover { transform: scale(1.12); }
+        .social-centered-wrapper .fa-facebook { color: #1877f2; font-size: 32px; }
+        .social-centered-wrapper .fa-instagram { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285aeb 90%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 32px; }
+        .social-centered-wrapper .fa-youtube { color: #ff0000; font-size: 34px; }
+        .footer-bottom-copyright { padding-top: 15px; font-size: 12px; color: #777777; text-align: center; }
+
+        /* FLOATING SOCIAL MEDIA QUICK LINK MARKUP (MOBILE-SAFE UTILITY) */
+        .whatsapp-float { position: fixed; bottom: 25px; right: 25px; background-color: #25d366; color: #ffffff !important; padding: 14px 22px; font-size: 13px; font-weight: 700; border-radius: 50px; display: flex; align-items: center; justify-content: center; gap: 8px; box-shadow: 0px 5px 25px rgba(0,0,0,0.18); z-index: 9999; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); text-decoration: none !important; -webkit-tap-highlight-color: transparent; }
+        .whatsapp-float:hover { transform: scale(1.06); background-color: #20ba5a; }
         .menu-toggle { display: none; }
 
+        /* SIZING MODAL FRAME LAYOUT */
+        .size-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 99999; opacity: 0; pointer-events: none; transition: all 0.3s ease; }
+        .size-modal.active { opacity: 1; pointer-events: auto; }
+        .size-modal-content { background: #ffffff; width: 90%; max-width: 550px; padding: 35px 30px; border-radius: 4px; border-top: 4px solid #c5a059; position: relative; text-align: center; box-shadow: 0 15px 50px rgba(0,0,0,0.15); }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 28px; font-weight: 400; color: #999; cursor: pointer; }
+        .close-modal:hover { color: #111; }
+        .modal-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 700; color: #111; text-transform: uppercase; margin-bottom: 5px; }
+        .modal-subtitle { font-size: 11px; font-weight: 600; color: #888; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 20px; }
+        .size-table-container { width: 100%; overflow-x: auto; margin-bottom: 20px; }
+        .size-table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; }
+        .size-table th { background: #faf7f4; padding: 12px 10px; font-weight: 700; color: #111; border-bottom: 2px solid #ebdcb9; text-transform: uppercase; font-size: 11px; }
+        .size-table td { padding: 12px 10px; border-bottom: 1px solid #f0eae4; color: #444; font-weight: 500; }
+        .modal-thanks-btn { background: #111111; color: #fff; padding: 12px 35px; border: none; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; width: 100%; }
+        .modal-thanks-btn:hover { background: #c5a059; }
+
         @media screen and (max-width: 768px) {
-            header { padding: 15px 5%; justify-content: space-between; position: relative; }
+            header { padding: 15px 5%; flex-direction: row !important; justify-content: space-between; position: relative; }
             .logo { font-size: 28px; }
             .menu-toggle { display: block !important; font-size: 24px; cursor: pointer; color: #111111; z-index: 3000; }
             nav { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background-color: #ffffff; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.4s ease; z-index: 2500; padding: 80px 20px 30px 20px; overflow-y: auto; }
             nav.active { right: 0; }
-            nav ul { flex-direction: column !important; align-items: flex-start !important; }
-            nav ul li { width: 100%; border-bottom: 1px solid #f0eae4; }
-            .clean-dropdown { position: static !important; box-shadow: none !important; border-top: none !important; background-color: #faf7f4; width: 100% !important; display: none; }
+            nav ul { flex-direction: column !important; align-items: flex-start !important; gap: 0; }
+            nav ul li { width: 100%; margin: 0 !important; padding: 0 !important; border-bottom: 1px solid #f0eae4; }
+            nav ul li a { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-size: 13px; width: 100%; }
+            .header-right-actions-wrapper { margin-left: auto; margin-right: 15px; gap: 12px; }
+            #site-navbar-search-field { display: none; }
+            .clean-dropdown { position: static !important; transform: none !important; box-shadow: none !important; border-top: none !important; padding: 0 0 10px 15px !important; background-color: #faf7f4; width: 100% !important; display: none; }
             .clean-dropdown.show { display: block !important; }
-            .reviews-split-grid { grid-template-columns: 1fr; }
-            .detail-wrapper { grid-template-columns: 1fr; padding: 20px; }
+            .detail-wrapper { grid-template-columns: 1fr; gap: 30px; padding: 20px; }
+            .main-display-frame { height: 400px; }
+            .reviews-split-grid { grid-template-columns: 1fr; gap: 20px; }
+            .whatsapp-float { bottom: 20px; right: 20px; padding: 12px 18px; font-size: 12px; }
         }
     </style>
 </head>
 <body>
-
     <header>  
         <a href="index.html" class="logo">Sultan Brand</a>
         <div class="menu-toggle" onclick="toggleMobileMenu()">☰</div>
+
         <nav>
             <ul>
+                <!-- 1. NEW ARRIVALS DROPDOWN -->
                 <li>
-                    <a href="NewArrivals.html">✨ New Arrivals</a>
+                    <a href="NewArrivals.html">✨ New Arrivals <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
                     <ul class="clean-dropdown">
                         <li><a href="NewArrivals.html?cat=festive">Luxury Festive '26</a></li>
                         <li><a href="NewArrivals.html?cat=summer">Summer Lawn Volume II</a></li>
                         <li><a href="NewArrivals.html?cat=cambric">Premium Cambric</a></li>
                     </ul>
                 </li>
+
+                <!-- 2. UNSTITCHED DROPDOWN -->
                 <li>
-                    <a href="Unstitched.html">✂️ Unstitched</a>
+                    <a href="Unstitched.html">✂️ Unstitched <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
                     <ul class="clean-dropdown">
                         <li><a href="Unstitched.html?type=1piece">1 Piece Kurta Fabric</a></li>
                         <li><a href="Unstitched.html?type=2piece">2 Piece Suit</a></li>
@@ -117,8 +220,10 @@
                         <li><a href="Unstitched.html?type=egyptian">Egyptian Cotton</a></li>
                     </ul>
                 </li>
+
+                <!-- 3. READY TO WEAR DROPDOWN -->
                 <li>
-                    <a href="ReadyToWear.html">👔 Ready To Wear</a>
+                    <a href="ReadyToWear.html">👔 Ready To Wear <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
                     <ul class="clean-dropdown">
                         <li><a href="ReadyToWear.html?style=casual">Casual Kurtas</a></li>
                         <li><a href="ReadyToWear.html?style=stitched">Stitched Suits</a></li>
@@ -126,41 +231,68 @@
                         <li><a href="ReadyToWear.html?style=waistcoat">Designer Waistcoats</a></li>
                     </ul>
                 </li>
+
+                <!-- 4. MEN DROPDOWN -->
                 <li>
-                    <a href="Men.html">🤵 Men</a>
+                    <a href="Men.html">🤵 Men <i class="fa-solid fa-chevron-down" style="font-size: 8px;"></i></a>
                     <ul class="clean-dropdown">
-                        <li style="padding: 5px 20px; font-size: 10px; font-weight: 700; color: #c5a059; background: #faf7f4;">— Stitched Wear —</li>
+                        <li style="padding: 5px 20px; font-size: 10px; font-weight: 700; color: #c5a059; letter-spacing: 1px; text-transform: uppercase; background: #faf7f4;">— Stitched Wear —</li>
                         <li><a href="Men.html?style=sherwani">🧥 Royal Sherwani</a></li>
                         <li><a href="Men.html?style=kurtas">👔 Premium Kurtas</a></li>
                         <li><a href="Men.html?style=shalwar">🌟 Kurta Shalwar Suits</a></li>
                         <li><a href="Men.html?style=cotton-stitched">🧵 Cotton Suits (Stitched)</a></li>
                         <li><a href="Men.html?style=latha-stitched">👑 Luxury Latha (Stitched)</a></li>
-                        <li style="padding: 5px 20px; font-size: 10px; font-weight: 700; color: #c5a059; background: #faf7f4; margin-top: 5px;">— Unstitched Fabric —</li>
+                        <li style="padding: 5px 20px; font-size: 10px; font-weight: 700; color: #c5a059; letter-spacing: 1px; text-transform: uppercase; background: #faf7f4; margin-top: 5px;">— Unstitched Fabric —</li>
                         <li><a href="Men.html?style=unstitched_cotton">✂️ Premium Cotton Unstitched</a></li>
                         <li><a href="Men.html?style=unstitched_latha">✂️ Luxury Latha Unstitched</a></li>
                         <li><a href="Men.html?style=unstitched_wash">✂️ Wash & Wear Premium Unstitched</a></li>
                     </ul>
                 </li>
+
+                <!-- 5. SALE DROPDOWN -->
                 <li>
-                    <a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale</a>
+                    <a href="Sale.html" style="color:#e74c3c; font-weight: 700;">🏷️ Sale <i class="fa-solid fa-chevron-down" style="font-size: 8px; color:#e74c3c;"></i></a>
                     <ul class="clean-dropdown">
-                        <li><a href="Sale.html?discount=flat50">FLAT 50% OFF</a></li>
+                        <li><a href="Sale.html?discount=flat50" style="color:#e74c3c;">FLAT 50% OFF</a></li>
                         <li><a href="Sale.html?discount=flat40">FLAT 40% OFF</a></li>
                         <li><a href="Sale.html?discount=flat30">FLAT 30% OFF</a></li>
                         <li><a href="Sale.html?discount=flat20">FLAT 20% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat50" style="color:#e74c3c;">✂️ UNSTITCHED 50% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat40">✂️ UNSTITCHED 40% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat30">✂️ UNSTITCHED 30% OFF</a></li>
+                        <li><a href="Sale.html?discount=unstitched_flat20">✂️ UNSTITCHED 20% OFF</a></li>
+                        <li><a href="Sale.html?discount=clearance">CLEARANCE SALE</a></li>
                     </ul>
                 </li>
-                <li><a href="bag.html" class="cart-icon"><i class="fa-solid fa-bag-shopping"></i> Bag (<span id="bag-count">0</span>)</a></li>
             </ul>
         </nav>
-    </header>
 
+        <!-- ⚡ EXACT SCREENSHOT OUTLINE STROKE ACTION BUTTONS WITH SEARCHING & USER ID LABELS -->
+        <div class="header-right-actions-wrapper">
+            <div class="search-input-box-container">
+                <input type="text" id="site-navbar-search-field" placeholder="Search clothes...">
+                <button class="nav-action-trigger-btn" onclick="executeSearchActionEngine()" aria-label="Search Store" style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: #111111;">
+                    <i class="fa-regular fa-magnifying-glass" style="font-weight: 300; font-size: 18px;"></i>
+                    <span>🔍</span>
+                </button>
+            </div>
+
+            <a href="login.html" class="user-login-account-btn" aria-label="User Account Dashboard History" style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; text-transform: uppercase; color: #111111;">
+                <i class="fa-regular fa-user" style="font-weight: 300; font-size: 18px;"></i>
+                <span>👤</span>
+            </a>
+
+            <a href="bag.html" class="cart-icon"><i class="fa-solid fa-bag-shopping" style="margin-right: 6px;"></i> 🛒 (<span id="bag-count">0</span>)</a>
+        </div>
+    </header>
     <main class="container">
+        <!-- 🌀 Loading Spinner Block -->
         <div id="productDetailSpinnerLoader" style="text-align: center; padding: 100px 0; font-size: 18px; color: #555;">
             <i class="fa-solid fa-circle-notch fa-spin" style="color:#c5a059; font-size: 32px; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;"></i>
             Loading premium artisan product credentials...
         </div>
 
+        <!-- 📦 Main Content Layout Wrapper Framework -->
         <div class="detail-wrapper" id="mainProductDetailDisplayWrapper" style="display: none;">
             <div class="image-showcase-box">
                 <img id="primaryLargeDisplayViewport" class="main-display-frame" src="" alt="Main Showcase">
@@ -171,6 +303,7 @@
                 <span class="product-brand-tag">Sultan Brand Exclusive</span>
                 <h1 class="product-main-title" id="detProductTitle">Loading Suit Title...</h1>
                 
+                <!-- ⭐ Dynamic Reviews Sync Block Row -->
                 <div class="rating-summary-row">
                     <span class="rating-stars-span" id="detAvgStars">⭐⭐⭐⭐⭐</span>
                     <span id="detReviewsCount">Reviews (0)</span>
@@ -185,32 +318,34 @@
                 <!-- 📋 FABRIC DESCRIPTION CONTAINER (RE-FIXED) -->
                 <p class="desc-text-p" id="detProductDescription">Premium luxury clothing details specification description sheet template.</p>
                 
-                <!-- 📦 SECURE CORES SHIPPING & DELIVERY EXTRA DETAILS BOX (RE-FIXED) -->
+                <!-- 📦 SECURE SERVICES & 7-DAY POLICIES BADGE BOX (RE-FIXED) -->
                 <div class="delivery-details-box">
                     <p style="font-weight: 700; color: #111; margin-bottom: 5px;">👑 Premium Brand Services:</p>
                     <p>📦 <b>Free Delivery</b> across Pakistan (2-4 Working Days)</p>
-                    <p>🔄 <b>7 Days</b> Standard Replacement Guarantee Map Available</p>
+                    <p>🔄 <b>7 Days</b> Standard Replacement Guarantee Available</p>
                     <p>✂️ <b>Premium Stitching</b> options profile customized tailors fit</p>
                 </div>
 
                 <div class="selector-group-block">
                     <div class="selector-heading-label">
                         <label>Select Size / Fabric Cutting Profile:</label>
-                        <span style="color:#c5a059; font-weight:700; text-decoration:underline; cursor:pointer;" id="triggerInPageSizeChartAction">Sizing Chart 📐</span>
+                        <span style="color:#c5a059; font-weight:700; text-decoration:underline; cursor:pointer;" id="triggerInPageSizeChartAction">Sizing GUIDE 📐</span>
                     </div>
                     <select id="detailInPageSizeSelector" class="size-select-dropdown"></select>
                 </div>
 
                 <div class="action-box-grid">
-                    <button class="btn-style btn-cod" id="btnActionDirectCOD">📦 Order Cash on Delivery</button>
-                    <button class="btn-style btn-online" id="btnActionDirectOnline">💳 Pre-Paid Online Payment</button>
-                    <button class="btn-style btn-wa" id="btnActionWhatsAppOrder">🟢 Order Instantly on WhatsApp</button>
-                    <button class="btn-style btn-bag" id="btnActionAddToBag">🛒 Add to Shopping Bag</button>
+                    <button class="btn-style btn-cod" id="btnActionDirectCOD">📦 COD Order</button>
+                    <button class="btn-style btn-online" id="btnActionDirectOnline">💳 Pay Online </button>
+                    <button class="btn-style btn-wa" id="btnActionWhatsAppOrder">🟢 WhatsApp Order</button>
+                    <button class="btn-style btn-bag" id="btnActionAddToBag">🛒 Add to Bag</button>
                 </div>
             </div>
         </div>
+
+        <!-- 💬 VERIFIED DYNAMIC CUSTOMER REVIEWS MODULES -->
         <div class="reviews-section-wrapper">
-            <h3 class="reviews-block-title">Verified Consumer Appraisals</h3>
+            <h3 class="reviews-block-title">Customer Reviews</h3>
             <div class="reviews-split-grid">
                 <div>
                     <h4 style="font-size:14px; text-transform:uppercase; margin-bottom:15px; color:#111;">Customer Timeline Reviews</h4>
@@ -224,16 +359,36 @@
                             <label class="selector-heading-label">Your Full Name</label>
                             <input type="text" id="detailRevName" placeholder="Enter full profile name" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px;" required>
                         </div>
-                        <div class="selector-group-block" style="margin-bottom:15px;">
-                            <label class="selector-heading-label">Satisfaction Scale Rating</label>
-                            <select id="detailRevStars" style="width:100%; padding:12px; border:1px solid #ccc; border-radius:4px;">
-                                <option value="5">⭐⭐⭐⭐⭐ Excellent 5/5</option>
-                                <option value="4">⭐⭐⭐⭐ Very Good 4/5</option>
-                                <option value="3">⭐⭐⭐ Standard Match 3/5</option>
-                            </select>
-                        </div>
+            <!-- ⭐ INITIAL BLANK EMPTY STROKE SVG INTERACTIVE CLICK SELECTION LAYER -->
+<div class="selector-group-block" style="margin-bottom:15px; text-align: left;">
+    <label class="selector-heading-label" style="display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #444; margin-bottom: 8px;">Satisfaction Scale Rating</label>
+    <div id="interactiveStarsFormWidget" style="display: flex; gap: 8px; cursor: pointer; padding: 5px 0;">
+        <!-- Star 1 -->
+        <span class="star-click-node" data-value="1" onclick="assignDynamicFormRatingScoreAction(1)" style="display: inline-block; width: 26px; height: 26px;">
+            <svg xmlns="http://w3.org" viewBox="0 0 24 24" style="width:100%; height:100%; fill: none; stroke: #cccccc; stroke-width: 2; transition: all 0.2s;"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.133 9.21l8.2-1.192z"/></svg>
+        </span>
+        <!-- Star 2 -->
+        <span class="star-click-node" data-value="2" onclick="assignDynamicFormRatingScoreAction(2)" style="display: inline-block; width: 26px; height: 26px;">
+            <svg xmlns="http://w3.org" viewBox="0 0 24 24" style="width:100%; height:100%; fill: none; stroke: #cccccc; stroke-width: 2; transition: all 0.2s;"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.133 9.21l8.2-1.192z"/></svg>
+        </span>
+        <!-- Star 3 -->
+        <span class="star-click-node" data-value="3" onclick="assignDynamicFormRatingScoreAction(3)" style="display: inline-block; width: 26px; height: 26px;">
+            <svg xmlns="http://w3.org" viewBox="0 0 24 24" style="width:100%; height:100%; fill: none; stroke: #cccccc; stroke-width: 2; transition: all 0.2s;"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.133 9.21l8.2-1.192z"/></svg>
+        </span>
+        <!-- Star 4 -->
+        <span class="star-click-node" data-value="4" onclick="assignDynamicFormRatingScoreAction(4)" style="display: inline-block; width: 26px; height: 26px;">
+            <svg xmlns="http://w3.org" viewBox="0 0 24 24" style="width:100%; height:100%; fill: none; stroke: #cccccc; stroke-width: 2; transition: all 0.2s;"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.133 9.21l8.2-1.192z"/></svg>
+        </span>
+        <!-- Star 5 -->
+        <span class="star-click-node" data-value="5" onclick="assignDynamicFormRatingScoreAction(5)" style="display: inline-block; width: 26px; height: 26px;">
+            <svg xmlns="http://w3.org" viewBox="0 0 24 24" style="width:100%; height:100%; fill: none; stroke: #cccccc; stroke-width: 2; transition: all 0.2s;"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.133 9.21l8.2-1.192z"/></svg>
+        </span>
+    </div>
+    <!-- Initial value state set to 0 by default rules -->
+    <input type="hidden" id="detailRevStarsHiddenScore" value="0">
+</div>
 
-                        <!-- 📸 DIRECT COMPILATION FILE CHOOSE SELECTOR BUTTON (FIXED BROWSE RE-FIT) -->
+                        <!-- 📸 Direct picture file selector browse handler element -->
                         <div class="selector-group-block" style="margin-bottom:15px;">
                             <label class="selector-heading-label">Upload Product Image (Optional)</label>
                             <input type="file" id="detailRevImgFile" accept="image/*" style="width:100%; padding:10px; border:1px solid #ccc; border-radius:4px; background:#fff; cursor:pointer;">
@@ -249,12 +404,90 @@
             </div>
         </div>
     </main>
+   
+<!-- MOBILE SAFE FLOATING WHATSAPP BUTTON (BLANK CHAT) -->
+<a href="whatsapp://send?phone=923003521238" class="whatsapp-float">
+    <!-- SVG Icon jo har device par laazmi chaly ga -->
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor" style="display: inline-block; vertical-align: middle; margin-right: 5px;">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.713-1.457L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.863-9.855.001-2.633-1.022-5.101-2.877-6.958C16.6 1.936 14.132.914 11.508.914c-5.442 0-9.865 4.42-9.868 9.858-.001 1.714.453 3.39 1.316 4.873l-.991 3.619 3.701-.971zM17.52 14.292c-.324-.162-1.92-.949-2.216-1.056-.297-.108-.513-.162-.73.162-.216.324-.838 1.056-1.026 1.272-.188.217-.377.243-.7.081-.325-.162-1.371-.505-2.612-1.613-.965-.862-1.617-1.927-1.806-2.251-.188-.324-.02-.5-.182-.661-.147-.146-.324-.378-.487-.567-.162-.189-.216-.324-.324-.541-.109-.216-.055-.405-.028-.567.027-.162.216-.513.324-.676.108-.162.145-.27.216-.405.073-.135.036-.254-.018-.365-.054-.114-.513-1.235-.703-1.691-.186-.447-.373-.387-.513-.394-.13-.006-.28-.007-.43-.007a.825.825 0 0 0-.6.28c-.206.226-.785.767-.785 1.871s.804 2.167.916 2.318c.114.151 1.582 2.415 3.833 3.387.536.231.954.369 1.28.473.539.171 1.03.147 1.417.09.431-.064 1.92-.785 2.19-1.504.269-.718.269-1.334.188-1.462-.081-.128-.297-.205-.62-.367z"/>
+    </svg>
+    <span>Chat on WhatsApp</span>
+</a>
+    <!-- 🛠️ BRAND NEW 3-COLUMN LUXURY FOOTER SYSTEM (NO DESCRIPTION TEXT) -->
+    <footer class="sahar-luxury-footer">
+        <div class="footer-grid-wrapper">
+            
+            <!-- Column 1: Information Section (Clean Links + Gmail Only) -->
+            <div class="footer-column">
+                <h4>Information</h4>
+                <ul class="footer-links-list">
+                    <li><a href="about-us.html">About us</a></li>
+                    <li><a href="faqs.html">FAQs</a></li>
+                    <li><a href="mailto:customercare@saharonline.pk">Contact (Gmail)</a></li>
+                </ul>
+            </div>
 
-    <a href="https://wa.me" target="_blank" class="whatsapp-float">
-        <i class="fa-brands fa-whatsapp" style="font-size:16px;"></i><span>Chat on WhatsApp</span>
-    </a>
+            <!-- Column 2: Customer Care Section (Inner Policy details & No Order Tracker) -->
+            <div class="footer-column">
+                <h4>Customer Care</h4>
+                <ul class="footer-links-list">
+                    <li><a href="return-policy.html">Return Policy</a></li>
+                    <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+                </ul>
+            </div>
 
-    <footer><p>&copy; 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam.</p></footer>
+            <!-- Column 3: Secure Store Badges -->
+            <div class="footer-column">
+                <h4>Secure Store</h4>
+                <div style="font-size: 13px; color: #555555; margin-bottom: 10px;">
+                    <i class="fa-solid fa-shield-halved" style="color: #c5a059; margin-right: 6px;"></i> 100% Secure Checkout
+                </div>
+                <div style="font-size: 13px; color: #555555;">
+                    <i class="fa-solid fa-certificate" style="color: #c5a059; margin-right: 6px;"></i> Fabric Care Guard Included
+                </div>
+            </div>
+        </div>
+
+        <!-- 📱 Social Icons Centered Line Wrapper System with Exact 100% Screenshot Matching App Logos -->
+        <div class="social-centered-wrapper">
+            <!-- 📘 Exact Facebook Rounded-Corner Blue Square App Icon -->
+            <a href="https://facebook.com" target="_blank" aria-label="Sultan Brand Facebook" style="text-decoration: none; display: inline-block;">
+                <svg xmlns="http://w3.org" viewBox="0 0 266 266" style="width: 44px; height: 44px;">
+                    <path fill="#3b5998" d="M239.4 0H26.6C11.9 0 0 11.9 0 26.6v212.8c0 14.7 11.9 26.6 26.6 26.6h114.5V163h-32.7v-38.3h32.7V96c0-32.4 19.8-50.1 48.7-50.1 13.9 0 25.8 1 29.3 1.5V81.3h-19.9c-15.7 0-18.8 7.5-18.8 18.4v24.9h37.5L213.9 163h-32.7v103h58.2c14.7 0 26.6-11.9 26.6-26.6V26.6C266 11.9 254.1 0 239.4 0z"/>
+                </svg>
+            </a>
+
+            <!-- 📸 Exact Instagram Soft-Gradient Camera App Icon -->
+            <a href="https://instagram.com" target="_blank" aria-label="Sultan Brand Instagram" style="text-decoration: none; display: inline-block;">
+                <svg xmlns="http://w3.org" viewBox="0 0 512 512" style="width: 44px; height: 44px;">
+                    <defs>
+                        <radialGradient id="screenshotDetailInstaGrad" cx="0.3" cy="1.1" r="1.3">
+                            <stop offset="0" stop-color="#fed576"/>
+                            <stop offset="0.1" stop-color="#f4ad47"/>
+                            <stop offset="0.35" stop-color="#e94e38"/>
+                            <stop offset="0.65" stop-color="#c52e7d"/>
+                            <stop offset="1" stop-color="#495ccb"/>
+                        </radialGradient>
+                    </defs>
+                    <path fill="url(#screenshotDetailInstaGrad)" d="M371.3 512H140.7C63 512 0 449 0 371.3V140.7C0 63 63 0 140.7 0h230.6C449 0 512 63 512 140.7v230.6c0 77.7-63 140.7-140.7 140.7z"/>
+                    <path fill="#fff" d="M363.5 110.1c-12 0-21.8 9.8-21.8 21.8s9.8 21.8 21.8 21.8 21.8-9.8 21.8-21.8-9.8-21.8-21.8-21.8zM256 161.4c-52.2 0-94.6 42.4-94.6 94.6s42.4 94.6 94.6 94.6 94.6-42.4 94.6-94.6-42.4-94.6-94.6-94.6zm0 154.5c-33 0-59.9-26.9-59.9-59.9s26.9-59.9 59.9-59.9 59.9 26.9 59.9 59.9-26.9 59.9-59.9 59.9zm115.3-219.7H140.7C91.2 96.2 51 136.4 51 185.9v140.2c0 49.5 40.2 89.7 89.7 89.7h230.6c49.5 0 89.7-40.2 89.7-89.7V185.9c0-49.5-40.2-89.7-89.7-89.7zm55 229.9c0 30.3-24.7 55-55 55H140.7c-30.3 0-55-24.7-55-55V185.9c0-30.3 24.7-55 55-55h230.6c30.3 0 55 24.7 55 55v140.2z"/>
+                </svg>
+            </a>
+
+            <!-- 🛑 Exact YouTube Smooth-Pill Bright Red App Icon -->
+            <a href="https://youtube.com" target="_blank" aria-label="Sultan Brand YouTube" style="text-decoration: none; display: inline-block;">
+                <svg xmlns="http://w3.org" viewBox="0 0 512 512" style="width: 48px; height: 44px;">
+                    <path fill="#f00" d="M464 128c-5.3-20-21-35.7-41-41C387 80 256 80 256 80s-131 0-167 7c-20 5.3-35.7 21-41 41-7 36-7 128-7 128s0 92 7 128c5.3 20 21 35.7 41 41 36 7 167 7 167 7s131 0 167-7c20-5.3 35.7-21 41-41 7-36 7-128 7-128s0-92-7-128z"/>
+                    <polygon fill="#fff" points="204.8,170.7 204.8,341.3 341.3,256"/>
+                </svg>
+            </a>
+        </div>
+        
+        <div class="footer-bottom-copyright">
+            <p>@ 2026 Sultan Brand. All Rights Reserved | Designed by M. Moazzam</p>
+        </div>
+    </footer>
+    <!-- 🌐 JAVASCRIPT LOGIC OPERATIONS SYSTEM ENGINE -->
     <script>
         let bag = JSON.parse(localStorage.getItem('sultan_bag')) || [];
         const myWhatsAppNumber = "923003521238";
@@ -266,6 +499,47 @@
             if(navMenu) navMenu.classList.toggle('active');
         }
 
+        // 🔍 NAVBAR INTERACTIVE SEARCH ACTION FUNCTION
+        function executeSearchActionEngine() {
+            const searchField = document.getElementById('site-navbar-search-field');
+            if (searchField && searchField.value.trim() !== "") {
+                const query = encodeURIComponent(searchField.value.trim());
+                window.location.href = `NewArrivals.html?search=${query}`;
+            }
+        }
+
+        // Trigger search on keyboard 'Enter' press
+        document.getElementById('site-navbar-search-field')?.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                executeSearchActionEngine();
+            }
+        });
+
+        // 🛠️ AUTOMATIC RUNTIME MODAL STRUCTURAL INJECTION ENGINE (No explicit modal HTML required in page)
+        function injectSizeModalHTMLStructure() {
+            if (document.getElementById('sizeGuideModal')) return; 
+            
+            const modalDiv = document.createElement('div');
+            modalDiv.className = 'size-modal';
+            modalDiv.id = 'sizeGuideModal';
+            modalDiv.innerHTML = `
+                <div class="size-modal-content">
+                    <span class="close-modal" onclick="closeSizeModal()">&times;</span>
+                    <h3 class="modal-title" id="modalProductName">STITCHED GARMENTS SIZE GUIDE</h3>
+                    <span class="modal-subtitle" id="modalMeasurementsSub">*Pakistani Flat Stitched Fitting Inches Dimensions.*</span>
+                    <div class="size-table-container">
+                        <table class="size-table">
+                            <thead>
+                                <tr id="sizeTableHeaderRow"></tr>
+                            </thead>
+                            <tbody id="sizeTableBody"></tbody>
+                        </table>
+                    </div>
+                    <button class="modal-thanks-btn" onclick="closeSizeModal()">Got It, Thanks</button>
+                </div>
+            `;
+            document.body.appendChild(modalDiv);
+        }
         // ✅ DYNAMIC RETRIEVAL INTERFACE (💯 ZERO LOADING FREEZE CORES RESTORED)
         async function loadProductDetailEngine() {
             try {
@@ -292,18 +566,22 @@
 
                 const originalPrice = p.price || 0;
                 let finalPrice = p.salePrice && p.salePrice > 0 ? p.salePrice : p.price;
-                const dbSubText = (p.subCategory || '').toLowerCase().trim();
+                
+                const dbSubText = (p.subCategory || '').toLowerCase().trim().replace(/[\s\-_]+/g, '');
+                const dbCatText = (p.category || '').toLowerCase().trim().replace(/[\s\-_]+/g, '');
+                const lowerTitle = (p.title || p.name || '').toLowerCase();
 
-                if (p.isSale && (!p.salePrice || p.salePrice === 0)) {
+                if (dbCatText === 'sale' && (!p.salePrice || p.salePrice === 0)) {
                     if (dbSubText.includes('50')) finalPrice = Math.round(originalPrice * 0.50);
                     else if (dbSubText.includes('40')) finalPrice = Math.round(originalPrice * 0.60);
                     else if (dbSubText.includes('30')) finalPrice = Math.round(originalPrice * 0.70);
+                    else if (dbSubText.includes('20')) finalPrice = Math.round(originalPrice * 0.80);
                     else finalPrice = Math.round(originalPrice * 0.60);
                 }
 
                 document.getElementById('detFinalPrice').innerText = "Rs. " + finalPrice.toLocaleString();
 
-                if (p.isSale || originalPrice > finalPrice) {
+                if (dbCatText === 'sale' || originalPrice > finalPrice) {
                     const oldPriceEl = document.getElementById('detOriginalPrice');
                     const badgeEl = document.getElementById('detDiscountBadge');
                     if(oldPriceEl) { oldPriceEl.innerText = "Rs. " + originalPrice.toLocaleString(); oldPriceEl.style.display = 'inline'; }
@@ -317,7 +595,8 @@
                     thumbnailsContainer.innerHTML = '';
                     let picturesCollection = [];
                     if (p.images) {
-                        picturesCollection = typeof p.images === 'string' ? p.images.split(',').map(img => img.trim()) : p.images;
+                        const splitPics = typeof p.images === 'string' ? p.images.split(',') : p.images;
+                        picturesCollection = Array.isArray(splitPics) ? splitPics.map(img => img.trim()) : [splitPics.trim()];
                     }
                     if (picturesCollection.length === 0) picturesCollection.push('https://unsplash.com');
 
@@ -336,19 +615,23 @@
                     });
                 }
 
+                // 🎯 RE-FIXED SEPARATION: Unstitched Category Fabric vs Stitched Wear Size Dropdown Mapping Engines
                 const sizeDropdown = document.getElementById('detailInPageSizeSelector');
                 if (sizeDropdown) {
-                    const lowerTitle = (p.title || p.name || '').toLowerCase();
-                    if (dbSubText.includes('unstitched') || lowerTitle.includes('unstitched') || lowerTitle.includes('fabric')) {
+                    const isUnstitchedCloth = dbSubText.includes('unstitched') || dbSubText.includes('fabric') || dbCatText.includes('unstitched') || lowerTitle.includes('unstitched') || lowerTitle.includes('fabric') || lowerTitle.includes('lawn') || lowerTitle.includes('cambric') || (lowerTitle.includes('latha') && !lowerTitle.includes('stitched')) || (lowerTitle.includes('cotton') && !lowerTitle.includes('stitched')) || lowerTitle.includes('wash & wear') || lowerTitle.includes('wash and wear');
+
+                    if (isUnstitchedCloth) {
                         sizeDropdown.innerHTML = `
-                            <option value="Standard Cutting (4.5 Meters)">Standard Cutting (4.5 Meters)</option>
+                            <option value="Standard Cutting (4.5 Meters)" selected>Standard Cutting (4.5 Meters)</option>
                             <option value="Extra Cutting (5.0 Meters)">Extra Cutting (5.0 Meters)</option>
+                            <option value="Kurta Cutting Only (2.5 Meters)">Kurta Cutting Only (2.5 Meters)</option>
                         `;
                     } else {
                         sizeDropdown.innerHTML = `
                             <option value="Small (S)">Small (S)</option>
                             <option value="Medium (M)" selected>Medium (M)</option>
                             <option value="Large (L)">Large (L)</option>
+                            <option value="Extra Large (XL)">Extra Large (XL)</option>
                             <option value="👑 Tailored / Custom Fit">👑 Tailored / Custom Fit</option>
                         `;
                     }
@@ -356,6 +639,7 @@
 
                 document.getElementById('productDetailSpinnerLoader').style.display = 'none';
                 document.getElementById('mainProductDetailDisplayWrapper').style.display = 'grid';
+                
                 fetchAndRenderClientReviewsEngine();
 
             } catch (err) {
@@ -363,93 +647,102 @@
                 document.getElementById('productDetailSpinnerLoader').innerHTML = '<p style="color:red; text-align:center;">⚠️ Load failure. Check connection or CORS switches.</p>';
             }
         }
-
+        // 💬 REAL-TIME LIVE REVIEWS LOADER ENGINE
         function fetchAndRenderClientReviewsEngine() {
             const reviewsContainer = document.getElementById('inPageReviewsContainer');
             if(!reviewsContainer) return;
 
             let allSystemReviews = JSON.parse(localStorage.getItem("sultan_client_reviews")) || [];
             const targetedProductReviews = allSystemReviews.filter(r => r.productId === currentProductId);
+            
             document.getElementById('detReviewsCount').innerText = `Reviews (${targetedProductReviews.length})`;
+            
+            const starsAvgSpan = document.getElementById('detAvgStars');
+            if (starsAvgSpan) {
+                starsAvgSpan.innerHTML = `<i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>`;
+            }
 
             reviewsContainer.innerHTML = '';
+            
             if (targetedProductReviews.length === 0) {
-                reviewsContainer.innerHTML = '<p style="font-size:13px; color:#888; font-style:italic;">No consumer feedback left yet.</p>';
+                reviewsContainer.innerHTML = '<p style="font-size:13px; color:#888; font-style:italic; padding: 10px 0;">No reviews left yet for this product. Verified buyers can submit feedback below.</p>';
                 return;
             }
 
             targetedProductReviews.forEach(r => {
                 const node = document.createElement('div');
                 node.className = 'review-card-item';
-                let adminReplyHtml = r.reply ? `<div class="review-admin-reply-box"><b>Sultan Brand Response:</b> ${r.reply}</div>` : '';
-                let photoHtml = r.reviewImg ? `<div style="margin:10px 0;"><img src="${r.reviewImg}" style="width:85px; height:115px; object-fit:cover; border-radius:3px;"></div>` : '';
+                
+                let starsLayout = '';
+                for(let i = 0; i < 5; i++) {
+                    starsLayout += i < r.rating ? '<i class="fa-solid fa-star"></i>' : '<i class="fa-regular fa-star"></i>';
+                }
+                
+                let adminReplyHtml = r.reply && r.reply.trim() !== "" ? `<div class="hp-rev-reply"><b>Sultan Brand Response:</b> ${r.reply}</div>` : '';
+                let photoHtml = r.reviewImg && r.reviewImg.trim() !== "" ? `<div style="margin:12px 0;"><img src="${r.reviewImg.trim()}" style="width:85px; height:115px; object-fit:cover; border-radius:3px; border: 1px solid #eaeaea;"></div>` : '';
 
                 node.innerHTML = `
-                    <div class="review-card-meta">
-                        <span>👤 ${r.name} <small>(${r.date})</small></span>
-                        <span class="review-stars">${"⭐".repeat(r.rating)}</span>
-                    </div>
-                    <p class="review-card-comment">${r.comment}</p>
-                    ${photoHtml} ${adminReplyHtml}
+                    <div class="star-rating">${starsLayout}</div>
+                    <p class="review-text">"${r.comment}"</p>
+                    <h4 class="customer-name">${r.name} <span style="font-size:11px; color:#999; font-weight:400; text-transform:none; margin-left:5px;">(${r.date || 'Verified Review'})</span></h4>
+                    <span class="verified-buyer"><i class="fa-solid fa-circle-check"></i> Verified Buyer</span>
+                    ${photoHtml} 
+                    ${adminReplyHtml}
                 `;
                 reviewsContainer.appendChild(node);
             });
         }
-
-        function submitDetailFeedbackFormAction(event) {
-            event.preventDefault();
-            const nameInput = document.getElementById('detailRevName').value.trim();
-            const ratingInput = document.getElementById('detailRevStars').value;
-            const commentInput = document.getElementById('detailRevComment').value.trim();
-            const fileInput = document.getElementById('detailRevImgFile');
-            const uploadedFile = fileInput.files ? fileInput.files[0] : null;
-
-            let allSystemReviews = JSON.parse(localStorage.getItem("sultan_client_reviews")) || [];
-
-            const saveReview = (base64Str) => {
-                allSystemReviews.push({
-                    id: "rev_" + Date.now(), productId: currentProductId, name: nameInput,
-                    rating: Number(ratingInput), comment: commentInput, reviewImg: base64Str, reply: "", date: new Date().toISOString().split('T')[0]
-                });
-                localStorage.setItem("sultan_client_reviews", JSON.stringify(allSystemReviews));
-                alert("🎉 Review submitted with image selector data!");
-                document.getElementById('detailInPageReviewForm').reset();
-                fetchAndRenderClientReviewsEngine();
-            };
-
-            if (uploadedFile) {
-                const reader = new FileReader();
-                reader.onload = (e) => saveReview(e.target.result);
-                reader.readAsDataURL(uploadedFile);
-            } else {
-                saveReview("");
-            }
+                // 🎯 INTERACTIVE CLICK BLANK TO SOLID GOLD FILL CONSOLE CONTROL
+        function assignDynamicFormRatingScoreAction(score) {
+            // Track value score into internal hidden variable payload element
+            document.getElementById('detailRevStarsHiddenScore').value = score;
+            
+            // Loop through all custom layout span vector elements to toggle stroke vs solid fill borders
+            const starNodes = document.querySelectorAll('#interactiveStarsFormWidget .star-click-node svg');
+            
+            starNodes.forEach((svgElement, idx) => {
+                if (idx < score) {
+                    svgElement.style.fill = '#dfb142';     // Solid Gold Fill
+                    svgElement.style.stroke = '#dfb142';   // Gold Border Outline
+                } else {
+                    svgElement.style.fill = 'none';        // Transparent Blank Core Empty state
+                    svgElement.style.stroke = '#cccccc';   // Soft Grey Border Outline state
+                }
+            });
         }
 
-        // ✅ RE-RECTIFIED ADD TO BAG DIRECT INTEGRATION KEYS TRIGGERING PERFECTLY
+        // ✅ ADD TO BAG DIRECT INTEGRATION KEYS TRIGGERING PERFECTLY
         function executeDetailAddToBagAction() {
             if(!globalProductRefObject) return;
             const sizeValue = document.getElementById('detailInPageSizeSelector').value;
             const articleTitle = globalProductRefObject.title || globalProductRefObject.name;
             let finalPrice = globalProductRefObject.salePrice && globalProductRefObject.salePrice > 0 ? globalProductRefObject.salePrice : globalProductRefObject.price;
-                        let primaryDisplayPhoto = 'https://unsplash.com';
+            
+            let primaryDisplayPhoto = 'https://unsplash.com';
             if(globalProductRefObject.images) {
                 const splitPics = typeof globalProductRefObject.images === 'string' ? globalProductRefObject.images.split(',') : globalProductRefObject.images;
                 primaryDisplayPhoto = Array.isArray(splitPics) ? splitPics[0].trim() : splitPics.trim();
             }
 
             bag.push({
-                id: currentProductId, name: articleTitle, product_name: articleTitle,
-                price: finalPrice, product_price: finalPrice, product_img: primaryDisplayPhoto,
-                product_size: sizeValue, product_qty: 1, description: globalProductRefObject.description || 'Sultan Premium fabric.'
+                id: currentProductId, 
+                name: articleTitle, 
+                product_name: articleTitle,
+                price: finalPrice, 
+                product_price: finalPrice, 
+                product_img: primaryDisplayPhoto,
+                product_size: sizeValue, 
+                product_qty: 1, 
+                description: globalProductRefObject.description || 'Premium Luxury Sultan Brand Collection suit.'
             });
 
             localStorage.setItem('sultan_bag', JSON.stringify(bag));
             const countEl = document.getElementById('bag-count');
             if(countEl) countEl.innerText = bag.length;
-            alert(`${articleTitle} (${sizeValue}) added to your shopping bag!`);
+            alert(`${articleTitle} (${sizeValue}) bag mein add ho gaya!`);
         }
 
+        // 💳 DIRECT ORDER ROUTING CONTROLLERS
         function executeDetailBuyNowAction(price, method) {
             if(!globalProductRefObject) return;
             const sizeValue = document.getElementById('detailInPageSizeSelector').value;
@@ -460,29 +753,145 @@
             localStorage.setItem('selected_product_size', sizeValue);
             window.location.href = "order.html";
         }
-
+        // 🎯 FIXED MOBILE SAFE REDIRECT GATEWAY USING STANDARD WINDOW LOCATION PATHS
         function executeDetailWhatsAppOrderAction(price) {
             if(!globalProductRefObject) return;
             const sizeValue = document.getElementById('detailInPageSizeSelector').value;
-            let msg = `*--- SULTAN BRAND SINGLE ITEM ORDER ---*\n\n*Product:* ${globalProductRefObject.title || globalProductRefObject.name}\n*Size:* ${sizeValue}\n*Price:* Rs. ${price.toLocaleString()}`;
-            window.open(`https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            const currentItemUrl = window.location.origin + window.location.pathname + "?id=" + currentProductId;
+            
+            let msg = `*--- SULTAN BRAND SINGLE ITEM ORDER ---*\n\n*Product:* ${globalProductRefObject.title || globalProductRefObject.name}\n*Size/Cutting:* ${sizeValue}\n*Price:* Rs. ${price.toLocaleString()}\n*Link:* ${currentItemUrl}`;
+            
+            const targetUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodeURIComponent(msg)}`;
+            window.open(targetUrl, '_blank');
+        }
+        function openDetailSizeModal() {
+            if (!globalProductRefObject) return;
+            const modal = document.getElementById('sizeGuideModal');
+            const titleElement = document.getElementById('modalProductName');
+            const tableBody = document.getElementById('sizeTableBody');
+            const headerRow = document.getElementById('sizeTableHeaderRow');
+            const subtitle = document.getElementById('modalMeasurementsSub');
+
+            if (!modal || !tableBody || !headerRow) return;
+            
+            tableBody.innerHTML = '';
+            let tableHtml = '';
+
+            const dbSubText = (globalProductRefObject.subCategory || '').toLowerCase().trim().replace(/[\s\-_]+/g, '');
+            const dbCatText = (globalProductRefObject.category || '').toLowerCase().trim().replace(/[\s\-_]+/g, '');
+            const lowerTitle = (globalProductRefObject.title || globalProductRefObject.name || '').toLowerCase();
+
+            const isUnstitchedCloth = dbSubText.includes('unstitched') || dbSubText.includes('fabric') || dbCatText.includes('unstitched') || lowerTitle.includes('unstitched') || lowerTitle.includes('fabric') || lowerTitle.includes('lawn') || lowerTitle.includes('cambric') || (lowerTitle.includes('latha') && !lowerTitle.includes('stitched')) || (lowerTitle.includes('cotton') && !lowerTitle.includes('stitched')) || lowerTitle.includes('wash & wear') || lowerTitle.includes('wash and wear');
+
+            const targetTableNode = modal.querySelector('.size-table');
+            if(targetTableNode) {
+                targetTableNode.style.borderCollapse = "collapse";
+                targetTableNode.style.border = "1px solid #ebdcb9";
+            }
+
+            if (isUnstitchedCloth) {
+                titleElement.innerText = "UNSTITCHED FABRIC CUTTING GUIDE";
+                subtitle.innerText = "*Sultan Premium unstitched loose bundles specs.*";
+                
+                headerRow.parentNode.style.backgroundColor = "transparent";
+                headerRow.innerHTML = `
+                    <th style="padding: 14px 10px; font-weight: 700 !important; color: #ffffff !important; background-color: #111111 !important; text-transform: uppercase; font-size: 12px; text-align: center; border: 1px solid #444; display: table-cell;">FABRIC COMPONENT</th>
+                    <th style="padding: 14px 10px; font-weight: 700 !important; color: #ffffff !important; background-color: #111111 !important; text-transform: uppercase; font-size: 12px; text-align: center; border: 1px solid #444; display: table-cell;">CUTTING DIMENSION</th>
+                `;
+                
+                tableHtml = `
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ddd; color:#c5a059; font-weight:700;">Standard Suit Cutting (Full Suit)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ddd; font-weight:600;">4.5 Meters Full Size Bundle (Bara Arz: 54"-56")</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ddd; color:#c5a059; font-weight:700;">Extra Suit Cutting (For Tall/Heavy Sizes)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ddd; font-weight:600;">5.0 Meters Extra Bundle (Bara Arz: 54"-56")</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ddd; color:#c5a059; font-weight:700;">Kurta Cutting Only (Single Shirt)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ddd; font-weight:600;">2.5 Meters Shirt Fabric (Bara Arz: 54"-56")</td>
+                    </tr>
+                `;
+            } else {
+                titleElement.innerText = "STITCHED GARMENTS SIZE GUIDE";
+                subtitle.innerText = "*Pakistani Flat Stitched Fitting Inches Dimensions.*";
+                
+                headerRow.parentNode.style.backgroundColor = "transparent";
+                headerRow.innerHTML = `
+                    <th style="padding: 14px 10px; font-weight: 700 !important; color: #ffffff !important; background-color: #111111 !important; text-transform: uppercase; font-size: 11px; text-align: center; border: 1px solid #444; display: table-cell;">SIZE</th>
+                    <th style="padding: 14px 10px; font-weight: 700 !important; color: #ffffff !important; background-color: #111111 !important; text-transform: uppercase; font-size: 11px; text-align: center; border: 1px solid #444; display: table-cell;">CHEST WIDTH</th>
+                    <th style="padding: 14px 10px; font-weight: 700 !important; color: #ffffff !important; background-color: #111111 !important; text-transform: uppercase; font-size: 11px; text-align: center; border: 1px solid #444; display: table-cell;">SHIRT LENGTH</th>
+                    <th style="padding: 14px 10px; font-weight: 700 !important; color: #ffffff !important; background-color: #111111 !important; text-transform: uppercase; font-size: 11px; text-align: center; border: 1px solid #444; display: table-cell;">SHOULDER LINE</th>
+                `;
+                
+                tableHtml = `
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; color: #c5a059; font-weight: 600;">Small (S)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">19.5"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">38.0"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">17.0"</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; color: #c5a059; font-weight: 600;">Medium (M)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">21.0"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">40.0"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">18.0"</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; color: #c5a059; font-weight: 600;">Large (L)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">23.5"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">42.0"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">19.0"</td>
+                    </tr>
+                    <tr style="text-align: center;">
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; color: #c5a059; font-weight: 600;">X-Large (XL)</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">25.0"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">44.0"</td>
+                        <td style="padding: 12px 10px; border: 1px solid #ebdcb9; font-weight: 500;">20.0"</td>
+                    </tr>
+                `;
+            }
+
+            tableBody.innerHTML = tableHtml;
+            modal.classList.add('active');
         }
 
+
+        function closeSizeModal() {
+            const modal = document.getElementById('sizeGuideModal');
+            if (modal) modal.classList.remove('active');
+        }
+
+        window.addEventListener('click', function(e) {
+            const modal = document.getElementById('sizeGuideModal');
+            if (e.target === modal) modal.classList.remove('active');
+        });
+
+        // UNIFIED DOM MOUNTING CONTROL & EVENT LISTENERS INTERFACES
         window.addEventListener('DOMContentLoaded', function() {
+            injectSizeModalHTMLStructure();
+
             const countSpan = document.getElementById('bag-count');
             if(countSpan) countSpan.innerText = bag.length;
+            
             loadProductDetailEngine();
 
-            // ✅ REGISTERING MOUNTING LISTENERS ACTIONS EXPLICITLY TO PREVENT FAILURE
             document.getElementById('btnActionAddToBag').onclick = executeDetailAddToBagAction;
+            
+            const chartTriggerBtn = document.getElementById('triggerInPageSizeChartAction');
+            if(chartTriggerBtn) chartTriggerBtn.onclick = openDetailSizeModal;
+            
             document.getElementById('btnActionDirectCOD').onclick = () => {
                 let finalPrice = globalProductRefObject.salePrice && globalProductRefObject.salePrice > 0 ? globalProductRefObject.salePrice : globalProductRefObject.price;
                 executeDetailBuyNowAction(finalPrice, 'cod');
             };
+            
             document.getElementById('btnActionDirectOnline').onclick = () => {
                 let finalPrice = globalProductRefObject.salePrice && globalProductRefObject.salePrice > 0 ? globalProductRefObject.salePrice : globalProductRefObject.price;
                 executeDetailBuyNowAction(finalPrice, 'online');
             };
+            
             document.getElementById('btnActionWhatsAppOrder').onclick = () => {
                 let finalPrice = globalProductRefObject.salePrice && globalProductRefObject.salePrice > 0 ? globalProductRefObject.salePrice : globalProductRefObject.price;
                 executeDetailWhatsAppOrderAction(finalPrice);
