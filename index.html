@@ -231,14 +231,18 @@
         @media screen and (max-width: 768px) {
             header { padding: 15px 5%; flex-direction: row !important; justify-content: space-between; position: relative; }
             .logo { font-size: 28px; }
+            .product-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)) !important; gap: 20px; justify-content: center; }
+            .product-card { max-width: 100% !important; }
             .menu-toggle { display: block !important; font-size: 24px; cursor: pointer; color: #111111; z-index: 3000; }
             nav { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background-color: #ffffff; box-shadow: -5px 0 15px rgba(0,0,0,0.1); transition: right 0.4s ease; z-index: 2500; padding: 80px 20px 30px 20px; overflow-y: auto; }
             nav.active { right: 0; }
-            nav ul { flex-direction: column !important; align-items: flex-start !important; }
+            nav ul { flex-direction: column !important; align-items: flex-start !important; gap: 0; }
             nav ul li { width: 100%; margin: 0 !important; padding: 0 !important; border-bottom: 1px solid #f0eae4; }
             nav ul li a { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-size: 13px; width: 100%; }
+            .cart-icon { width: 100%; justify-content: center; margin-top: 10px; }
             .clean-dropdown { position: static !important; transform: none !important; box-shadow: none !important; border-top: none !important; padding: 0 0 10px 15px !important; background-color: #faf7f4; width: 100% !important; display: none; }
             .clean-dropdown.show { display: block !important; }
+            .clean-dropdown li a { padding: 10px 10px !important; font-size: 12px !important; }
         }
     </style>
 </head>
