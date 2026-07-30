@@ -792,7 +792,7 @@
             window.open(targetUrl, '_blank');
         }
 
-        function addtoCartAction(name, price, img, dropdownId, prodId, itemRawDesc) {
+                function addtoCartAction(name, price, img, dropdownId, prodId, itemRawDesc) {
             const dropdown = document.getElementById(dropdownId);
             const selectedSize = dropdown ? dropdown.value : "M";
 
@@ -808,16 +808,34 @@
                 description: itemRawDesc 
             });
 
+            // ✅ 1. SAVES SECURELY INTO SULTAN_BAG KEY PARAMETERS REGISTER
             localStorage.setItem('sultan_bag', JSON.stringify(bag));
-            let countSpan = document.getElementById('bag-count');
-            if(countSpan) countSpan.innerText = bag.length;
+            
+            // ✅ 2. REAL-TIME ACCOUNTING: Instantly updates both potential badge identity nodes
+            updateLiveNavbarCounterBadge();
+            
             alert(`${name} (${selectedSize}) bag mein add ho gaya!`);
+        }
+
+        // ✅ 3. DYNAMIC REFRESH FLOW ENGINE (CALCULATES ACCOUNTING UNITS INSTANTLY)
+        function updateLiveNavbarCounterBadge() {
+            var currentBagItems = JSON.parse(localStorage.getItem("sultan_bag")) || [];
+            var totalCount = currentBagItems.length;
+            
+            var navSpan1 = document.getElementById('navBagCount');
+            var navSpan2 = document.getElementById('bag-count');
+            
+            if (navSpan1) navSpan1.innerText = totalCount;
+            if (navSpan2) navSpan2.innerText = totalCount;
         }
 
         // ⚡ UNIFIED CRITICAL RUNTIME LOAD INITIALIZATION HANDLERS
         window.addEventListener('DOMContentLoaded', function() {
             // Dynamic modal injection execution prior to data streams
             injectSizeModalHTMLStructure();
+            
+            // ✅ 4. AUTO ACCOUNTING DETECTOR: Boots up and shows correct badge count on page refresh
+            updateLiveNavbarCounterBadge();
             
             // Core database rendering gateway trigger
             loadStorefrontData();
